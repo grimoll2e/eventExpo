@@ -1,0 +1,114 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+.hover-text-secondary-emphasis{
+    color: #2b2f32;
+    display: inline-block;
+}
+
+.hover-text-secondary-emphasis::after{
+    content: '';
+    display: block;
+    width: 0%;
+    height: 2px;
+    background-color:#2b2f32;
+    transition: width 0.3s;
+}
+
+.hover-text-secondary-emphasis:hover::after{
+    width: 100%;
+}
+
+.dropdown-toggle::after {
+    content: none;
+}
+
+.dropdown-menu {
+    min-width: 8rem  !important;
+}
+
+.mycarousel{
+    max-height: 80vh;
+    position: relative; 
+    /* transition: 2s ease; */
+}
+.mycarousel img{
+    display: block;
+    height: 80vh;
+    width: 100%;
+    object-fit: cover;
+    color: black;
+    /* transition: 2s ease; */
+}
+.arrow-carousel-left{
+    position: absolute;
+    background-color: red;
+    height: 30px;
+    width: 30px;
+    top: 50%;
+    left: 10%;
+    transform: translate(0, -50%);
+    z-index: 10;
+    cursor: pointer;
+}
+.arrow-carousel-right{
+    position: absolute;
+    background-color: red;
+    height: 30px;
+    width: 30px;
+    top: 50%;
+    right: 10%;
+    transform: translate(0, -50%);
+    z-index: 10;
+    cursor: pointer;
+}
+.pointer-event{
+    display: flex;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+.pointer_item{
+    background-color: red;
+    border-radius: 35px;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
+.overlay{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: rgb(0, 0, 0);
+}
+
+.mycarousel:hover .overlay{
+    height: 100%;
+    width: 100%;
+    opacity: 0.6;
+}
+.mycarousel:hover .overlay .title{
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 60%;
+    left: 20%;
+    transform: translate(0, -50%);
+}
+.mycarousel:hover .overlay .description{
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 65%;
+    left: 20%;
+    transform: translate(0, -50%);
+}

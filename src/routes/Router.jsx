@@ -7,6 +7,7 @@ import VeanuePage from "../pages/VeanuePage";
 import EventPage from "../pages/EventPage";
 import ContactPage from "../pages/ContactPage";
 import SettingPage from "../pages/SettingPage";
+import AuthLayout from "../layouts/AuthLayout";
 
 const router = createBrowserRouter([
   {
@@ -18,24 +19,29 @@ const router = createBrowserRouter([
     element: <SignupPage />,
   },
   {
-    path: "/",
-    element: <HomePage />,
-  },
-  {
-    path: "/about",
-    element: <AboutPage />,
-  },
-  {
-    path: "/veanue",
-    element: <VeanuePage />,
-  },
-  {
-    path: "/event",
-    element: <EventPage />,
-  },
-  {
-    path: "/contact",
-    element: <ContactPage />,
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+      {
+        path: "/about",
+        element: <AboutPage />,
+      },
+      {
+        path: "/veanue",
+        element: <VeanuePage />,
+      },
+      {
+        path: "/event",
+        element: <EventPage />,
+      },
+      {
+        path: "/contact",
+        element: <ContactPage />,
+      },
+    ]
   },
   {
     path: "/setting",

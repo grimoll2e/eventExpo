@@ -59,18 +59,21 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: 2s;
 }
-
 .mycarousel_text{
     position: absolute;
     font-size: 1.15rem;
     margin: 40px 0;
     padding: 0 20px;
     white-space: normal;
-    color: #ff000000;
+    color: #00000000;
     top: 65%;
     left: 20%;
     transform: translate(-50%, -50%);
+}
+.mycarousel_text *{
+    transition: 2s;
 }
 .arrow{
     display: flex;
@@ -98,11 +101,10 @@
 .mycarousel_pointer{
     display: flex;
     position: absolute;
-    top: 73%;
+    bottom: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
 .mycarousel_pointer_item {
     height: 60px;
     width: 60px;
@@ -110,13 +112,73 @@
     border: 3px solid rgb(255, 255, 255);
     cursor: pointer;
 }
-
 .mycarousel:hover .mycarousel_img{
     opacity: 0.6;
 }
-.mycarousel:hover .mycarousel_text h1{
+.mycarousel:hover .mycarousel_text *{
     color: #ffffff;
 }
 /* ###################################################################### */
-/* carousel */
+/* mycard */
+/* ###################################################################### */
+.card_inner{
+    border-radius: 15px;
+    position: relative;
+    height: 300px;
+    width: 100%;
+    background-color: rgb(0, 0, 0);
+    box-shadow: 0px 5px 10px rgb(0, 0, 0);
+}
+.card_img{
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 2s
+}
+.card_detail{
+    display: flex;
+    flex-direction: column;
+    max-width: 10%;
+    bottom: 10%;
+    margin: 0 15px;
+    color: #00000000;
+    transition: 2s;
+}
+.card_detail *{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.card_date{
+    position: absolute;
+    height: 10%;
+    bottom: 5px;
+    right: 5px;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    transition: 2s;
+}
+.card_img:hover{
+    opacity: 0.6;
+}
+.card_inner:hover .card_detail{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    max-width: 90%;
+    bottom: 10%;
+    margin: 0 15px;
+    color: #ffffff;
+}
+.card_inner:hover .card_date{
+    position: absolute;
+    height: 10%;
+    bottom: 5px;
+    right: 5px;
+    background-color: #f2f2f200;
+    border-radius: 8px;
+}
+/* ###################################################################### */
+/* mycard */
 /* ###################################################################### */

@@ -1,3 +1,4 @@
+import Card from "../layouts/Card";
 import Carousel from "../layouts/Carousel";
 
 export default function HomePage() {
@@ -27,11 +28,12 @@ export default function HomePage() {
     ]
 
     return (
-        <>
+        <div className="container">
         <Carousel carousel={carousel} />
-            <div>
-                <h1>hello</h1>
+            <div >
+                <h1>WHAT'S ON</h1>
+                <Card />
             </div>
-        </>
+        </div>
     )
 }

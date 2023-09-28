@@ -28,7 +28,7 @@ export default function Carousel({ carousel }) {
     }, [nextImg])
 
     return (
-        <div className="container mycarousel px-0">
+        <div className="container mycarousel px-0 mb-5">
             <div className="inner"
                 style={{ transform: `translate(-${currentIndex * 100}%)` }}>
             {carousel.map((el, idx) => (

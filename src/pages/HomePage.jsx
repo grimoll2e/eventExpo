@@ -27,6 +27,11 @@ export default function HomePage() {
     ]
 
     return (
+        <>
         <Carousel carousel={carousel} />
+            <div>
+                <h1>hello</h1>
+            </div>
+        </>
     )
 }

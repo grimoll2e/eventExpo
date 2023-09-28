@@ -32,12 +32,16 @@ export default function Carousel({ carousel }) {
             <div className="inner"
                 style={{ transform: `translate(-${currentIndex * 100}%)` }}>
             {carousel.map((el, idx) => (
-                <CarouselItem el={el} idx={idx} nextImg={nextImg} previousImg={previousImg} />
+                <CarouselItem key={idx} el={el} idx={idx} nextImg={nextImg} previousImg={previousImg} />
             ))}
             </div>
-            <div className="mycarousel_pointer">
-                {carousel.map((_, idx) => (
-                    <Carouselpointeritem idx={idx}></Carouselpointeritem>
+            <div className="arrow container">
+                <span className="arrow_carousel_left" onClick={previousImg}></span>
+                <span className="arrow_carousel_right" onClick={nextImg}></span>
+            </div>
+            <div className=" mycarousel_pointer">
+                {carousel.map((el, idx) => (
+                    <Carouselpointeritem key={idx} el={el} idx={idx} setCurrentIndex={setCurrentIndex}></Carouselpointeritem>
 
                 ))}
             </div>

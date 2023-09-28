@@ -28,33 +28,9 @@
 .dropdown-menu {
     min-width: 8rem  !important;
 }
-
-/*  */
-
-/* .mycarousel:hover .overlay{
-    height: 100%;
-    width: 100%;
-    opacity: 0.6;
-}
-.mycarousel:hover .overlay .title{
-    color: white;
-    font-size: 20px;
-    position: absolute;
-    top: 60%;
-    left: 20%;
-    transform: translate(0, -50%);
-}
-.mycarousel:hover .overlay .description{
-    color: white;
-    font-size: 20px;
-    position: absolute;
-    top: 65%;
-    left: 20%;
-    transform: translate(0, -50%);
-} */
-
-/*  */
-
+/* ###################################################################### */
+/* carousel */
+/* ###################################################################### */
 .mycarousel{
     overflow: hidden;
     width: 100%;
@@ -96,46 +72,51 @@
     left: 20%;
     transform: translate(-50%, -50%);
 }
-
-.arrow-carousel-left{
+.arrow{
+    display: flex;
+    position: absolute;
+    width: 100%;
+}
+.arrow_carousel_left{
     position: absolute;
     background-color: red;
     height: 30px;
     width: 30px;
-    top: 50%;
     left: 10%;
     transform: translate(0, -50%);
-    z-index: 10;
     cursor: pointer;
 }
-.arrow-carousel-right{
+.arrow_carousel_right{
     position: absolute;
     background-color: red;
     height: 30px;
     width: 30px;
-    top: 50%;
     right: 10%;
     transform: translate(0, -50%);
-    z-index: 10;
     cursor: pointer;
 }
 .mycarousel_pointer{
     display: flex;
     position: absolute;
-    top: 80%;
+    top: 73%;
     left: 50%;
-    transform: translate(-50%, 0);
+    transform: translate(-50%, -50%);
 }
-.mycarousel_pointer_item{
-    background-color: red;
+
+.mycarousel_pointer_item {
+    height: 60px;
+    width: 60px;
     border-radius: 35px;
-    height: 30px;
-    width: 30px;
+    border: 3px solid rgb(255, 255, 255);
     cursor: pointer;
 }
+
 .mycarousel:hover .mycarousel_img{
     opacity: 0.6;
 }
 .mycarousel:hover .mycarousel_text h1{
     color: #ffffff;
 }
+/* ###################################################################### */
+/* carousel */
+/* ###################################################################### */

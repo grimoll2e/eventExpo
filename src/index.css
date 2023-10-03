@@ -184,15 +184,50 @@
 /* ###################################################################### */
 /* service */
 /* ###################################################################### */
-.services{
-    /* background-color: red; */
-}
-.service_list{
-    /* background-color: aqua; */
-}
 .service_img{
     width: 100%;
     height: 300px;
     border-radius: 15px;
     box-shadow: 0px 5px 10px rgb(0, 0, 0);
+}
+/* ###################################################################### */
+/* about */
+/* ###################################################################### */
+
+.CL_Item{
+    /* background-color: yellowgreen; */
+    height: auto;
+}
+.CL_Img{
+    position: relative;
+    /* background-color: bisque; */
+}
+.CL_Img_main{
+    height: 600px;
+    width: 80%;
+    border-radius: 15px;
+    box-shadow: 0px 5px 10px rgb(0, 0, 0);
+    object-fit: cover;
+}
+.CL_Img_left{
+    position: absolute;
+    height: 200px;
+    width: 40%;
+    border-radius: 15px;
+    top: 50%;
+    left: 0;
+    transform: translate(0,-50%);
+    border: 5px solid rgb(255, 255, 255);
+    object-fit: cover;
+}
+.CL_Img_right{
+    position: absolute;
+    height: 200px;
+    width: 40%;
+    border-radius: 15px;
+    top: 50%;
+    right: 0;
+    transform: translate(0,-50%);
+    border: 5px solid rgb(255, 255, 255);
+    object-fit: cover;
 }

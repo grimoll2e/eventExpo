@@ -16,6 +16,7 @@ export default function ContactPage() {
                     google-map
                 </div>
             </div>
+            {/* <p>lorem*50</p> */}
         </div>
     )
 }

@@ -136,7 +136,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: 2s
+    transition: 2s;
 }
 .card_detail{
     display: flex;
@@ -161,7 +161,7 @@
     border-radius: 8px;
     transition: 2s;
 }
-.card_img:hover{
+.card_item:hover .card_img{
     opacity: 0.6;
 }
 .card_item:hover .card_detail{
@@ -194,12 +194,10 @@
 /* about */
 /* ###################################################################### */
 .CL_Item{
-    /* background-color: yellowgreen; */
     height: auto;
 }
 .CL_Img{
     position: relative;
-    /* background-color: bisque; */
 }
 .CL_Img_main{
     height: 600px;
@@ -210,7 +208,7 @@
 }
 .CL_Img_left{
     position: absolute;
-    height: 200px;
+    height: 300px;
     width: 40%;
     border-radius: 15px;
     top: 50%;
@@ -221,7 +219,7 @@
 }
 .CL_Img_right{
     position: absolute;
-    height: 200px;
+    height: 300px;
     width: 40%;
     border-radius: 15px;
     top: 50%;

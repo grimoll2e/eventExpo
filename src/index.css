@@ -2,24 +2,31 @@
     padding: 0px;
     margin: 0px;
 }
+
 .header_text{
     text-align: center;
 }
-.hover-text-secondary-emphasis{
-    color: #2b2f32;
-    display: inline-block;
+
+.menu_active{
+    transition:background-color 1s;
 }
 
-.hover-text-secondary-emphasis::after{
+.menu_hover{
+    color: #2b2f32;
+    display: inline-block;   
+}
+
+.menu_hover::after{
     content: '';
     display: block;
     width: 0%;
     height: 2px;
     background-color:#2b2f32;
     transition: width 0.3s;
+
 }
 
-.hover-text-secondary-emphasis:hover::after{
+.menu_hover:hover::after{
     width: 100%;
 }
 

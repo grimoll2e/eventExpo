@@ -7,7 +7,7 @@ const menuitemlist = [
 
 export default function Header() {
   return (
-    <nav className="navbar navbar-expand-sm bg-body-secondary shadow-sm py-0 fixed-top">
+    <nav className="navbar navbar-expand-sm bg-body-secondary shadow-sm py-0 fixed-top mb-5">
       <div className="d-flex container">
         <div className="flex-grow-1">
           <Menu />

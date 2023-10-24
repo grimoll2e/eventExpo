@@ -1,4 +1,4 @@
-import CardandDetail from "../layouts/CardandDetail";
+import CardandDetail from "../components/CardandDetail";
 
 const card_test = [
     {
@@ -20,13 +20,13 @@ const card_test = [
 
 export default function AboutPage() {
     return (
-        <div className="container my-5 d-flex flex-column gap-3">
-            <h1 className="header_text">
-                About Us
-            </h1>
+        <div className="container my-5 d-flex flex-column gap-5">
+            <div className="my-5">
+                <h1 className="header_text">About Us</h1>
             {card_test.map((el, idx) => (
-                <CardandDetail el={el} idx={idx} />
+                <CardandDetail el={el} idx={idx} key={idx} />
             ))}
+            </div>
         </div>
     )
 }

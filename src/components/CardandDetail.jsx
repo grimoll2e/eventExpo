@@ -1,6 +1,6 @@
 import React from 'react'
-import CardandDetailLeft from '../components/CardandDetailLeft'
-import CardandEDetailRight from '../components/CardandEDetailRight'
+import CardandDetailLeft from './CardandDetailLeft'
+import CardandEDetailRight from './CardandEDetailRight'
 
 export default function CardandDetail({ el, idx }) {
     return (

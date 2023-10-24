@@ -1,4 +1,4 @@
-import CardItem from "../components/CardItem";
+import CardItem from "./CardItem";
 
 const cardlist = [
     {
@@ -35,7 +35,7 @@ const cardlist = [
 
 export default function Card() {
     return (
-        <div className="row p-5">
+        <div className="row">
             {cardlist.map((el, idx) => (
                 <CardItem el={el} idx={idx} key={idx} />
             ))}

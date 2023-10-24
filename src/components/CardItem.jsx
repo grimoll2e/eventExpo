@@ -2,7 +2,7 @@
 
 export default function CardItem({ el, idx }) {
     return (
-        <div className="col-4 mb-3 card_item">
+        <div className="col-12 col-md-6 col-lg-4 mb-3 card_item">
             <div className="card_inner">
                 <img className="card_img" src={el.img} alt="" />
 

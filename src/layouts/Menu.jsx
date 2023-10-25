@@ -1,44 +1,79 @@
-import { useLocation } from "react-router-dom"
-import MenuItem from "./MenuItem"
+import { useLocation } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
+import { useState } from "react";
+import MenuItem from "./MenuItem";
+import MenuItemDropdown from "./MenuItemDropdown";
 
 const menuItemList = [
     {
         pathName: "/",
-        name: 'Home'
+        name: "Home",
     },
     {
         pathName: "/about",
-        name: 'About'
+        name: "About",
     },
     {
         pathName: "/veanue",
-        name: 'Veanue'
+        name: "Veanue",
     },
     {
         pathName: "/event",
-        name: 'Event'
+        name: "Event",
     },
     {
         pathName: "/contact",
-        name: 'Contact'
+        name: "Contact",
     },
-]
-
+    {
+        icon: <FaUserCircle />,
+        children: [
+            {
+                pathName: "/login",
+                name: "Login",
+            },
+            {
+                pathName: "/signup",
+                name: "Signup",
+            },
+        ],
+    },
+];
 
 export default function Menu() {
-    const location = useLocation()
+    const [toggle, setToggle] = useState(false)
+
+    const location = useLocation();
+
+    // need edit
 
     return (
-        <div className="navbar-nav">
-            {menuItemList.map(el => (
-                    <MenuItem
-                    to={el.pathName}
-                    key={el.pathName}
-                    active={location.pathname === el.pathName}
-                >
-                    {el.name}
-                </MenuItem>
+        <div className="d-flex align-items-center justify-content-center ">
+            {menuItemList.map((el, idx) => (
+                <div className="position-relative" key={idx}>
+                    {el.icon ? <h1 className="ms-2" onClick={() => setToggle(!toggle)}>
+                        {el.icon}
+                    </h1> : <></>}
+                    {el.children ? (
+                        <MenuItemDropdown
+                            toggle={toggle}
+                            datachildren={el.children}
+                            data={menuItemList}
+
+                        >
+                            {el.children}
+                        </MenuItemDropdown>
+                    ) : (
+                        <MenuItem
+                            to={el.pathName}
+                                key={idx}
+                                active={location.pathname === el.pathName}
+                            >
+                                {el.name}
+                            </MenuItem>
+                    )}
+                </div>
             ))}
         </div>
-    )
+    );
 }

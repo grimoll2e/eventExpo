@@ -1,6 +1,16 @@
 *{
     padding: 0px;
     margin: 0px;
+    box-sizing: border-box;
+}
+.my_navbar{
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+.test_overlay{
+    margin: 0 auto;
+    display: flex;
 }
 
 .header_text{
@@ -28,14 +38,6 @@
 
 .menu_hover:hover::after{
     width: 100%;
-}
-
-.dropdown-toggle::after {
-    content: none;
-}
-
-.dropdown-menu {
-    min-width: 8rem  !important;
 }
 /* ###################################################################### */
 /* carousel */

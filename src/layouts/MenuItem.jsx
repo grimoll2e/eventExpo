@@ -2,13 +2,15 @@ import { Link } from "react-router-dom";
 
 export default function MenuItem({ active, to, children }) {
     return (
-        <div className="nav-item">
+        <div className='d-flex justify-content-center align-items-center'>
             <Link
-                className={`nav-link py-0 my-2 px-2 fs-5 rounded-pill ${active ? ' text-white bg-dark mx-1 menu_active' : 'menu_hover'}`}
+                className={`nav-link px-2 rounded-pill ${active ? 'text-white bg-dark menu_active' : 'menu_hover'} `}
                 to={to}
             >
-                {children}
+                <h5 className="m-1">
+                    {children}
+                </h5>
             </Link>
-        </div>
+        </div >
     )
 }

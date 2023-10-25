@@ -28,7 +28,7 @@ export default function HomePage() {
     ]
 
     return (
-        <div className="container my-5 d-flex flex-column gap-5">
+        <div className="container mb-5 d-flex flex-column gap-5">
             <div>
                 <Carousel carousel={carousel} />
             </div>

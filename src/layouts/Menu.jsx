@@ -45,35 +45,29 @@ export default function Menu() {
 
     const location = useLocation();
 
-    // need edit
-
     return (
         <div className="d-flex align-items-center justify-content-center ">
             {menuItemList.map((el, idx) => (
                 <div className="position-relative" key={idx}>
-                    {el.icon ? <h1 className="ms-2" onClick={() => setToggle(!toggle)}>
-                        {el.icon}
-                    </h1> : <></>}
-                    {el.children ? (
-                        <MenuItemDropdown
-                            toggle={toggle}
-                            datachildren={el.children}
-                            data={menuItemList}
-
-                        >
-                            {el.children}
-                        </MenuItemDropdown>
-                    ) : (
                         <MenuItem
-                            to={el.pathName}
-                                key={idx}
-                                active={location.pathname === el.pathName}
-                            >
-                                {el.name}
-                            </MenuItem>
-                    )}
+                        to={el.pathName}
+                        key={idx}
+                        active={location.pathname === el.pathName}
+                    >
+                        {el.name}
+                    </MenuItem>
+                    {
+                        el.icon && <h1 className="ms-2" onClick={() => setToggle(!toggle)}>
+                            {el.icon}
+                        </h1>
+                    }
                 </div>
             ))}
+            <MenuItemDropdown
+                toggle={toggle}
+                data={menuItemList}
+            >
+            </MenuItemDropdown>
         </div>
     );
 }

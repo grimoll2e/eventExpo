@@ -5,7 +5,7 @@ export default function AuthLayout() {
     return (
         <>
             <Header />
-            <div className="min-vh-100">
+            <div className="">
                 <Outlet />
             </div>
         </>

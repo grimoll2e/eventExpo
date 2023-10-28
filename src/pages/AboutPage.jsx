@@ -20,9 +20,9 @@ const card_test = [
 
 export default function AboutPage() {
     return (
-        <div className="container mb-5 d-flex flex-column gap-5">
+        <div className="container d-flex flex-column gap-5">
             <div className="my-5">
-                <h1 className="header_text">About Us</h1>
+                <h1 className="header_text mb-5">About Us</h1>
             {card_test.map((el, idx) => (
                 <CardandDetail el={el} idx={idx} key={idx} />
             ))}

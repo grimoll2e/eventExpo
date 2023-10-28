@@ -54,7 +54,7 @@ export default function Menu() {
                         <MenuItem
                         to={el.pathName}
                         key={idx}
-                        active={location.pathname === el.pathName}
+                        active={location.pathname}
                     >
                         {el.name}
                     </MenuItem>
@@ -65,8 +65,10 @@ export default function Menu() {
             </h1>}
             <MenuItemDropdown
                 toggle={toggle}
+                setToggle={setToggle}
                 data={menuItemList}
                 datadropdown={menuItemdropdown}
+                active={location.pathname}
             >
             </MenuItemDropdown>
         </div>

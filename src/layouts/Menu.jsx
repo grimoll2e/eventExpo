@@ -28,6 +28,10 @@ const menuItemList = [
 ];
 const menuItemdropdown = [
     {
+        pathName: "/setting",
+        name: 'Setting',
+    },
+    {
         pathName: "/login",
         name: "Login",
     },

@@ -24,19 +24,21 @@ const menuItemList = [
     {
         pathName: "/contact",
         name: "Contact",
+    }
+];
+const menuItemdropdown = [
+    {
+        pathName: "/login",
+        name: "Login",
     },
     {
+        pathName: "/signup",
+        name: "Signup",
+    },
+];
+const user = [
+    {
         icon: <FaUserCircle />,
-        children: [
-            {
-                pathName: "/login",
-                name: "Login",
-            },
-            {
-                pathName: "/signup",
-                name: "Signup",
-            },
-        ],
     },
 ];
 
@@ -46,7 +48,7 @@ export default function Menu() {
     const location = useLocation();
 
     return (
-        <div className="d-flex align-items-center justify-content-center ">
+        <div className="d-flex align-items-center justify-content-center h-100">
             {menuItemList.map((el, idx) => (
                 <div className="position-relative" key={idx}>
                         <MenuItem
@@ -56,16 +58,15 @@ export default function Menu() {
                     >
                         {el.name}
                     </MenuItem>
-                    {
-                        el.icon && <h1 className="ms-2" onClick={() => setToggle(!toggle)}>
-                            {el.icon}
-                        </h1>
-                    }
                 </div>
             ))}
+            {user[0].icon && <h1 className="ms-2" onClick={() => setToggle(!toggle)}>
+                {user[0].icon}
+            </h1>}
             <MenuItemDropdown
                 toggle={toggle}
                 data={menuItemList}
+                datadropdown={menuItemdropdown}
             >
             </MenuItemDropdown>
         </div>

@@ -35,7 +35,7 @@ export default function Carousel({ carousel }) {
                 <CarouselItem key={idx} el={el} idx={idx} nextImg={nextImg} previousImg={previousImg} />
             ))}
             </div>
-            <div className="arrow container">
+            <div className="arrow">
                 <span className="arrow_carousel_left" onClick={previousImg}></span>
                 <span className="arrow_carousel_right" onClick={nextImg}></span>
             </div>

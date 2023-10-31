@@ -6,34 +6,35 @@ import EventForm from "../components/form/EventForm"
 import EventPageForm from "../components/form/EventPageForm"
 import HallForm from "../components/form/HallForm"
 
+const menu = [
+    {
+        name: 'Account Setting',
+        form: <AccountForm />
+    },
+    {
+        name: 'Booth',
+        form: <BoothForm />
+    },
+    {
+        name: 'CreateEvent',
+        form: <CreateEventForm />
+    },
+    {
+        name: 'Event',
+        form: <EventForm />
+    },
+    {
+        name: 'Event Page',
+        form: <EventPageForm />
+    },
+    {
+        name: 'Hall Page',
+        form: <HallForm />
+    },
+]
+
 export default function SettingPage() {
-    const [test, setTest] = useState(null)
-    const menu = [
-        {
-            name: 'Account Setting',
-            form: <AccountForm />
-        },
-        {
-            name: 'Booth',
-            form: <BoothForm />
-        },
-        {
-            name: 'CreateEvent',
-            form: <CreateEventForm />
-        },
-        {
-            name: 'Event',
-            form: <EventForm />
-        },
-        {
-            name: 'Event Page',
-            form: <EventPageForm />
-        },
-        {
-            name: 'Hall Page',
-            form: <HallForm />
-        },
-    ]
+    const [test, setTest] = useState(menu[0].name)
 
     const selectmenu = menu.find(el => el.name === test)
 
@@ -46,10 +47,10 @@ export default function SettingPage() {
             </div>
             <div className="align-content-center align-items-center d-flex mb-5 flex-column">
                 <hr className="" style={{ height: '2px', color: 'gray', backgroundColor: 'gray', width: '60%' }} />
-                <h1 className="header_text">{test}</h1>
+                <h1 className="header_text">{test || menu[0].name}</h1>
             </div>
             {/* form */}
-            {selectmenu ? selectmenu.form : null}
+            {selectmenu ? selectmenu.form : <AccountForm />}
         </div>
     )
 }

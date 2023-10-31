@@ -28,7 +28,6 @@
     height: 2px;
     background-color:#2b2f32;
     transition: width 0.3s;
-
 }
 
 .menu_hover:hover::after{
@@ -49,7 +48,6 @@
 }
 .inner{
     max-width: 100%;
-    /* max-height: 100%; */
     height: inherit;
     white-space: nowrap;
     transition: transform 1s;
@@ -244,18 +242,11 @@
     border: 3px solid rgb(255, 255, 255);
     border-radius: 15px;
 }
-.text_style1{
-    border-radius: 15px;
-    border: 1px solid rgb(0, 0, 0);
-}
 .btn_style1{
     border-radius: 25px;
     background-color: #ffffff;
     margin-left: auto;
     margin-right: auto;
-}
-.error_message{
-    color: rgb(243, 29, 29);
 }
 /* ###################################################################### */
 /* setting page */

@@ -1,7 +1,20 @@
-import React from 'react'
 import Button from '../Button'
 import TextInput from '../TextInput'
 import ImageInput from '../ImageInput'
+import { Formik, Form } from 'formik'
+import { object, string } from 'yup'
+
+const initialInput = {
+    eventTitle: '',
+    zone: '',
+    booth: '',
+}
+
+const eventSchema = object().shape({
+    eventTitle: string().trim().required('required'),
+    zone: string().trim().required('required'),
+    booth: string().trim().required('required'),
+});
 
 export default function EventForm() {
     return (
@@ -16,15 +29,28 @@ export default function EventForm() {
                     </div>
                 </div>
                 <div className="col-lg-5 col-md-6">
-                    <form action="" className="d-flex flex-column gap-2">
-                        <TextInput name={'Event title'} />
-                        <TextInput name={'Zone'} />
-                        <TextInput name={'Booth'} />
-                        <div className="d-flex justify-content-center gap-2">
-                            <Button text={'Save'} />
-                            <Button text={'Cancle'} />
-                        </div>
-                    </form>
+                    <Formik
+                        validationSchema={eventSchema}
+                        initialValues={initialInput}
+                        onSubmit={(values, { resetForm }) => {
+                            console.log(values)
+                            // console.log(values.boothTitle)
+                            // resetForm()
+                        }}
+
+                    >
+                        {({ values, errors, touched, handleChange }) => (
+                            <Form action="" className="d-flex flex-column gap-2">
+                                <TextInput label={'Event Title'} name={'eventTitle'} input={values.eventTitle} handleChange={handleChange} error={errors.eventTitle} touch={touched.eventTitle} />
+                                <TextInput label={'Zone'} name={'zone'} input={values.zone} handleChange={handleChange} error={errors.zone} touch={touched.zone} />
+                                <TextInput label={'Booth'} name={'booth'} input={values.booth} handleChange={handleChange} error={errors.booth} touch={touched.booth} />
+                                <div className="d-flex justify-content-center gap-2">
+                                    <Button text={'Save'} />
+                                    <Button text={'Cancle'} />
+                                </div>
+                            </Form>
+                        )}
+                    </Formik>
                 </div>
             </div>
         </div>

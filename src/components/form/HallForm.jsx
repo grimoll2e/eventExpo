@@ -1,7 +1,18 @@
-import React from 'react'
 import Button from '../Button'
 import TextInput from '../TextInput'
 import ImageInput from '../ImageInput'
+import { Formik, Form } from 'formik'
+import { object, string } from 'yup'
+
+const initialInput = {
+    hallName: '',
+    descrition: '',
+}
+
+const createEventSchema = object().shape({
+    hallName: string().trim().required('required'),
+    descrition: string().trim(),
+});
 
 export default function HallForm() {
     return (
@@ -16,14 +27,28 @@ export default function HallForm() {
                     </div>
                 </div>
                 <div className="col-lg-5 col-md-6">
-                    <form action="" className="d-flex flex-column gap-2">
-                        <TextInput name={'Hall Name'} />
-                        <TextInput name={'Description'} />
-                        <div className="d-flex justify-content-center gap-2">
-                            <Button text={'Save'} />
-                            <Button text={'Cancle'} />
-                        </div>
-                    </form>
+                    <Formik
+                        validationSchema={createEventSchema}
+                        initialValues={initialInput}
+                        onSubmit={(values, { resetForm }) => {
+                            console.log(values)
+                            // console.log(values)
+                            // resetForm()
+                        }}
+
+                    >
+                        {({ values, errors, touched, handleChange }) => (
+                            <Form action="" className="d-flex flex-column gap-2">
+                                <TextInput label={'Hall Name'} name={'hallName'} input={values.hallName} handleChange={handleChange} error={errors.hallName} touch={touched.hallName} />
+                                <TextInput label={'Descrition'} name={'descrition'} input={values.descrition} handleChange={handleChange} error={errors.descrition} touch={touched.descrition} />
+
+                                <div className="d-flex justify-content-center gap-2">
+                                    <Button text={'Save'} />
+                                    <Button text={'Cancle'} />
+                                </div>
+                            </Form>
+                        )}
+                    </Formik>
                 </div>
             </div>
         </div>

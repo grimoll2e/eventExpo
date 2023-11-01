@@ -21,10 +21,15 @@ export default function SignupPage() {
                     <Formik
                         validationSchema={registerSchema}
                         initialValues={initialInput}
-                        onSubmit={(values, { resetForm }) => {
-                            console.log(values)
-                            // console.log(values.userName)
-                            // resetForm()
+                        onSubmit={async (values, { resetForm }) => {
+                            try {
+                                console.log(values)
+                        // console.log(values.userName)
+                                await authApi.signup(values)
+                                // resetForm()
+                            } catch (error) {
+
+                            }
                         }}
                     >
                         {({ values, errors, touched, handleChange, handleSubmit }) => (

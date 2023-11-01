@@ -257,3 +257,15 @@
 .setting_menu_active{
     font-weight: bold;
 }
+/* ###################################################################### */
+/* input */
+/* ###################################################################### */
+.input_text{
+    line-break:normal;
+    width: 100%;
+    height: 50px;
+    margin: 0.5em;
+    white-space: normal;
+    vertical-align: top;
+    display: inline-block;
+}

@@ -41,11 +41,30 @@ export default function AccountForm() {
                     >
                         {({ values, errors, touched, handleChange }) => (
                             <Form action="" className="d-flex flex-column gap-2">
-                                <TextInput label={'Username'} name={'userName'} input={values.userName} handleChange={handleChange} error={errors.userName} touch={touched.userName} />
-                                <TextInput label={'Descrition'} name={'descrition'} input={values.descrition} handleChange={handleChange} error={errors.descrition} touch={touched.descrition} />
-                                <TextInput label={'Link'} name={'link'} input={values.link} handleChange={handleChange} error={errors.link} touch={touched.link} />
+                                <TextInput
+                                    label={'Username'}
+                                    name={'userName'}
+                                    input={values.userName}
+                                    handleChange={handleChange}
+                                    error={errors.userName}
+                                    touch={touched.userName} />
+                                <TextInput
+                                    label={'Descrition'}
+                                    name={'descrition'}
+                                    as={'textarea'}
+                                    input={values.descrition}
+                                    handleChange={handleChange}
+                                    error={errors.descrition}
+                                    touch={touched.descrition} />
+                                <TextInput
+                                    label={'Link'}
+                                    name={'link'}
+                                    input={values.link}
+                                    handleChange={handleChange}
+                                    error={errors.link}
+                                    touch={touched.link} />
                                 <div className="d-flex justify-content-center gap-2">
-                                    <Button text={'Save'} />
+                                    <Button text={'Save'} type={'submit'} />
                                     <Button text={'Cancle'} />
                                 </div>
                             </Form>

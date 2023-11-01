@@ -22,9 +22,9 @@ export default function LoginPage() {
                         validationSchema={loginSchema}
                         initialValues={initialInput}
                         onSubmit={(values, { resetForm }) => {
-                            console.log(values)
+                            console.log(values);
                             // console.log(values.userName)
-                            // resetForm()
+                            resetForm()
                         }}
                     >
                         {({ values, errors, touched, handleChange }) => (

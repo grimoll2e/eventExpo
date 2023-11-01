@@ -43,12 +43,37 @@ export default function CreateEventForm() {
                     >
                         {({ values, errors, touched, handleChange }) => (
                             <Form action="" className="d-flex flex-column gap-2">
-                                <TextInput label={'Event Title'} name={'eventTitle'} input={values.eventTitle} handleChange={handleChange} error={errors.eventTitle} touch={touched.eventTitle} />
-                                <TextInput label={'Descrition'} name={'descrition'} input={values.descrition} handleChange={handleChange} error={errors.descrition} touch={touched.descrition} />
-                                <TextInput label={'Date'} name={'date'} input={values.date} handleChange={handleChange} error={errors.date} touch={touched.date} />
-                                <TextInput label={'Hall'} name={'hall'} input={values.hall} handleChange={handleChange} error={errors.hall} touch={touched.hall} />
+                                <TextInput
+                                    label={'Event Title'}
+                                    name={'eventTitle'}
+                                    input={values.eventTitle}
+                                    handleChange={handleChange}
+                                    error={errors.eventTitle}
+                                    touch={touched.eventTitle} />
+                                <TextInput
+                                    label={'Descrition'}
+                                    name={'descrition'}
+                                    as={'textarea'}
+                                    input={values.descrition}
+                                    handleChange={handleChange}
+                                    error={errors.descrition}
+                                    touch={touched.descrition} />
+                                <TextInput
+                                    label={'Date'}
+                                    name={'date'}
+                                    input={values.date}
+                                    handleChange={handleChange}
+                                    error={errors.date}
+                                    touch={touched.date} />
+                                <TextInput
+                                    label={'Hall'}
+                                    name={'hall'}
+                                    input={values.hall}
+                                    handleChange={handleChange}
+                                    error={errors.hall}
+                                    touch={touched.hall} />
                                 <div className="d-flex justify-content-center gap-2">
-                                    <Button text={'Save'} />
+                                    <Button text={'Save'} type={'submit'} />
                                     <Button text={'Cancle'} />
                                 </div>
                             </Form>

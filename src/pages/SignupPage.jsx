@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import TextInput from "../components/TextInput";
 import { Formik, Form } from 'formik'
-import { object, string, ref } from 'yup'
+import TextInput from "../components/TextInput";
+import registerSchema from '../validators/register'
+import * as authApi from '../apis/auth-api'
 
 
 const initialInput = {
@@ -10,19 +11,6 @@ const initialInput = {
     confirmPassword: '',
     email: '',
 }
-
-const registerSchema = object().shape({
-    userName: string().trim().required('กรุณากรอกชื่อผู้ใช้'),
-    password: string()
-        .trim()
-        .matches(/^[0-9a-zA-Z]{3,}$/, '/^[0-9a-zA-Z]{3,}$/')
-        .required('กรุณากรอกรหัสผ่าน'),
-    confirmPassword: string()
-        .trim()
-        .oneOf([ref('password'), null], 'รหัสผ่านไม่ตรงกัน')
-        .required('กรุณายืนยันรหัสผ่าน'),
-    email: string().email('รูปแบบอีเมลไม่ถูกต้อง').trim().required('กรุณากรอกอีเมล'),
-});
 
 export default function SignupPage() {
 

@@ -39,11 +39,24 @@ export default function HallForm() {
                     >
                         {({ values, errors, touched, handleChange }) => (
                             <Form action="" className="d-flex flex-column gap-2">
-                                <TextInput label={'Hall Name'} name={'hallName'} input={values.hallName} handleChange={handleChange} error={errors.hallName} touch={touched.hallName} />
-                                <TextInput label={'Descrition'} name={'descrition'} input={values.descrition} handleChange={handleChange} error={errors.descrition} touch={touched.descrition} />
+                                <TextInput
+                                    label={'Hall Name'}
+                                    name={'hallName'}
+                                    input={values.hallName}
+                                    handleChange={handleChange}
+                                    error={errors.hallName}
+                                    touch={touched.hallName} />
+                                <TextInput
+                                    label={'Descrition'}
+                                    name={'descrition'}
+                                    as={'textarea'}
+                                    input={values.descrition}
+                                    handleChange={handleChange}
+                                    error={errors.descrition}
+                                    touch={touched.descrition} />
 
                                 <div className="d-flex justify-content-center gap-2">
-                                    <Button text={'Save'} />
+                                    <Button text={'Save'} type={'submit'} />
                                     <Button text={'Cancle'} />
                                 </div>
                             </Form>

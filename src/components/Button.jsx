@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function Button({ text }) {
+export default function Button({ text, type }) {
     return (
-        <button className="btn btn-link text-decoration-none bg-body-secondary">{text}</button>
+        <button className="btn btn-link text-decoration-none bg-body-secondary" type={type || 'button'}>{text}</button>
     )
 }

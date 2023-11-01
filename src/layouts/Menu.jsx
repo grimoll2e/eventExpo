@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
-import { useState } from "react";
 import MenuItem from "./MenuItem";
 import MenuItemDropdown from "./MenuItemDropdown";
 

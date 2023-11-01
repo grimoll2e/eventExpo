@@ -41,11 +41,29 @@ export default function EventForm() {
                     >
                         {({ values, errors, touched, handleChange }) => (
                             <Form action="" className="d-flex flex-column gap-2">
-                                <TextInput label={'Event Title'} name={'eventTitle'} input={values.eventTitle} handleChange={handleChange} error={errors.eventTitle} touch={touched.eventTitle} />
-                                <TextInput label={'Zone'} name={'zone'} input={values.zone} handleChange={handleChange} error={errors.zone} touch={touched.zone} />
-                                <TextInput label={'Booth'} name={'booth'} input={values.booth} handleChange={handleChange} error={errors.booth} touch={touched.booth} />
+                                <TextInput
+                                    label={'Event Title'}
+                                    name={'eventTitle'}
+                                    input={values.eventTitle}
+                                    handleChange={handleChange}
+                                    error={errors.eventTitle}
+                                    touch={touched.eventTitle} />
+                                <TextInput
+                                    label={'Zone'}
+                                    name={'zone'}
+                                    input={values.zone}
+                                    handleChange={handleChange}
+                                    error={errors.zone}
+                                    touch={touched.zone} />
+                                <TextInput
+                                    label={'Booth'}
+                                    name={'booth'}
+                                    input={values.booth}
+                                    handleChange={handleChange}
+                                    error={errors.booth}
+                                    touch={touched.booth} />
                                 <div className="d-flex justify-content-center gap-2">
-                                    <Button text={'Save'} />
+                                    <Button text={'Save'} type={'submit'} />
                                     <Button text={'Cancle'} />
                                 </div>
                             </Form>

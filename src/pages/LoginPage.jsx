@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
-import TextInput from "../components/TextInput";
+import { toast } from "react-toastify";
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
+
+import useLoading from "../hooks/useLoading";
+import useAuth from '../hooks/useAuth'
+import TextInput from "../components/TextInput";
 
 const initialInput = {
     userName: '',
@@ -14,6 +18,11 @@ const loginSchema = object().shape({
 });
 
 export default function LoginPage() {
+
+    const { isLoading, isFinish } = useLoading()
+
+    const { login } = useAuth()
+
     return (
         <div className="bg-image w-100" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1562832135-14a35d25edef?)' }}>
             <div className="container-fluid h-100 p-0 position-relative mt-0">
@@ -21,10 +30,19 @@ export default function LoginPage() {
                     <Formik
                         validationSchema={loginSchema}
                         initialValues={initialInput}
-                        onSubmit={(values, { resetForm }) => {
-                            console.log(values);
-                            // console.log(values.userName)
-                            resetForm()
+                        onSubmit={async (values, { resetForm }) => {
+                            try {
+                                isLoading()
+                                // console.log(values);
+                                await login(values)
+                                // resetForm()
+                                toast.success(`success register`)
+                            } catch (error) {
+                                toast.error(`Error : ${error.response?.data.message}`)
+                            }
+                            finally {
+                                isFinish()
+                            }
                         }}
                     >
                         {({ values, errors, touched, handleChange }) => (

@@ -8,6 +8,8 @@ import EventPage from "../pages/EventPage";
 import ContactPage from "../pages/ContactPage";
 import SettingPage from "../pages/SettingPage";
 import AuthLayout from "../layouts/AuthLayout";
+import RedirectIfAuthenticate from "../features/auth/RedirectifAuthenticate";
+import ProtectedRoute from "../features/auth/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -35,15 +37,27 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <LoginPage />,
+        element: (
+          <RedirectIfAuthenticate>
+            <LoginPage />,
+          </RedirectIfAuthenticate>
+        )
       },
       {
         path: "/signup",
-        element: <SignupPage />,
+        element: (
+          <RedirectIfAuthenticate>
+            <SignupPage />
+          </RedirectIfAuthenticate>
+        ),
       },
       {
         path: "/setting",
-        element: <SettingPage />,
+        element: (
+          <ProtectedRoute>
+            <SettingPage />
+          </ProtectedRoute>
+        ),
       },
     ]
   },

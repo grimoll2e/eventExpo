@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { Formik, Form } from 'formik'
+import { toast } from 'react-toastify'
 import TextInput from "../components/TextInput";
 import registerSchema from '../validators/register'
 import * as authApi from '../apis/auth-api'
+import { useState } from "react";
+import useLoading from "../hooks/useLoading";
 
 
 const initialInput = {
@@ -13,6 +16,8 @@ const initialInput = {
 }
 
 export default function SignupPage() {
+    const [axiosError, setAxiosError] = useState(null)
+    const { isLoading, isFinish } = useLoading()
 
     return (
         <div className="bg-image w-100" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1562832135-14a35d25edef?)' }}>
@@ -23,12 +28,17 @@ export default function SignupPage() {
                         initialValues={initialInput}
                         onSubmit={async (values, { resetForm }) => {
                             try {
-                                console.log(values)
-                        // console.log(values.userName)
+                                isLoading()
+                                // console.log(values)
                                 await authApi.signup(values)
-                                // resetForm()
+                                resetForm()
+                                toast.success(`success register`)
                             } catch (error) {
-
+                                // console.log(error)
+                                toast.error(`Error:${error.response?.data.message}`)
+                                setAxiosError(error.response?.data.message)
+                            } finally {
+                                isFinish()
                             }
                         }}
                     >
@@ -39,6 +49,7 @@ export default function SignupPage() {
                                 <TextInput label={'Password'} name={'password'} input={values.password} handleChange={handleChange} type={'password'} error={errors.password} touch={touched.password} />
                                 <TextInput label={'Confirm Password'} name={'confirmPassword'} input={values.confirmPassword} handleChange={handleChange} type={'password'} error={errors.confirmPassword} touch={touched.confirmPassword} />
                                 <TextInput label={'Email'} name={'email'} input={values.email} handleChange={handleChange} type={'email'} error={errors.email} touch={touched.email} />
+                                {/* {axiosError && <span className="text-danger">{axiosError}</span>} */}
                                 <button className="btn_style1 p-2 px-4" type="submit">Sign up</button>
                             </Form>
                         )}

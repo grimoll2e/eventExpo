@@ -23,6 +23,7 @@ export default function TextInput({ label, name, type, as, input, handleChange, 
                 value={input || ''}
                 onChange={handleChange}
             />
+            {/* {axioserror && <span className="text-danger" name={name || ''}>{axioserror}</span>} */}
         </div>
     )
 }

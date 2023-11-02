@@ -38,7 +38,8 @@ export default function LoginPage() {
                                 // resetForm()
                                 toast.success(`success register`)
                             } catch (error) {
-                                toast.error(`Error : ${error.response?.data.message}`)
+                                console.log(error)
+                                toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
                             }
                             finally {
                                 isFinish()

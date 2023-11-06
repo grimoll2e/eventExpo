@@ -29,10 +29,10 @@ export default function HomePage() {
 
     return (
         <div className="container mb-5 d-flex flex-column gap-5">
-            <div>
+            <div className="">
                 <Carousel carousel={carousel} />
             </div>
-            <div>
+            <div className="">
                 <h1 className="header_text">WHAT'S ON</h1>
                 <Card />
             </div>

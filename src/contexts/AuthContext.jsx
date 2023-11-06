@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createContext } from "react";
 import * as authApi from '../apis/auth-api'
-import { getAccessToken, setAccessToken } from "../util/local-storage";
+import { getAccessToken, removeAccessToken, setAccessToken } from "../util/local-storage";
 
 export const AuthContext = createContext();
 export default function AuthContextProvider({ children }) {
@@ -15,8 +15,13 @@ export default function AuthContextProvider({ children }) {
     setAuthenticatedUse(true)
   }
 
+  const logout = () => {
+    removeAccessToken()
+    setAuthenticatedUse(null)
+  }
+
   return (
-    <AuthContext.Provider value={{ authenticatedUser, login }}>
+    <AuthContext.Provider value={{ authenticatedUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

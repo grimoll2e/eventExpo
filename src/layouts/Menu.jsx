@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import MenuItem from "./MenuItem";
 import MenuItemDropdown from "./MenuItemDropdown";
+import useAuth from "../hooks/useAuth";
 
 const menuItemList = [
     {
@@ -26,11 +27,7 @@ const menuItemList = [
         name: "Contact",
     }
 ];
-const menuItemdropdown = [
-    {
-        pathName: "/setting",
-        name: 'Setting',
-    },
+const menuItemdropdown1 = [
     {
         pathName: "/login",
         name: "Login",
@@ -40,6 +37,12 @@ const menuItemdropdown = [
         name: "Signup",
     },
 ];
+const menuItemdropdown2 = [
+    {
+        pathName: "/setting",
+        name: 'Setting',
+    },
+];
 const user = [
     {
         icon: <FaUserCircle />,
@@ -47,6 +50,8 @@ const user = [
 ];
 
 export default function Menu() {
+    const { authenticatedUser } = useAuth()
+
     const [toggle, setToggle] = useState(false)
 
     const location = useLocation();
@@ -71,7 +76,7 @@ export default function Menu() {
                 toggle={toggle}
                 setToggle={setToggle}
                 data={menuItemList}
-                datadropdown={menuItemdropdown}
+                datadropdown={!authenticatedUser ? menuItemdropdown1 : menuItemdropdown2}
                 active={location.pathname}
             >
             </MenuItemDropdown>

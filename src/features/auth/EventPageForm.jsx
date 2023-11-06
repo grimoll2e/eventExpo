@@ -1,6 +1,6 @@
-import Button from '../Button'
-import TextInput from '../TextInput'
-import ImageInput from '../ImageInput'
+import Button from '../../components/Button'
+import TextInput from '../../components/TextInput'
+import ImageInput from '../../components/ImageInput'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
 

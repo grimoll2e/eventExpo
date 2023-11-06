@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { createContext } from "react";
 import * as authApi from '../apis/auth-api'
-import { setAccessToken } from "../util/local-storage";
+import { getAccessToken, setAccessToken } from "../util/local-storage";
 
 export const AuthContext = createContext();
 export default function AuthContextProvider({ children }) {
-  const [authenticatedUser, setAuthenticatedUse] = useState(null)
+  const [authenticatedUser, setAuthenticatedUse] = useState(getAccessToken() ? true : null)
   //authenticatedUser ไว้ตรวรสอบว่ามีการ login ไหม
 
   const login = async (input) => {

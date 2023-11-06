@@ -1,22 +1,22 @@
-import Button from '../Button'
-import TextInput from '../TextInput'
-import ImageInput from '../ImageInput'
+import Button from '../../components/Button'
+import TextInput from '../../components/TextInput'
+import ImageInput from '../../components/ImageInput'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
 
 const initialInput = {
-    eventTitle: '',
-    zone: '',
-    booth: '',
+    boothTitle: '',
+    descrition: '',
+    link: '',
 }
 
-const eventSchema = object().shape({
-    eventTitle: string().trim().required('required'),
-    zone: string().trim().required('required'),
-    booth: string().trim().required('required'),
+const boothSchema = object().shape({
+    boothTitle: string().trim().required('กรุณากรอกชื่อผู้ใช้'),
+    descrition: string().trim(),
+    link: string().trim(),
 });
 
-export default function EventForm() {
+export default function BoothForm() {
     return (
         <div className="container">
             <div className="row justify-content-center">
@@ -30,7 +30,7 @@ export default function EventForm() {
                 </div>
                 <div className="col-lg-5 col-md-6">
                     <Formik
-                        validationSchema={eventSchema}
+                        validationSchema={boothSchema}
                         initialValues={initialInput}
                         onSubmit={(values, { resetForm }) => {
                             console.log(values)
@@ -42,26 +42,27 @@ export default function EventForm() {
                         {({ values, errors, touched, handleChange }) => (
                             <Form action="" className="d-flex flex-column gap-2">
                                 <TextInput
-                                    label={'Event Title'}
-                                    name={'eventTitle'}
-                                    input={values.eventTitle}
+                                    label={'Booth Title'}
+                                    name={'boothTitle'}
+                                    input={values.boothTitle}
                                     handleChange={handleChange}
-                                    error={errors.eventTitle}
-                                    touch={touched.eventTitle} />
+                                    error={errors.boothTitle}
+                                    touch={touched.boothTitle} />
                                 <TextInput
-                                    label={'Zone'}
-                                    name={'zone'}
-                                    input={values.zone}
+                                    label={'Descrition'}
+                                    name={'descrition'}
+                                    as={'textarea'}
+                                    input={values.descrition}
                                     handleChange={handleChange}
-                                    error={errors.zone}
-                                    touch={touched.zone} />
+                                    error={errors.descrition}
+                                    touch={touched.descrition} />
                                 <TextInput
-                                    label={'Booth'}
-                                    name={'booth'}
-                                    input={values.booth}
+                                    label={'Link'}
+                                    name={'link'}
+                                    input={values.link}
                                     handleChange={handleChange}
-                                    error={errors.booth}
-                                    touch={touched.booth} />
+                                    error={errors.link}
+                                    touch={touched.link} />
                                 <div className="d-flex justify-content-center gap-2">
                                     <Button text={'Save'} type={'submit'} />
                                     <Button text={'Cancle'} />

@@ -1,6 +1,6 @@
-import TextInput from '../TextInput'
-import Button from '../Button'
-import ImageInput from '../ImageInput'
+import TextInput from '../../components/TextInput'
+import Button from '../../components/Button'
+import ImageInput from '../../components/ImageInput'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
 
@@ -37,7 +37,6 @@ export default function AccountForm() {
                             // console.log(values.userName)
                             // resetForm()
                         }}
-
                     >
                         {({ values, errors, touched, handleChange }) => (
                             <Form action="" className="d-flex flex-column gap-2">

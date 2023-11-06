@@ -1,10 +1,11 @@
 import { useState } from "react"
-import AccountForm from "../components/form/AccountForm"
-import BoothForm from "../components/form/BoothForm"
-import CreateEventForm from "../components/form/CreateEventForm"
-import EventForm from "../components/form/EventForm"
-import EventPageForm from "../components/form/EventPageForm"
-import HallForm from "../components/form/HallForm"
+import AccountForm from "../features/auth/AccountForm"
+import BoothForm from "../features/auth/BoothForm"
+import CreateEventForm from "../features/auth/CreateEventForm"
+import EventForm from "../features/auth/EventForm"
+import EventPageForm from "../features/auth/EventPageForm"
+import HallForm from "../features/auth/HallForm"
+
 
 const menu = [
     {

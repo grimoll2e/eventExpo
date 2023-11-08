@@ -3,12 +3,9 @@ import Button from '../../components/Button'
 import ImageInput from '../../components/ImageInput'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
+import useAuth from '../../hooks/useAuth'
 
-const initialInput = {
-    userName: '',
-    descrition: '',
-    link: '',
-}
+
 
 const accountSchema = object().shape({
     userName: string().trim().required('กรุณากรอกชื่อผู้ใช้'),
@@ -17,6 +14,14 @@ const accountSchema = object().shape({
 });
 
 export default function AccountForm() {
+    const { authenticatedUser } = useAuth()
+
+    const initialInput = {
+        userName: authenticatedUser.userName || '',
+        description: authenticatedUser.description || '',
+        link: authenticatedUser.link || '',
+    }
+
     return (
         <div className="container">
             <div className="row justify-content-center rounded-circle">
@@ -30,15 +35,17 @@ export default function AccountForm() {
                 </div>
                 <div className="col-lg-5 col-md-6">
                     <Formik
+                        enableReinitialize={true}
                         validationSchema={accountSchema}
                         initialValues={initialInput}
+                        initialTouched={{ userName: false }}
                         onSubmit={(values, { resetForm }) => {
                             console.log(values)
                             // console.log(values.userName)
                             // resetForm()
                         }}
                     >
-                        {({ values, errors, touched, handleChange }) => (
+                        {({ values, errors, touched, handleBlur, handleChange }) => (
                             <Form action="" className="d-flex flex-column gap-2">
                                 <TextInput
                                     label={'Username'}
@@ -46,15 +53,18 @@ export default function AccountForm() {
                                     input={values.userName}
                                     handleChange={handleChange}
                                     error={errors.userName}
-                                    touch={touched.userName} />
+                                    touch={touched.userName}
+                                    onBlur={handleBlur}
+                                />
+
                                 <TextInput
-                                    label={'Descrition'}
-                                    name={'descrition'}
+                                    label={'Description'}
+                                    name={'description'}
                                     as={'textarea'}
-                                    input={values.descrition}
+                                    input={values.description}
                                     handleChange={handleChange}
-                                    error={errors.descrition}
-                                    touch={touched.descrition} />
+                                    error={errors.description}
+                                    touch={touched.description} />
                                 <TextInput
                                     label={'Link'}
                                     name={'link'}

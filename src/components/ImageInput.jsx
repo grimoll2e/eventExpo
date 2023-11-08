@@ -1,14 +1,17 @@
 import React from 'react'
 
-export default function ImageInput({ addclass, size }) {
+export default function ImageInput({ src, addclass, size, onClick }) {
     return (
         <span className="">
             <img
-                src="https://images.unsplash.com/photo-1557683316-973673baf926?"
+                src={src || "https://images.unsplash.com/photo-1557683316-973673baf926?"}
                 className={`rounded cursor-pointer ${addclass}`}
                 width={size || 200}
                 height={size || 200}
-                alt="" />
+                alt=""
+                onClick={onClick}
+                style={{ objectFit: 'cover' }}
+            />
         </span>
     )
 }

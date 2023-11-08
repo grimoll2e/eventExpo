@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
 import MenuItem from "./MenuItem";
 import MenuItemDropdown from "./MenuItemDropdown";
 import useAuth from "../hooks/useAuth";
+import ImageInput from "../components/ImageInput";
 
 
 const menuItemList = [
@@ -44,11 +44,6 @@ const menuItemdropdown2 = [
         name: 'Setting',
     },
 ];
-const user = [
-    {
-        icon: <FaUserCircle />,
-    },
-];
 
 export default function Menu() {
     const { authenticatedUser } = useAuth()
@@ -83,9 +78,12 @@ export default function Menu() {
                 </div>
             ))}
             <div ref={dropdownEL}>
-                {user[0].icon && <h1 className="ms-2" onClick={() => setToggle(!toggle)} >
-                {user[0].icon}
-            </h1>}
+                <ImageInput
+                    src={authenticatedUser ? authenticatedUser.userImage : ''}
+                    addclass={'rounded-circle'}
+                    size='42'
+                    onClick={() => setToggle(!toggle)}
+                />
             <MenuItemDropdown
                 toggle={toggle}
                 setToggle={setToggle}

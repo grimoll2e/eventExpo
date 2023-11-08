@@ -1,10 +1,13 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useParams, useNavigate } from "react-router-dom"
+import useAuth from "../hooks/useAuth"
 import AccountForm from "../features/auth/AccountForm"
 import BoothForm from "../features/auth/BoothForm"
 import CreateEventForm from "../features/auth/CreateEventForm"
 import EventForm from "../features/auth/EventForm"
 import EventPageForm from "../features/auth/EventPageForm"
 import HallForm from "../features/auth/HallForm"
+
 
 
 const menu = [
@@ -35,6 +38,18 @@ const menu = [
 ]
 
 export default function SettingPage() {
+    const { idName } = useParams();
+
+    const { authenticatedUser } = useAuth()
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (idName !== authenticatedUser.userName) {
+            navigate('*')
+        }
+    }, [idName, authenticatedUser]);
+
     const [test, setTest] = useState(menu[0].name)
 
     const selectmenu = menu.find(el => el.name === test)

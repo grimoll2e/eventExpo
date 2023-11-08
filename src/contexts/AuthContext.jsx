@@ -5,6 +5,7 @@ import * as authApi from '../apis/auth-api'
 import { getAccessToken, removeAccessToken, setAccessToken } from "../util/local-storage";
 
 export const AuthContext = createContext();
+
 export default function AuthContextProvider({ children }) {
   const [authenticatedUser, setAuthenticatedUse] = useState(getAccessToken() ? true : null)
   //authenticatedUser ไว้ตรวรสอบว่ามีการ login ไหม
@@ -12,11 +13,10 @@ export default function AuthContextProvider({ children }) {
   useEffect(() => {
     const fetchAuthUser = async () => {
       try {
-        if (!authenticatedUser) {
-          return
+        if (authenticatedUser) {
+          const res = await authApi.getMe()
+          setAuthenticatedUse(res.data.user)
         }
-        const res = await authApi.getMe()
-        setAuthenticatedUse(res.data.user)
       } catch (error) {
         removeAccessToken()
       }

@@ -10,6 +10,7 @@ import SettingPage from "../pages/SettingPage";
 import AuthLayout from "../layouts/AuthLayout";
 import RedirectIfAuthenticate from "../features/auth/RedirectifAuthenticate";
 import ProtectedRoute from "../features/auth/ProtectedRoute";
+import PageNotFound from "../pages/PageNotFound";
 
 const router = createBrowserRouter([
   {
@@ -52,7 +53,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/setting",
+        path: "/setting/:idName",
         element: (
           <ProtectedRoute>
             <SettingPage />
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       },
     ]
   },
+  {
+    path: '*',
+    element: <PageNotFound />
+  }
 ]);
 
 export default function Router() {

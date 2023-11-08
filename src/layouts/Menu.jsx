@@ -5,7 +5,6 @@ import MenuItemDropdown from "./MenuItemDropdown";
 import useAuth from "../hooks/useAuth";
 import ImageInput from "../components/ImageInput";
 
-
 const menuItemList = [
     {
         pathName: "/",
@@ -38,21 +37,21 @@ const menuItemdropdown1 = [
         name: "Signup",
     },
 ];
-const menuItemdropdown2 = [
-    {
-        pathName: "/setting",
-        name: 'Setting',
-    },
-];
 
 export default function Menu() {
     const { authenticatedUser } = useAuth()
-
     const location = useLocation();
     const [toggle, setToggle] = useState(false)
 
     const dropdownEL = useRef();
     // const ref = useRef(1) :> (current:1) ,ref=5 (current:5)
+
+    const menuItemdropdown2 = [
+        {
+            pathName: `/setting/${authenticatedUser ? authenticatedUser.userName : ''}`,
+            name: 'Setting',
+        },
+    ];
 
     useEffect(() => {
         const handleClickOutside = (e) => {

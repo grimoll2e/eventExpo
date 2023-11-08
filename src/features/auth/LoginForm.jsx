@@ -40,8 +40,23 @@ export default function LoginForm() {
             {({ values, errors, touched, handleChange }) => (
                 <Form className="d-flex flex-column gap-3">
                     <h1 className="text-center">Login</h1>
-                    <TextInput label={'Username'} name={'userName'} input={values.userName} handleChange={handleChange} error={errors.userName} touch={touched.userName} />
-                    <TextInput label={'Password'} name={'password'} input={values.password} handleChange={handleChange} type={'password'} error={errors.password} touch={touched.password} />
+                    <TextInput
+                        label={'Username'}
+                        name={'userName'}
+                        input={values.userName}
+                        handleChange={handleChange}
+                        error={errors.userName}
+                        touch={touched.userName}
+                    />
+                    <TextInput
+                        label={'Password'}
+                        name={'password'}
+                        input={values.password}
+                        handleChange={handleChange}
+                        type={'password'}
+                        error={errors.password}
+                        touch={touched.password}
+                    />
                     <button className="btn_style1 p-2 px-4" type="submit">Login</button>
                 </Form>
             )}

@@ -13,22 +13,22 @@ export default function AuthContextProvider({ children }) {
   useEffect(() => {
     const fetchAuthUser = async () => {
       try {
-        if (authenticatedUser) {
           const res = await authApi.getMe()
-          setAuthenticatedUse(res.data.user)
-        }
+        setAuthenticatedUse(res.data.user)
       } catch (error) {
         removeAccessToken()
       }
     }
-    fetchAuthUser()
+    if (getAccessToken) {
+      fetchAuthUser()
+    }
   }, [])
 
 
   const login = async (input) => {
     const res = await authApi.login(input)
-    setAccessToken(res.data)
-    setAuthenticatedUse(jwtDecode(res.data))
+    setAccessToken(res.data.accessToken)
+    setAuthenticatedUse(jwtDecode(res.data.accessToken))
   }
 
   const logout = () => {

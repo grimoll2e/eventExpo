@@ -40,6 +40,7 @@ const menuItemdropdown1 = [
 
 export default function Menu() {
     const { authenticatedUser } = useAuth()
+    // const { authenticatedUser:{userName,userImage} } = useAuth()
     const location = useLocation();
     const [toggle, setToggle] = useState(false)
 
@@ -48,7 +49,7 @@ export default function Menu() {
 
     const menuItemdropdown2 = [
         {
-            pathName: `/setting/${authenticatedUser ? authenticatedUser.userName : ''}`,
+            pathName: `/setting/${authenticatedUser ? authenticatedUser.userName : null}`,
             name: 'Setting',
         },
     ];
@@ -78,7 +79,7 @@ export default function Menu() {
             ))}
             <div ref={dropdownEL}>
                 <ImageInput
-                    src={authenticatedUser ? authenticatedUser.userImage : ''}
+                    src={authenticatedUser ? authenticatedUser.userImage : null}
                     addclass={'rounded-circle'}
                     size='42'
                     onClick={() => setToggle(!toggle)}

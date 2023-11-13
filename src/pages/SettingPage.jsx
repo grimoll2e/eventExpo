@@ -39,9 +39,7 @@ const menu = [
 
 export default function SettingPage() {
     const { idName } = useParams();
-
     const { authenticatedUser } = useAuth()
-
     const navigate = useNavigate();
 
     useEffect(() => {

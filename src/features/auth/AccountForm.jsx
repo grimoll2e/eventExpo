@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
 import ImageInput from '../../components/ImageInput'
@@ -15,22 +16,32 @@ const accountSchema = object().shape({
 
 export default function AccountForm() {
     const { authenticatedUser } = useAuth()
+    const [file, setFile] = useState(null)
 
     const initialInput = {
         userName: authenticatedUser.userName || '',
         description: authenticatedUser.description || '',
         link: authenticatedUser.link || '',
     }
+    const inputEl = useRef()
 
     return (
         <div className="container">
             <div className="row justify-content-center rounded-circle">
                 <div className="d-flex flex-column gap-3 col-lg-5 col-md-6 align-items-center ">
-                    <ImageInput addclass={'rounded-circle'} />
+                    <ImageInput src={file ? URL.createObjectURL(file) : null} addclass={'rounded-circle'} onClick={() => inputEl.current.click()} />
+                    <input type="file" className='d-none' ref={inputEl} onChange={e => {
+                        if (e.target.files[0]) {
+                            setFile(e.target.files[0])
+                        }
+                    }} />
                     <div className="d-flex gap-2">
-                        <Button text={'Save'} />
-                        <Button text={'Cancle'} />
-                        <Button text={'Edit'} />
+                        {file && <Button text={'Save'} />}
+                        {file && <Button text={'Cancle'} onClick={() => {
+                            setFile(null)
+                            inputEl.current.value = null
+                        }} />}
+                        <Button text={'Edit'} onClick={() => inputEl.current.click()} />
                     </div>
                 </div>
                 <div className="col-lg-5 col-md-6">

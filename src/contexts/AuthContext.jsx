@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
-import { createContext } from "react";
+import { useState, useEffect, createContext } from "react";
 import { jwtDecode } from 'jwt-decode'
+
 import * as authApi from '../apis/auth-api'
+import * as userApi from '../apis/user-api'
 import { getAccessToken, removeAccessToken, setAccessToken } from "../util/local-storage";
 
 export const AuthContext = createContext();
@@ -36,8 +37,14 @@ export default function AuthContextProvider({ children }) {
     setAuthenticatedUse(null)
   }
 
+  const updateUserImage = async (data) => {
+    const res = await userApi.updateUser(data)
+    // console.log(res.data)
+    setAuthenticatedUse({ ...authenticatedUser, ...res.data })
+  }
+
   return (
-    <AuthContext.Provider value={{ authenticatedUser, login, logout }}>
+    <AuthContext.Provider value={{ authenticatedUser, login, logout, updateUserImage }}>
       {children}
     </AuthContext.Provider>
   );

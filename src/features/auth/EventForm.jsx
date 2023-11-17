@@ -1,6 +1,6 @@
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
-import ImageInput from '../../components/ImageInput'
+import Image from '../../components/Image'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
 
@@ -21,7 +21,7 @@ export default function EventForm() {
         <div className="container">
             <div className="row justify-content-center">
                 <div className="d-flex flex-column gap-3 col-lg-5 col-md-6 align-items-center ">
-                    <ImageInput />
+                    <Image />
                     <div className="d-flex gap-2">
                         <Button text={'Save'} />
                         <Button text={'Cancle'} />

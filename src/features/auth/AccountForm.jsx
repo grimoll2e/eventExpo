@@ -4,6 +4,7 @@ import { object, string } from 'yup'
 
 import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
+// import Image from '../../components/Image'
 import ImageInput from '../../components/ImageInput'
 import useAuth from '../../hooks/useAuth'
 
@@ -20,7 +21,7 @@ const accountSchema = object().shape({
 export default function AccountForm() {
     const { authenticatedUser, updateUserImage } = useAuth()
     const [file, setFile] = useState(null)
-    // const [toggle, setToggle] = useState(false)
+    const [toggle, setToggle] = useState(false)
     const { isLoading, isFinish } = useLoading()
 
     const initialInput = {
@@ -44,39 +45,47 @@ export default function AccountForm() {
             isFinish()
         }
     }
+    const handleCancle = () => {
+        setFile(null)
+        inputEl.current.value = null
+    }
 
     return (
         <div className="container">
             <div className="row justify-content-center rounded-circle">
-                <div className="d-flex flex-column gap-3 col-lg-5 col-md-6 align-items-center ">
-                    <ImageInput src={file ? URL.createObjectURL(file) : authenticatedUser.userImage} addclass={'rounded-circle'} onClick={() => inputEl.current.click()} />
-                    <input type="file" className='d-none' ref={inputEl} onChange={e => {
-                        if (e.target.files[0]) {
-                            setFile(e.target.files[0])
-                        }
-                    }} />
-                    <div className="d-flex gap-2">
-                        {file && <Button text={'Save'} onClick={handleSave} />}
-                        {file && <Button text={'Cancle'} onClick={() => {
-                            setFile(null)
-                            inputEl.current.value = null
-                        }} />}
-                        <Button text={'Edit'} onClick={() => {
-                            inputEl.current.click()
-                        }
-                        } />
-                    </div>
-                </div>
+                <ImageInput
+                    src={file ? URL.createObjectURL(file) : authenticatedUser.userImage}
+                    addclass={'rounded-circle'}
+                    handleEdit={() => inputEl.current.click()}
+                    handleSave={handleSave}
+                    handleCancle={handleCancle}
+                    file={file}
+                    setFile={setFile}
+                    inputEl={inputEl}
+                />
+
                 <div className="col-lg-5 col-md-6">
-                    <Formik
+                    {toggle || <>
+                        <div className='bg-body-secondary p-2 m-2 rounded-1'>
+                            <p className='m-0'>userName: {initialInput.userName}</p>
+                        </div>
+                        <div className='bg-body-secondary p-2 m-2 rounded-1'>
+                            <p className='m-0'>description: {initialInput.description}</p>
+                        </div>
+                        <div className='bg-body-secondary p-2 m-2 rounded-1'>
+                            <p className='m-0'>link: {initialInput.link}</p>
+                        </div>
+                        <div className='d-flex justify-content-center'>
+                            <Button text={'Edit'} onClick={() => setToggle(true)} />
+                        </div>
+                    </>}
+                    {toggle && <Formik
                         enableReinitialize={true}
                         validationSchema={accountSchema}
                         initialValues={initialInput}
                         initialTouched={{ userName: false }}
                         onSubmit={(values, { resetForm }) => {
                             console.log(values)
-                            // console.log(values.userName)
-                            // resetForm()
                         }}
                     >
                         {({ values, errors, touched, handleBlur, handleChange }) => (
@@ -90,7 +99,6 @@ export default function AccountForm() {
                                     touch={touched.userName}
                                     onBlur={handleBlur}
                                 />
-
                                 <TextInput
                                     label={'Description'}
                                     name={'description'}
@@ -108,11 +116,11 @@ export default function AccountForm() {
                                     touch={touched.link} />
                                 <div className="d-flex justify-content-center gap-2">
                                     <Button text={'Save'} type={'submit'} />
-                                    <Button text={'Cancle'} />
+                                    <Button text={'Cancle'} onClick={() => setToggle(false)} />
                                 </div>
                             </Form>
                         )}
-                    </Formik>
+                    </Formik>}
                 </div>
             </div>
         </div>

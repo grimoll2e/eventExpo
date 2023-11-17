@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import MenuItem from "./MenuItem";
 import MenuItemDropdown from "./MenuItemDropdown";
 import useAuth from "../hooks/useAuth";
-import ImageInput from "../components/ImageInput";
+import Image from "../components/Image";
 
 const menuItemList = [
     {
@@ -78,7 +78,7 @@ export default function Menu() {
                 </div>
             ))}
             <div ref={dropdownEL}>
-                <ImageInput
+                <Image
                     src={authenticatedUser ? authenticatedUser.userImage : null}
                     addclass={'rounded-circle'}
                     size='42'

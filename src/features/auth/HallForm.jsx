@@ -1,39 +1,56 @@
+import { object, string } from 'yup'
+import { Formik, Form } from 'formik'
+import { toast } from 'react-toastify'
+import { Await } from 'react-router-dom'
+
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 import ImageInput from '../../components/ImageInput'
-import { Formik, Form } from 'formik'
-import { object, string } from 'yup'
+import useLoading from '../../hooks/useLoading'
+import * as hallApi from '../../apis/hall-api'
 
-const initialInput = {
-    hallName: '',
-    descrition: '',
-}
 
 const createEventSchema = object().shape({
     hallName: string().trim().required('required'),
-    descrition: string().trim(),
+    detail: string().trim(),
 });
 
-export default function HallForm() {
+export default function HallForm({ handleToggleClick, name, detail, handleEdit, id, handleSubmit }) {
+
+    const initialInput = {
+        hallName: name,
+        detail: detail,
+    }
+
+    const { isLoading, isFinish } = useLoading()
     return (
         <div className="container">
             <div className="row justify-content-center">
-                <div className="d-flex flex-column gap-3 col-lg-5 col-md-6 align-items-center ">
-                    <ImageInput />
-                    <div className="d-flex gap-2">
-                        <Button text={'Save'} />
-                        <Button text={'Cancle'} />
-                        <Button text={'Edit'} />
-                    </div>
-                </div>
+                <ImageInput />
                 <div className="col-lg-5 col-md-6">
                     <Formik
                         validationSchema={createEventSchema}
                         initialValues={initialInput}
-                        onSubmit={(values, { resetForm }) => {
-                            console.log(values)
-                            // console.log(values)
-                            // resetForm()
+                        onSubmit={async (values, { resetForm }) => {
+                            try {
+                                isLoading()
+                                // console.log(values);
+                                if (id) {
+                                    await handleEdit(values, id)
+                                    toast.success(`Edit SUCCESS`)
+                                } else {
+                                    await handleSubmit(values)
+                                    resetForm()
+                                    toast.success(`SUCCESS`)
+                                }
+                            } catch (error) {
+                                console.log(error)
+                                toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
+                            }
+                            finally {
+                                isFinish()
+                                handleToggleClick ? handleToggleClick() : null
+                            }
                         }}
 
                     >
@@ -47,17 +64,17 @@ export default function HallForm() {
                                     error={errors.hallName}
                                     touch={touched.hallName} />
                                 <TextInput
-                                    label={'Descrition'}
-                                    name={'descrition'}
+                                    label={'Detail'}
+                                    name={'detail'}
                                     as={'textarea'}
-                                    input={values.descrition}
+                                    input={values.detail}
                                     handleChange={handleChange}
-                                    error={errors.descrition}
-                                    touch={touched.descrition} />
+                                    error={errors.detail}
+                                    touch={touched.detail} />
 
                                 <div className="d-flex justify-content-center gap-2">
                                     <Button text={'Save'} type={'submit'} />
-                                    <Button text={'Cancle'} />
+                                    <Button text={'Cancle'} onClick={handleToggleClick} />
                                 </div>
                             </Form>
                         )}

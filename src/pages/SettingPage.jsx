@@ -6,7 +6,7 @@ import BoothForm from "../features/auth/BoothForm"
 import CreateEventForm from "../features/auth/CreateEventForm"
 import EventForm from "../features/auth/EventForm"
 import EventPageForm from "../features/auth/EventPageForm"
-import HallForm from "../features/auth/HallForm"
+import HallSetting from "../container/HallSetting"
 
 
 
@@ -33,7 +33,7 @@ const menu = [
     },
     {
         name: 'Hall Page',
-        form: <HallForm />
+        form: <HallSetting />
     },
 ]
 

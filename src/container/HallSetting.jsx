@@ -15,25 +15,57 @@ export default function HallSetting() {
         getallhall()
     }, [])
 
-    const handleEdit = async (input, hallid) => {
-        await hallApi.updatehall(input, hallid)
-        setValue(prv => prv.map(el => el.id === hallid ? { ...el, ...input } : el))
+    const handleEdit = async (input, hallid, file) => {
+        if (file) {
+            const formData = new FormData()
+            formData.append('image', file)
+
+            Object.entries(input).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
+            const res = await hallApi.updatehall(formData, hallid)
+            setValue(prv => prv.map(el => el.id === hallid ? { ...el, ...res.data.result } : el))
+        } else {
+            const res = await hallApi.updatehall(input, hallid)
+            setValue(prv => prv.map(el => el.id === hallid ? { ...el, ...res.data.result } : el))
+        }
     }
 
-    const handleDelete = async (hallid) => {
+    const handleDelete = async (hallid) => { 
         await hallApi.deletehall(hallid)
         setValue((prv) => prv.filter(el => el.id !== hallid))
     }
 
-    const handleSubmit = async (input) => {
-        const res = await hallApi.createHall(input)
-        setValue((prv) => [...prv, res.data.post])
+    const handleSubmit = async (input, file) => {
+        if (file) {
+            const formData = new FormData()
+            formData.append('image', file)
+
+            Object.entries(input).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
+            const res = await hallApi.createHall(formData)
+            setValue((prv) => [...prv, res.data.post])
+        } else {
+            const res = await hallApi.createHall(input)
+            setValue((prv) => [...prv, res.data.post])
+        }
     }
+
     return (
         <>
-            <HallForm handleSubmit={handleSubmit} />
+            <HallForm
+                handleSubmit={handleSubmit}
+            />
             {
-                value && value.map((el, idx) => <SettingList id={el.id} src={el.image} name={el.hallName} detail={el.detail} idx={idx} key={idx} handleDelete={handleDelete} handleEdit={handleEdit} />)
+                value && value.map((el, idx) => (
+                    <SettingList
+                        el={el}
+                        idx={idx}
+                        key={idx}
+                        handleDelete={handleDelete}
+                        handleEdit={handleEdit}
+                    />))
             }
 
         </>

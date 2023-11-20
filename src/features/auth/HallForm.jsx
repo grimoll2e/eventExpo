@@ -8,32 +8,21 @@ import ImageInput from '../../components/ImageInput'
 import useLoading from '../../hooks/useLoading'
 import veanueEventSchema from '../../validators/hall'
 
-export default function HallForm({ handleToggleClick, name, detail, handleEdit, id, handleSubmit }) {
-
+export default function HallForm({ handleSubmit, handleToggleClick, handleEdit, name, detail, src, hallid }) {
     const [file, setFile] = useState(null)
     const inputEl = useRef()
 
     const { isLoading, isFinish } = useLoading()
     const initialInput = {
-        hallName: name,
-        detail: detail,
-    }
-
-    const handleCreate = async (values) => {
-        const formData = new FormData()
-        formData.append('image', file)
-
-        Object.entries(values).forEach(([key, value]) => {
-            formData.append(key, value);
-        });
-        await handleSubmit(formData)
+        hallName: name || '',
+        detail: detail || '',
     }
 
     return (
         <div className="container">
             <div className="row justify-content-center">
                 <ImageInput
-                    src={file ? URL.createObjectURL(file) : null}
+                    src={file ? URL.createObjectURL(file) : src}
                     file={file}
                     setFile={setFile}
                     inputEl={inputEl}
@@ -41,20 +30,23 @@ export default function HallForm({ handleToggleClick, name, detail, handleEdit, 
                 />
                 <div className="col-lg-5 col-md-6">
                     <Formik
+                        enableReinitialize={true}
                         validationSchema={veanueEventSchema}
                         initialValues={initialInput}
                         onSubmit={async (values, { resetForm }) => {
                             try {
                                 isLoading()
                                 // console.log(values);
-                                if (id) {
-                                    await handleEdit(values, id)
+                                if (hallid) {
+                                    // console.log('edit')
+                                    await handleEdit(values, hallid, file)
                                     toast.success(`Edit SUCCESS`)
                                 } else {
-                                    await handleCreate(values)
+                                    // console.log('create')
+                                    await handleSubmit(values, file)
+                                    toast.success(`CREATE SUCCESS`)
                                     resetForm()
                                     setFile(null)
-                                    toast.success(`Edit SUCCESS`)
                                 }
                             } catch (error) {
                                 toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)

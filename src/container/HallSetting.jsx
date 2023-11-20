@@ -33,7 +33,7 @@ export default function HallSetting() {
         <>
             <HallForm handleSubmit={handleSubmit} />
             {
-                value && value.map((el, idx) => <SettingList id={el.id} name={el.hallName} detail={el.detail} idx={idx} key={idx} handleDelete={handleDelete} handleEdit={handleEdit} />)
+                value && value.map((el, idx) => <SettingList id={el.id} src={el.image} name={el.hallName} detail={el.detail} idx={idx} key={idx} handleDelete={handleDelete} handleEdit={handleEdit} />)
             }
 
         </>

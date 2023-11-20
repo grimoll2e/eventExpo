@@ -4,7 +4,6 @@ import { object, string } from 'yup'
 
 import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
-// import Image from '../../components/Image'
 import ImageInput from '../../components/ImageInput'
 import useAuth from '../../hooks/useAuth'
 
@@ -36,6 +35,9 @@ export default function AccountForm() {
             isLoading()
             const formData = new FormData()
             formData.append('userimage', file)
+
+            // console.log(file)
+            // console.log(...formData)
             await updateUserImage(formData)
             setFile(null)
             toast.success('update success')

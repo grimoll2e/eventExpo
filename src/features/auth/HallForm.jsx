@@ -1,35 +1,47 @@
-import { object, string } from 'yup'
+import { useState, useRef } from 'react'
 import { Formik, Form } from 'formik'
 import { toast } from 'react-toastify'
-import { Await } from 'react-router-dom'
 
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 import ImageInput from '../../components/ImageInput'
 import useLoading from '../../hooks/useLoading'
-import * as hallApi from '../../apis/hall-api'
-
-
-const createEventSchema = object().shape({
-    hallName: string().trim().required('required'),
-    detail: string().trim(),
-});
+import veanueEventSchema from '../../validators/hall'
 
 export default function HallForm({ handleToggleClick, name, detail, handleEdit, id, handleSubmit }) {
 
+    const [file, setFile] = useState(null)
+    const inputEl = useRef()
+
+    const { isLoading, isFinish } = useLoading()
     const initialInput = {
         hallName: name,
         detail: detail,
     }
 
-    const { isLoading, isFinish } = useLoading()
+    const handleCreate = async (values) => {
+        const formData = new FormData()
+        formData.append('image', file)
+
+        Object.entries(values).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+        await handleSubmit(formData)
+    }
+
     return (
         <div className="container">
             <div className="row justify-content-center">
-                <ImageInput />
+                <ImageInput
+                    src={file ? URL.createObjectURL(file) : null}
+                    file={file}
+                    setFile={setFile}
+                    inputEl={inputEl}
+                    handleEdit={() => inputEl.current.click()}
+                />
                 <div className="col-lg-5 col-md-6">
                     <Formik
-                        validationSchema={createEventSchema}
+                        validationSchema={veanueEventSchema}
                         initialValues={initialInput}
                         onSubmit={async (values, { resetForm }) => {
                             try {
@@ -39,12 +51,12 @@ export default function HallForm({ handleToggleClick, name, detail, handleEdit, 
                                     await handleEdit(values, id)
                                     toast.success(`Edit SUCCESS`)
                                 } else {
-                                    await handleSubmit(values)
+                                    await handleCreate(values)
                                     resetForm()
-                                    toast.success(`SUCCESS`)
+                                    setFile(null)
+                                    toast.success(`Edit SUCCESS`)
                                 }
                             } catch (error) {
-                                console.log(error)
                                 toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
                             }
                             finally {

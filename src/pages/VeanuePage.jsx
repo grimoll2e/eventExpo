@@ -1,10 +1,24 @@
-import CardandDetail from "../components/CardandDetail";
+import { useState } from "react";
+import { useEffect } from "react";
 
-const veanue = [
-    {}, {}, {}
-]
+import CardandDetail from "../components/CardandDetail";
+import * as hallApi from '../apis/hall-api'
+
+const showlimit = 4
 
 export default function VeanuePage() {
+
+    const [veanue, setVeanue] = useState([])
+
+
+    useEffect(() => {
+        const getallhall = async () => {
+            const res = await hallApi.getall()
+            setVeanue(res.data)
+        }
+        getallhall()
+    }, [])
+
     return (
         <div className="container mb-5 d-flex flex-column gap-5">
             <div>
@@ -14,8 +28,8 @@ export default function VeanuePage() {
                 <h1 className="header_text">Veanue Speace</h1>
             </div>
             <div>
-                {veanue.map((el, idx) => (
-                    <CardandDetail el={el} idx={idx} key={idx} />
+                {veanue.slice(0, showlimit).map((el, idx) => (
+                    <CardandDetail title={el.hallName} decsription={el.detail} src={el.image} idx={idx} key={idx} />
                 ))}
             </div>
         </div>

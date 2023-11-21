@@ -10,7 +10,7 @@ export default function CreateEventSetting() {
     useEffect(() => {
         const getallhall = async () => {
             const res = await eventApi.getall()
-            setValue(res.data)
+            setValue(res.data.result)
         }
         getallhall()
     }, [])

@@ -33,6 +33,10 @@ const router = createBrowserRouter([
         element: <EventPage />,
       },
       {
+        path: '/event/:eventId',
+        element: <EventPage />,
+      },
+      {
         path: "/contact",
         element: <ContactPage />,
       },

@@ -46,6 +46,7 @@ export default function SettingPage() {
         if (idName !== authenticatedUser.userName) {
             navigate('*')
         }
+        console.log(idName)
     }, [idName, authenticatedUser]);
 
     const [test, setTest] = useState(menu[0].name)

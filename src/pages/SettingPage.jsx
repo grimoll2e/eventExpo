@@ -3,10 +3,10 @@ import { useParams, useNavigate } from "react-router-dom"
 import useAuth from "../hooks/useAuth"
 import AccountForm from "../features/auth/AccountForm"
 import BoothForm from "../features/auth/BoothForm"
-import CreateEventForm from "../features/auth/CreateEventForm"
-import EventForm from "../features/auth/EventForm"
+import EventSetting from "../container/EventSetting"
 import EventPageForm from "../features/auth/EventPageForm"
 import HallSetting from "../container/HallSetting"
+import CreateEventSetting from "../container/CreateEventSetting"
 
 
 
@@ -21,11 +21,11 @@ const menu = [
     },
     {
         name: 'CreateEvent',
-        form: <CreateEventForm />
+        form: <CreateEventSetting />
     },
     {
         name: 'Event',
-        form: <EventForm />
+        form: <EventSetting />
     },
     {
         name: 'Event Page',

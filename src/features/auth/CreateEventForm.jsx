@@ -1,80 +1,102 @@
-import Button from '../../components/Button'
-import TextInput from '../../components/TextInput'
-import Image from '../../components/Image'
+import { useState, useRef } from 'react'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
 
-const initialInput = {
-    eventTitle: '',
-    descrition: '',
-    date: '',
-    hall: '',
-}
+import Button from '../../components/Button'
+import TextInput from '../../components/TextInput'
+import useLoading from '../../hooks/useLoading'
+import ImageInput from '../../components/ImageInput'
+import { toast } from 'react-toastify'
+
 
 const createEventSchema = object().shape({
-    eventTitle: string().trim().required('required'),
-    descrition: string().trim(),
-    date: string().trim().required('required'),
-    hall: string().trim().required('required'),
+    title: string().trim().required('required'),
+    description: string().trim(),
+    period: string().trim().required('required'),
+    hallId: string().trim().required('required'),
 });
 
-export default function CreateEventForm() {
+export default function CreateEventForm({ name, detail, id, src, hallId, period, handleToggleClick, handleSubmit, handleEdit }) {
+    const [file, setFile] = useState(null)
+    const inputEl = useRef()
+
+    const { isLoading, isFinish } = useLoading()
+
+    const initialInput = {
+        title: name,
+        description: detail,
+        period: period,
+        hallId: hallId,
+    }
     return (
         <div className="container">
             <div className="row justify-content-center">
-                <div className="d-flex flex-column gap-3 col-lg-5 col-md-6 align-items-center ">
-                    <Image />
-                    <div className="d-flex gap-2">
-                        <Button text={'Save'} />
-                        <Button text={'Cancle'} />
-                        <Button text={'Edit'} />
-                    </div>
-                </div>
+                <ImageInput
+                    src={file ? URL.createObjectURL(file) : src}
+                    file={file}
+                    setFile={setFile}
+                    inputEl={inputEl}
+                    handleEdit={() => inputEl.current.click()}
+                />
                 <div className="col-lg-5 col-md-6">
                     <Formik
                         validationSchema={createEventSchema}
                         initialValues={initialInput}
-                        onSubmit={(values, { resetForm }) => {
-                            console.log(values)
-                            // console.log(values.boothTitle)
-                            // resetForm()
+                        onSubmit={async (values, { resetForm }) => {
+                            try {
+                                console.log(values)
+                                isLoading()
+                                if (id) {
+                                    await handleEdit(values, id, file)
+                                    toast.success(`EDIT SUCCESS`)
+                                } else {
+                                    await handleSubmit(values, file)
+                                    toast.success(`CREATE SUCCESS`)
+                                    resetForm()
+                                    setFile(null)
+                                }
+                            } catch (error) {
+                                toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
+                            } finally {
+                                isFinish()
+                                handleToggleClick ? handleToggleClick() : null
+                            }
                         }}
-
                     >
                         {({ values, errors, touched, handleChange }) => (
                             <Form action="" className="d-flex flex-column gap-2">
                                 <TextInput
                                     label={'Event Title'}
-                                    name={'eventTitle'}
-                                    input={values.eventTitle}
+                                    name={'title'}
+                                    input={values.title}
                                     handleChange={handleChange}
-                                    error={errors.eventTitle}
-                                    touch={touched.eventTitle} />
+                                    error={errors.title}
+                                    touch={touched.title} />
                                 <TextInput
-                                    label={'Descrition'}
-                                    name={'descrition'}
+                                    label={'description'}
+                                    name={'description'}
                                     as={'textarea'}
-                                    input={values.descrition}
+                                    input={values.description}
                                     handleChange={handleChange}
-                                    error={errors.descrition}
-                                    touch={touched.descrition} />
+                                    error={errors.description}
+                                    touch={touched.description} />
                                 <TextInput
-                                    label={'Date'}
-                                    name={'date'}
-                                    input={values.date}
+                                    label={'Date (DD/MM/YYY)'}
+                                    name={'period'}
+                                    input={values.period}
                                     handleChange={handleChange}
-                                    error={errors.date}
-                                    touch={touched.date} />
+                                    error={errors.period}
+                                    touch={touched.period} />
                                 <TextInput
                                     label={'Hall'}
-                                    name={'hall'}
-                                    input={values.hall}
+                                    name={'hallId'}
+                                    input={values.hallId}
                                     handleChange={handleChange}
-                                    error={errors.hall}
-                                    touch={touched.hall} />
+                                    error={errors.hallId}
+                                    touch={touched.hallId} />
                                 <div className="d-flex justify-content-center gap-2">
                                     <Button text={'Save'} type={'submit'} />
-                                    <Button text={'Cancle'} />
+                                    <Button text={'Cancle'} onClick={handleToggleClick} />
                                 </div>
                             </Form>
                         )}

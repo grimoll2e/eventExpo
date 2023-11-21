@@ -23,16 +23,16 @@ export default function HallSetting() {
             Object.entries(input).forEach(([key, value]) => {
                 formData.append(key, value);
             });
-            const res = await hallApi.updatehall(formData, hallid)
+            const res = await hallApi.updateHall(formData, hallid)
             setValue(prv => prv.map(el => el.id === hallid ? { ...el, ...res.data.result } : el))
         } else {
-            const res = await hallApi.updatehall(input, hallid)
+            const res = await hallApi.updateHall(input, hallid)
             setValue(prv => prv.map(el => el.id === hallid ? { ...el, ...res.data.result } : el))
         }
     }
 
     const handleDelete = async (hallid) => { 
-        await hallApi.deletehall(hallid)
+        await hallApi.deleteHall(hallid)
         setValue((prv) => prv.filter(el => el.id !== hallid))
     }
 
@@ -60,12 +60,22 @@ export default function HallSetting() {
             {
                 value && value.map((el, idx) => (
                     <SettingList
-                        el={el}
+                        name={el.hallName}
+                        detail={el.detail}
+                        src={el.image}
+                        id={el.id}
                         idx={idx}
                         key={idx}
                         handleDelete={handleDelete}
-                        handleEdit={handleEdit}
-                    />))
+                    >
+                        <HallForm
+                            name={el.hallName}
+                            detail={el.detail}
+                            hallid={el.id}
+                            src={el.image}
+                            handleEdit={handleEdit}
+                        />
+                    </SettingList>))
             }
 
         </>

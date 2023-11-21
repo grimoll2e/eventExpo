@@ -44,7 +44,6 @@ export default function CreateEventForm({ name, detail, id, src, hallId, period,
                         initialValues={initialInput}
                         onSubmit={async (values, { resetForm }) => {
                             try {
-                                console.log(values)
                                 isLoading()
                                 if (id) {
                                     await handleEdit(values, id, file)

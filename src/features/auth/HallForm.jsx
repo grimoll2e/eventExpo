@@ -21,6 +21,7 @@ export default function HallForm({ handleSubmit, handleToggleClick, handleEdit, 
     return (
         <div className="container">
             <div className="row justify-content-center">
+                <div className='col-lg-4 col-md-6'>
                 <ImageInput
                     src={file ? URL.createObjectURL(file) : src}
                     file={file}
@@ -28,6 +29,7 @@ export default function HallForm({ handleSubmit, handleToggleClick, handleEdit, 
                     inputEl={inputEl}
                     handleEdit={() => inputEl.current.click()}
                 />
+                </div>
                 <div className="col-lg-5 col-md-6">
                     <Formik
                         enableReinitialize={true}

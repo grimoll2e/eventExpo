@@ -1,72 +1,112 @@
-import Button from '../../components/Button'
-import TextInput from '../../components/TextInput'
-import Image from '../../components/Image'
+import { useState, useRef } from 'react'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
+import { toast } from 'react-toastify'
+
+import Button from '../../components/Button'
+import TextInput from '../../components/TextInput'
+import ImageInput from '../../components/ImageInput'
+import useLoading from '../../hooks/useLoading'
+
+
 
 const initialInput = {
-    boothTitle: '',
-    descrition: '',
-    link: '',
+    title: '',
+    detail: '',
 }
 
 const createEventSchema = object().shape({
-    boothTitle: string().trim().required('required'),
-    descrition: string().trim(),
-    link: string().trim(),
+    title: string().trim(),
+    detail: string().trim(),
 });
 
-export default function EventPageForm() {
+
+export default function EventPageForm({ id, title, detail, name, bigSrc, src, handleSubmit, handleToggleClick }) {
+    const [bigImage, setBigImage] = useState(null)
+    const [image, setImage] = useState(null)
+
+    const refs = {
+        inputEl: useRef(),
+        inputEl2: useRef(),
+    };
+
+    const { inputEl, inputEl2 } = refs
+
+    const { isLoading, isFinish } = useLoading()
+
+    const initialInput = {
+        title: title || '',
+        detail: detail || '',
+    }
+
     return (
         <div className="container">
             <div className="row justify-content-center">
-                <div className="d-flex flex-column gap-3 col-lg-5 col-md-6 align-items-center ">
-                    <Image />
-                    <div className="d-flex gap-2">
-                        <Button text={'Save'} />
-                        <Button text={'Cancle'} />
-                        <Button text={'Edit'} />
-                    </div>
+                <div className='col-12'>
+                    <h1 className='header_text mb-2'>{name}</h1>
                 </div>
-                <div className="col-lg-5 col-md-6">
+                <div className="col-lg-4 col-md-6 d-flex gap-3 justify-content-center">
+                    <ImageInput
+                        size={150}
+                        src={bigImage ? URL.createObjectURL(bigImage) : bigSrc}
+                        file={bigImage}
+                        setFile={setBigImage}
+                        inputEl={inputEl}
+                        handleEdit={() => inputEl.current.click()}
+                        text={'Big Image'}
+                    />
+                    <ImageInput
+                        size={150}
+                        src={image ? URL.createObjectURL(image) : src}
+                        file={image}
+                        setFile={setImage}
+                        inputEl={inputEl2}
+                        handleEdit={() => inputEl2.current.click()}
+                        text={'Image'}
+                    />
+                </div>
+                <div className="col-lg-6 col-md-6">
                     <Formik
                         validationSchema={createEventSchema}
                         initialValues={initialInput}
-                        onSubmit={(values, { resetForm }) => {
-                            console.log(values)
-                            // console.log(values.boothTitle)
+                        onSubmit={async (values, { resetForm }) => {
+                            try {
+                                isLoading()
+                                const updateValues = { ...values, eventId: id }
+                                await handleSubmit(updateValues, bigImage, image, id)
+                                toast.success(`CREATE SUCCESS`)
                             // resetForm()
+                                setBigImage(null)
+                                setImage(null)
+                            } catch (error) {
+                                toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
+                            } finally {
+                                isFinish()
+                            }
                         }}
-
                     >
                         {({ values, errors, touched, handleChange }) => (
                             <Form action="" className="d-flex flex-column gap-2">
                                 <TextInput
-                                    label={'Booth Title'}
-                                    name={'boothTitle'}
-                                    input={values.boothTitle}
+                                    label={'Title'}
+                                    name={'title'}
+                                    input={values.title}
                                     handleChange={handleChange}
-                                    error={errors.boothTitle}
-                                    touch={touched.boothTitle} />
+                                    error={errors.title}
+                                    touch={touched.title} />
                                 <TextInput
-                                    label={'Descrition'}
-                                    name={'descrition'}
+                                    label={'Detail'}
+                                    name={'detail'}
                                     as={'textarea'}
-                                    input={values.descrition}
+                                    // rows={5}
+                                    input={values.detail}
                                     handleChange={handleChange}
-                                    error={errors.descrition}
-                                    touch={touched.descrition} />
-                                <TextInput
-                                    label={'Link'}
-                                    name={'link'}
-                                    input={values.link}
-                                    handleChange={handleChange}
-                                    error={errors.link}
-                                    touch={touched.link} />
+                                    error={errors.detail}
+                                    touch={touched.detail} />
 
                                 <div className="d-flex justify-content-center gap-2">
                                     <Button text={'Save'} type={'submit'} />
-                                    <Button text={'Cancle'} />
+                                    <Button text={'Cancle'} onClick={() => handleToggleClick(false)} />
                                 </div>
                             </Form>
                         )}

@@ -1,4 +1,4 @@
-import SettingList from "../components/SettingList";
+import ListItem from "../components/ListItem";
 import HallForm from "../features/auth/HallForm";
 import * as hallApi from '../apis/hall-api'
 import { useEffect } from "react";
@@ -59,7 +59,7 @@ export default function HallSetting() {
             />
             {
                 value && value.map((el, idx) => (
-                    <SettingList
+                    <ListItem
                         name={el.hallName}
                         detail={el.detail}
                         src={el.image}
@@ -75,7 +75,7 @@ export default function HallSetting() {
                             src={el.image}
                             handleEdit={handleEdit}
                         />
-                    </SettingList>))
+                    </ListItem>))
             }
 
         </>

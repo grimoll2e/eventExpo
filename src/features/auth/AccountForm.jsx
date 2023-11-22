@@ -55,6 +55,7 @@ export default function AccountForm() {
     return (
         <div className="container">
             <div className="row justify-content-center rounded-circle">
+                <div className='col-lg-4 col-md-6'>
                 <ImageInput
                     src={file ? URL.createObjectURL(file) : authenticatedUser.userImage}
                     addclass={'rounded-circle'}
@@ -64,9 +65,9 @@ export default function AccountForm() {
                     file={file}
                     setFile={setFile}
                     inputEl={inputEl}
-                />
-
-                <div className="col-lg-5 col-md-6">
+                    />
+                </div>
+                <div className="col-lg-6 col-md-6">
                     {toggle || <>
                         <div className='bg-body-secondary p-2 m-2 rounded-1'>
                             <p className='m-0'>userName: {initialInput.userName}</p>

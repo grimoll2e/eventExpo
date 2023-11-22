@@ -5,9 +5,11 @@ import * as authApi from '../../apis/auth-api'
 import registerSchema from "../../validators/register"
 import TextInput from "../../components/TextInput"
 import useLoading from "../../hooks/useLoading"
+import { useNavigate } from "react-router-dom"
 
 export default function SignupForm() {
     const { isLoading, isFinish } = useLoading()
+    const navigate = useNavigate();
 
     const initialInput = {
         userName: '',
@@ -27,6 +29,7 @@ export default function SignupForm() {
                     await authApi.signup(values)
                     resetForm()
                     toast.success(`success register`)
+                    navigate('/login')
                 } catch (error) {
                     // console.log(error)
                     toast.error(`Error:${error.response?.data.message}`)

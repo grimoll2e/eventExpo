@@ -6,7 +6,7 @@ import * as eventApi from '../apis/event-api'
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const showlimit = 4
+const showlimit = 3
 
 export default function EventPage() {
     const { eventId } = useParams();
@@ -16,22 +16,33 @@ export default function EventPage() {
 
 
     useEffect(() => {
-        const getById = async () => {
-            const res = await eventApi.getById(eventId)
-            setMainEvent(res.data.result)
-            if (res.data.result === null) {
-                navigate('/event')
+        const scrollToTop = () => {
+            const currScrollY = window.scrollY
+            if (currScrollY > 0) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             }
-        }
-        if (eventId) {
-            getById()
-        }
-        const getallhall = async () => {
-            const res = await eventApi.getall()
-            setValue(res.data.result)
-        }
-        getallhall()
+        };
+        scrollToTop()
 
+        const fetchData = async () => {
+            if (eventId) {
+                const res = await eventApi.getById(eventId)
+                setMainEvent(res.data.result)
+                const otherId = await eventApi.getOtherId(eventId)
+                setValue(otherId.data.result)
+                if (res.data.result === null) {
+                    navigate('/event')
+                }
+            } else {
+                const res = await eventApi.getall()
+                setValue(res.data.result)
+            }
+            // scrollToTop()
+        }
+        fetchData()
     }, [eventId])
 
     return (
@@ -43,7 +54,7 @@ export default function EventPage() {
                 <h1 className="header_text">{eventId ? mainEvent.title : 'Event'}</h1>
             </div>
             <div>
-                <p className="header_text">{eventId ? mainEvent.description : 'Event'}</p>
+                <p className="header_text">{eventId ? mainEvent.description : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."}</p>
             </div>
             <div>
                 {value.slice(0, showlimit).map((el, idx) => (

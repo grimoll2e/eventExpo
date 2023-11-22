@@ -3,10 +3,12 @@ import { useParams, useNavigate } from "react-router-dom"
 import useAuth from "../hooks/useAuth"
 import AccountForm from "../features/auth/AccountForm"
 import BoothForm from "../features/auth/BoothForm"
-import EventSetting from "../container/EventSetting"
-import EventPageForm from "../features/auth/EventPageForm"
+// import EventSetting from "../container/EventSetting"
+// import EventPageForm from "../features/auth/EventPageForm"
+import EventForm from "../features/auth/EventForm"
 import HallSetting from "../container/HallSetting"
 import CreateEventSetting from "../container/CreateEventSetting"
+import EventPageSetting from "../container/EventPageSetting"
 
 
 
@@ -25,11 +27,11 @@ const menu = [
     },
     {
         name: 'Event',
-        form: <EventSetting />
+        form: <EventForm />
     },
     {
         name: 'Event Page',
-        form: <EventPageForm />
+        form: <EventPageSetting />
     },
     {
         name: 'Hall Page',
@@ -46,7 +48,6 @@ export default function SettingPage() {
         if (idName !== authenticatedUser.userName) {
             navigate('*')
         }
-        console.log(idName)
     }, [idName, authenticatedUser]);
 
     const [test, setTest] = useState(menu[0].name)

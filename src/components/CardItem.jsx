@@ -16,18 +16,18 @@ export default function CardItem({ el, idx }) {
 
     return (
         <div className="col-12 col-md-6 col-lg-4 mb-3 card_item">
-            <Link to={`/event/${el.id}`}>
-                <div className="card_inner">
+            <div className="card_inner">
+                <Link to={`/event/${el.id}`}>
                     <img className="card_img" src={el.image} alt="" />
-                    <div className="card_detail" >
-                        <h1>{el.title}</h1>
-                        <p className="fs-4">{el.description}</p>
-                    </div >
-                    <div className="card_date">
-                        {formatISODate(el.period) || '07-09'}
-                    </div>
+                </Link>
+                <div className="card_detail" >
+                    <h1>{el.title}</h1>
+                    <p className="fs-4">{el.description}</p>
+                </div >
+                <div className="card_date">
+                    {formatISODate(el.period) || '07-09'}
                 </div>
-            </Link>
+            </div>
         </div>
     )
 }

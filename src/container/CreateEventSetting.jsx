@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import CreateEventForm from '../features/auth/CreateEventForm'
-import SettingList from '../components/SettingList'
+import ListItem from '../components/ListItem'
 import * as eventApi from '../apis/event-api'
 
 export default function CreateEventSetting() {
@@ -24,7 +24,6 @@ export default function CreateEventSetting() {
                 formData.append(key, value);
             });
             const res = await eventApi.createEvent(formData)
-            console.log(res)
             setValue((prv) => [...prv, res.data.post])
         } else {
             const res = await eventApi.createEvent(input)
@@ -65,7 +64,7 @@ export default function CreateEventSetting() {
             <CreateEventForm handleSubmit={handleSubmit} />
             {
                 value && value.map((el, idx) => (
-                    <SettingList
+                    <ListItem
                         name={el.title}
                         detail={el.description}
                         src={el.image}
@@ -83,7 +82,7 @@ export default function CreateEventSetting() {
                             hallId={el.hallId}
                             handleEdit={handleEdit}
                         />
-                    </SettingList>))
+                    </ListItem>))
             }
         </div>
     )

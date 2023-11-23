@@ -20,8 +20,8 @@ export default function ListItem({ name, detail, handleDelete, idx, children, sr
                     <div className="d-flex bg-dark-subtle p-2 rounded-2 gap-3 col-12 mt-3" onClick={() => setToggle(true)}>
                         <Image size={100} src={src} />
                         <div className="flex-grow-1">
-                            <p>name {name}</p>
-                            <p>detail {detail}</p>
+                            <p>name : {name}</p>
+                            <p>detail : {detail}</p>
                         </div>
                         <div>
                             <Button text={'delete'} onClick={async (e) => {

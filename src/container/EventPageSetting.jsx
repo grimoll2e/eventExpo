@@ -9,22 +9,29 @@ import Button from '../components/Button'
 export default function EventPageSetting() {
 
     const [values, setValues] = useState([])
-    const [id, setId] = useState(null)
-    const [valueById, setValueById] = useState()
+    const [EventId, setEventId] = useState(null)
+    const [valueById, setValueById] = useState(null)
     const [toggle, setToggle] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
+            try {
             const res = await eventApi.getall()
             setValues(res.data.result)
-            if (id) {
-                console.log(id)
-                const resById = await eventApi.getById(id)
-                setValueById(resById.data.result.EventDetails)
+                if (EventId === '0') {
+                    setEventId(null)
+                    setValueById([])
+                } else if (EventId) {
+                    const resById = await eventApi.getById(EventId)
+                    setValueById(resById.data.result.EventDetails ? resById.data.result.EventDetails : null)
+                }
+            } catch (error) {
+                console.log(error)
             }
         }
         fetchData()
-    }, [id])
+
+    }, [EventId])
 
     const handleSubmit = async (input, bigImage, image, id) => {
         let formData = new FormData()
@@ -45,20 +52,48 @@ export default function EventPageSetting() {
         setToggle(false)
     }
 
+    const handleEdit = async (input, bigImage, image, eventDetailId) => {
+        if (!eventDetailId) {
+            return console.error('need eventDetailId')
+        } else {
+            let formData = new FormData()
+            if (bigImage) {
+                formData.append('bigImage', bigImage)
+            }
+            if (image) {
+                formData.append('image', image)
+            }
+            Object.entries(input).forEach(([key, value]) => {
+                formData.append(key, value);
+                // console.log('key: ' + key + ' value : ' + value)
+            })
+            const res = await eventApi.editEventDetail(formData, eventDetailId)
+            setValueById((prv) => prv.map(el => el.id === eventDetailId ? { ...el, ...res.data.result } : el))
+        }
+    }
+
+    const handleDelete = async (eventDetailId) => {
+        if (!eventDetailId) {
+            return console.error('need eventDetailId')
+        }
+        await eventApi.deleteEventDetail(eventDetailId)
+        setValueById(prv => prv.filter(el => el.id !== eventDetailId))
+    }
+
     return (
-        <div>
-            <select class="form-select" aria-label="Default select example" onChange={(e) => setId(e.target.value)}>
-                <option selected>Open this select Event</option>
+        <>
+            <select className="form-select" aria-label="Default select example" onChange={(e) => setEventId(e.target.value)}>
+                <option value={0}>Open this select Event</option>
                 {values && values.map((el, idx) => (
                     <option key={idx} value={el.id}>{el.title}</option>
                 ))}
             </select>
             {!toggle ?
-                (id && <div className='d-flex justify-content-center mt-3'>
+                (EventId && <div className='d-flex justify-content-center mt-3'>
                     <Button text={'Add EventDetail'} onClick={() => setToggle(true)} />
                 </div>)
                 : <EventPageForm
-                    id={id}
+                    EventId={EventId}
                     handleSubmit={handleSubmit}
                 />
             }
@@ -67,19 +102,23 @@ export default function EventPageSetting() {
                     name={el.title}
                     detail={el.detail}
                     idx={idx}
+                    key={idx}
                     src={el.bigImage}
                     id={el.id}
+                    handleDelete={handleDelete}
                 >
                     <EventPageForm
                         id={el.id}
+                        key={idx}
                         name={el.name}
                         bigSrc={el.bigImage}
                         src={el.image}
                         title={el.title}
                         detail={el.detail}
+                        handleEdit={handleEdit}
                     />
                 </ListItem>
             ))}
-        </div>
+        </>
     )
 }

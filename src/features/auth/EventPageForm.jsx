@@ -21,7 +21,7 @@ const createEventSchema = object().shape({
 });
 
 
-export default function EventPageForm({ id, title, detail, name, bigSrc, src, handleSubmit, handleToggleClick }) {
+export default function EventPageForm({ EventId, id, title, detail, name, bigSrc, src, handleSubmit, handleToggleClick, handleEdit }) {
     const [bigImage, setBigImage] = useState(null)
     const [image, setImage] = useState(null)
 
@@ -72,9 +72,16 @@ export default function EventPageForm({ id, title, detail, name, bigSrc, src, ha
                         onSubmit={async (values, { resetForm }) => {
                             try {
                                 isLoading()
-                                const updateValues = { ...values, eventId: id }
-                                await handleSubmit(updateValues, bigImage, image, id)
-                                toast.success(`CREATE SUCCESS`)
+                                console.log(values)
+                                if (id) {
+                                    await handleEdit(values, bigImage, image, id)
+                                    toast.success(`Edit SUCCESS`)
+                                    handleToggleClick(false)
+                                } else {
+                                    const updateValues = { ...values, eventId: EventId }
+                                    await handleSubmit(updateValues, bigImage, image, EventId)
+                                    toast.success(`CREATE SUCCESS`)
+                                }
                             // resetForm()
                                 setBigImage(null)
                                 setImage(null)

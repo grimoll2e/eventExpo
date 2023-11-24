@@ -8,39 +8,40 @@ import { getAccessToken, removeAccessToken, setAccessToken } from "../util/local
 export const AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
-  const [authenticatedUser, setAuthenticatedUse] = useState(getAccessToken() ? true : null)
+  const [authenticatedUser, setAuthenticatedUser] = useState(getAccessToken() ? true : null)
   //authenticatedUser ไว้ตรวรสอบว่ามีการ login ไหม
 
   useEffect(() => {
     const fetchAuthUser = async () => {
       try {
-          const res = await authApi.getMe()
-        setAuthenticatedUse(res.data.user)
+        const res = await authApi.getMe()
+        setAuthenticatedUser(res.data.user)
       } catch (error) {
         removeAccessToken()
+        setAuthenticatedUser(null)
       }
     }
-    if (getAccessToken) {
+    const accessToken = getAccessToken();
+    if (accessToken) {
       fetchAuthUser()
     }
-  }, [])
+  }, [getAccessToken])
 
 
   const login = async (input) => {
     const res = await authApi.login(input)
     setAccessToken(res.data.accessToken)
-    setAuthenticatedUse(jwtDecode(res.data.accessToken))
+    setAuthenticatedUser(jwtDecode(res.data.accessToken))
   }
 
   const logout = () => {
     removeAccessToken()
-    setAuthenticatedUse(null)
+    setAuthenticatedUser(null)
   }
 
   const updateUserImage = async (data) => {
     const res = await userApi.updateUser(data)
-    // console.log(res.data)
-    setAuthenticatedUse({ ...authenticatedUser, ...res.data })
+    setAuthenticatedUser({ ...authenticatedUser, ...res.data })
   }
 
   return (

@@ -7,13 +7,7 @@ import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 import ImageInput from '../../components/ImageInput'
 import useLoading from '../../hooks/useLoading'
-
-
-
-const initialInput = {
-    title: '',
-    detail: '',
-}
+import useEvent from '../../hooks/useEvent'
 
 const createEventSchema = object().shape({
     title: string().trim(),
@@ -21,7 +15,9 @@ const createEventSchema = object().shape({
 });
 
 
-export default function EventPageForm({ EventId, id, title, detail, name, bigSrc, src, handleSubmit, handleToggleClick, handleEdit }) {
+export default function EventPageForm({ EventId, id, title, detail, name, bigSrc, src, handleToggleClick, setToggle }) {
+
+    const { handleCreateEventDetail, handleEditEventDetail } = useEvent()
     const [bigImage, setBigImage] = useState(null)
     const [image, setImage] = useState(null)
 
@@ -49,19 +45,17 @@ export default function EventPageForm({ EventId, id, title, detail, name, bigSrc
                     <ImageInput
                         size={150}
                         src={bigImage ? URL.createObjectURL(bigImage) : bigSrc}
-                        file={bigImage}
                         setFile={setBigImage}
                         inputEl={inputEl}
-                        handleEdit={() => inputEl.current.click()}
+                        onClick={() => inputEl.current.click()}
                         text={'Big Image'}
                     />
                     <ImageInput
                         size={150}
                         src={image ? URL.createObjectURL(image) : src}
-                        file={image}
                         setFile={setImage}
                         inputEl={inputEl2}
-                        handleEdit={() => inputEl2.current.click()}
+                        onClick={() => inputEl2.current.click()}
                         text={'Image'}
                     />
                 </div>
@@ -72,17 +66,18 @@ export default function EventPageForm({ EventId, id, title, detail, name, bigSrc
                         onSubmit={async (values, { resetForm }) => {
                             try {
                                 isLoading()
-                                console.log(values)
+                                // console.log(values)
                                 if (id) {
-                                    await handleEdit(values, bigImage, image, id)
+                                    await handleEditEventDetail(values, bigImage, image, id)
                                     toast.success(`Edit SUCCESS`)
                                     handleToggleClick(false)
                                 } else {
                                     const updateValues = { ...values, eventId: EventId }
-                                    await handleSubmit(updateValues, bigImage, image, EventId)
+                                    await handleCreateEventDetail(updateValues, bigImage, image, EventId)
                                     toast.success(`CREATE SUCCESS`)
                                 }
-                            // resetForm()
+                                setToggle(false)
+                                resetForm()
                                 setBigImage(null)
                                 setImage(null)
                             } catch (error) {
@@ -113,7 +108,13 @@ export default function EventPageForm({ EventId, id, title, detail, name, bigSrc
 
                                 <div className="d-flex justify-content-center gap-2">
                                     <Button text={'Save'} type={'submit'} />
-                                    <Button text={'Cancle'} onClick={() => handleToggleClick(false)} />
+                                    <Button text={'Cancle'} onClick={() => {
+                                        if (id) {
+                                            handleToggleClick(false)
+                                        } else {
+                                            setToggle(false)
+                                        }
+                                    }} />
                                 </div>
                             </Form>
                         )}

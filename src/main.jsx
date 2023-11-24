@@ -7,12 +7,15 @@ import App from './App.jsx'
 import './index.css'
 import AuthContextProvider from './contexts/AuthContext.jsx';
 import LoadingContaxtProvider from './contexts/LoadingContaxt.jsx';
+import EventContextProvider from './contexts/EventContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <LoadingContaxtProvider>
       <AuthContextProvider>
-        <App />
+        <EventContextProvider>
+          <App />
+        </EventContextProvider>
       </AuthContextProvider>
     </LoadingContaxtProvider>
   </React.StrictMode>,

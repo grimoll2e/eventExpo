@@ -35,9 +35,6 @@ export default function AccountForm() {
             isLoading()
             const formData = new FormData()
             formData.append('userimage', file)
-
-            // console.log(file)
-            // console.log(...formData)
             await updateUserImage(formData)
             setFile(null)
             toast.success('update success')
@@ -59,7 +56,7 @@ export default function AccountForm() {
                 <ImageInput
                     src={file ? URL.createObjectURL(file) : authenticatedUser.userImage}
                     addclass={'rounded-circle'}
-                    handleEdit={() => inputEl.current.click()}
+                        onClick={() => inputEl.current.click()}
                     handleSave={handleSave}
                     handleCancle={handleCancle}
                     file={file}

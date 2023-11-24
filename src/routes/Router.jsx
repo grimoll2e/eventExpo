@@ -60,6 +60,7 @@ const router = createBrowserRouter([
         path: "/setting/:idName",
         element: (
           <ProtectedRoute>
+            {/* ทำ fetch ข้อมูลตรอบ */}
             <SettingPage />
           </ProtectedRoute>
         ),

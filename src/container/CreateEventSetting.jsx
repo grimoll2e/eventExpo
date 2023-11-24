@@ -1,69 +1,26 @@
-import { useState, useEffect } from 'react'
-
 import CreateEventForm from '../features/auth/CreateEventForm'
 import ListItem from '../components/ListItem'
-import * as eventApi from '../apis/event-api'
+
+import useEvent from '../hooks/useEvent'
 
 export default function CreateEventSetting() {
-    const [value, setValue] = useState()
 
-    useEffect(() => {
-        const getallhall = async () => {
-            const res = await eventApi.getall()
-            setValue(res.data.result)
-        }
-        getallhall()
-    }, [])
+    const { allEvent, handleDeleteEvent } = useEvent()
 
-    const handleSubmit = async (input, file) => {
-        if (file) {
-            const formData = new FormData()
-            formData.append('image', file)
-
-            Object.entries(input).forEach(([key, value]) => {
-                formData.append(key, value);
-            });
-            const res = await eventApi.createEvent(formData)
-            setValue((prv) => [...prv, res.data.post])
-        } else {
-            const res = await eventApi.createEvent(input)
-            setValue((prv) => [...prv, res.data.post])
-        }
-    }
-    const handleDelete = async (id) => {
-        await eventApi.deleteEvnt(id)
-        setValue((prv) => prv.filter(el => el.id !== id))
-    }
-    const handleEdit = async (input, id, file) => {
-        if (file) {
-            const formData = new FormData()
-            formData.append('image', file)
-
-            Object.entries(input).forEach(([key, value]) => {
-                formData.append(key, value);
-            });
-            const res = await eventApi.updateEvent(formData, id)
-            setValue(prv => prv.map(el => el.id === id ? { ...el, ...res.data.result } : el))
-        } else {
-            const res = await eventApi.updateEvent(input, id)
-            setValue(prv => prv.map(el => el.id === id ? { ...el, ...res.data.result } : el))
-        }
-    }
     const formatISODate = (input) => {
         const date = new Date(input);
         const day = date.getDate();
         const month = date.getMonth() + 1; // เดือนเริ่มที่ 0, จึงต้องบวก 1
         const year = date.getFullYear();
-
         const formattedDate = `${day}/${month}/${year}`; //(DD/MM/YYYY)
-
         return formattedDate;
     }
+
     return (
         <div>
-            <CreateEventForm handleSubmit={handleSubmit} />
+            <CreateEventForm />
             {
-                value && value.map((el, idx) => (
+                allEvent && allEvent.map((el, idx) => (
                     <ListItem
                         name={el.title}
                         detail={el.description}
@@ -71,7 +28,7 @@ export default function CreateEventSetting() {
                         id={el.id}
                         idx={idx}
                         key={idx}
-                        handleDelete={handleDelete}
+                        handleDelete={handleDeleteEvent}
                     >
                         <CreateEventForm
                             name={el.title}
@@ -80,7 +37,6 @@ export default function CreateEventSetting() {
                             period={formatISODate(el.period)}
                             src={el.image}
                             hallId={el.hallId}
-                            handleEdit={handleEdit}
                         />
                     </ListItem>))
             }

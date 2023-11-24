@@ -1,26 +1,22 @@
 import { useState, useRef } from 'react'
 import { Formik, Form } from 'formik'
-import { object, string } from 'yup'
+import { toast } from 'react-toastify'
 
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
-import useLoading from '../../hooks/useLoading'
 import ImageInput from '../../components/ImageInput'
-import { toast } from 'react-toastify'
 
+import createEventSchema from '../../validators/eventCreate'
+import useLoading from '../../hooks/useLoading'
+import useEvent from '../../hooks/useEvent'
 
-const createEventSchema = object().shape({
-    title: string().trim().required('required'),
-    description: string().trim(),
-    period: string().trim().required('required'),
-    hallId: string().trim().required('required'),
-});
+export default function CreateEventForm({ name, detail, id, src, hallId, period, handleToggleClick }) {
+    const { handleCreateEvent, handleEditEvent } = useEvent()
+    const { isLoading, isFinish } = useLoading()
 
-export default function CreateEventForm({ name, detail, id, src, hallId, period, handleToggleClick, handleSubmit, handleEdit }) {
-    const [file, setFile] = useState(null)
+    const [image, setImage] = useState(null)
     const inputEl = useRef()
 
-    const { isLoading, isFinish } = useLoading()
 
     const initialInput = {
         title: name,
@@ -32,12 +28,11 @@ export default function CreateEventForm({ name, detail, id, src, hallId, period,
         <div className="container">
             <div className="row justify-content-center">
                 <div className='col-lg-4 col-md-6'>
-                <ImageInput
-                    src={file ? URL.createObjectURL(file) : src}
-                    file={file}
-                    setFile={setFile}
-                    inputEl={inputEl}
-                    handleEdit={() => inputEl.current.click()}
+                    <ImageInput
+                        src={image ? URL.createObjectURL(image) : src}
+                        setFile={setImage}
+                        inputEl={inputEl}
+                        onClick={() => inputEl.current.click()}
                     />
                 </div>
                 <div className="col-lg-6 col-md-6">
@@ -48,13 +43,13 @@ export default function CreateEventForm({ name, detail, id, src, hallId, period,
                             try {
                                 isLoading()
                                 if (id) {
-                                    await handleEdit(values, id, file)
+                                    await handleEditEvent(values, id, image)
                                     toast.success(`EDIT SUCCESS`)
                                 } else {
-                                    await handleSubmit(values, file)
+                                    await handleCreateEvent(values, image)
                                     toast.success(`CREATE SUCCESS`)
                                     resetForm()
-                                    setFile(null)
+                                    setImage(null)
                                 }
                             } catch (error) {
                                 toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)

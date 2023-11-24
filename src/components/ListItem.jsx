@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import Button from "./Button";
-import Image from "./Image";
-import useLoading from "../hooks/useLoading";
 import { toast } from "react-toastify";
 
-export default function ListItem({ name, detail, handleDelete, idx, children, src, id }) {
+import Button from "./Button";
+import Image from "./Image";
+
+import useLoading from "../hooks/useLoading";
+
+export default function ListItem({ name, detail, idx, children, src, id, handleDelete }) {
+    const { isLoading, isFinish } = useLoading()
 
     const [toggle, setToggle] = useState(false);
-    const { isLoading, isFinish } = useLoading()
 
 
     return (

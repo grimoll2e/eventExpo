@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import useAuth from "../hooks/useAuth"
+
 import AccountForm from "../features/auth/AccountForm"
 import BoothForm from "../features/auth/BoothForm"
 // import EventSetting from "../container/EventSetting"
@@ -9,10 +9,12 @@ import EventForm from "../features/auth/EventForm"
 import HallSetting from "../container/HallSetting"
 import CreateEventSetting from "../container/CreateEventSetting"
 import EventPageSetting from "../container/EventPageSetting"
+import EventZone from "../container/EventZone"
+import * as authApi from '../apis/auth-api'
 
+// ต้อง checkrole ครอบเฉพาะส่วน
 
-
-const menu = [
+const menuData = [
     {
         name: 'Account Setting',
         form: <AccountForm />
@@ -24,6 +26,10 @@ const menu = [
     {
         name: 'CreateEvent',
         form: <CreateEventSetting />
+    },
+    {
+        name: 'SetZone',
+        form: <EventZone />
     },
     {
         name: 'Event',
@@ -41,29 +47,37 @@ const menu = [
 
 export default function SettingPage() {
     const { idName } = useParams();
-    const { authenticatedUser } = useAuth()
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (idName !== authenticatedUser.userName) {
-            navigate('*')
+        const fetchAuthUser = async () => {
+            try {
+                const res = await authApi.getMe()
+                if (idName !== res.data.user.userName) {
+                    return navigate('*')
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
-    }, [idName, authenticatedUser]);
+        fetchAuthUser()
+    }, [idName])
 
-    const [test, setTest] = useState(menu[0].name)
 
-    const selectmenu = menu.find(el => el.name === test)
+    const [menu, setMenu] = useState(menuData[0].name)
+
+    const selectmenu = menuData.find(el => el.name === menu)
 
     return (
         <div className="container my-5">
             <div className="w-100 d-flex flex-row gap-2 justify-content-center">
-                {menu.map((el, idx) => (
-                    <p key={idx} onClick={() => setTest(el.name)} className={`setting_menu ${el.name === test ? 'setting_menu_active pe-none' : 'menu_hover'}`}>{el.name}</p>
+                {menuData.map((el, idx) => (
+                    <p key={idx} onClick={() => setMenu(el.name)} className={`setting_menu ${el.name === menu ? 'setting_menu_active pe-none' : 'menu_hover'}`}>{el.name}</p>
                 ))}
             </div>
             <div className="align-content-center align-items-center d-flex mb-5 flex-column">
                 <hr className="" style={{ height: '2px', color: 'gray', backgroundColor: 'gray', width: '60%' }} />
-                <h1 className="header_text">{test || menu[0].name}</h1>
+                <h1 className="header_text">{menu || menuData[0].name}</h1>
             </div>
             {/* form */}
             {selectmenu ? selectmenu.form : <AccountForm />}

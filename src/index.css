@@ -146,19 +146,14 @@
 }
 .card_detail{
     display: flex;
+    position: absolute;
     flex-direction: column;
-    max-width: 10%;
+    max-width:90%;
     bottom: 10%;
     margin: 0 15px;
-    color: #00000000;
+    color: #c0242400;
     transition: 2s;
     overflow: hidden;
-}
-.card_detail *{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
 }
 .card_date{
     position: absolute;
@@ -168,6 +163,9 @@
     background-color: #f2f2f2;
     border-radius: 8px;
     transition: 2s;
+}
+.card_date * {
+    color: #000;
 }
 .card_item:hover .card_img{
     opacity: 0.6;
@@ -188,6 +186,9 @@
     right: 5px;
     background-color: #f2f2f200;
     border-radius: 8px;
+}
+.card_item:hover .card_date *{
+    color: #ffffff;
 }
 /* ###################################################################### */
 /* service */

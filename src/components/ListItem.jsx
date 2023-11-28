@@ -6,6 +6,7 @@ import Image from "./Image";
 
 import useLoading from "../hooks/useLoading";
 
+
 export default function ListItem({ name, detail, idx, children, src, id, handleDelete }) {
     const { isLoading, isFinish } = useLoading()
 
@@ -13,7 +14,7 @@ export default function ListItem({ name, detail, idx, children, src, id, handleD
 
 
     return (
-        <div className="">
+        <div>
             {
                 toggle ?
                     <div className="bg-body-secondary py-3 my-3" key={idx}>
@@ -21,7 +22,7 @@ export default function ListItem({ name, detail, idx, children, src, id, handleD
                     </div> :
                     <div className="d-flex bg-dark-subtle p-2 rounded-2 gap-3 col-12 mt-3" onClick={() => setToggle(true)}>
                         <Image size={100} src={src} />
-                        <div className="flex-grow-1">
+                        <div className="flex-grow-1 text-truncate">
                             <p>name : {name}</p>
                             <p>detail : {detail}</p>
                         </div>

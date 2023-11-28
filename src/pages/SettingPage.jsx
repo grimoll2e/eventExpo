@@ -24,16 +24,16 @@ const menuData = [
         form: <BoothForm />
     },
     {
-        name: 'CreateEvent',
-        form: <CreateEventSetting />
+        name: 'Event',
+        form: <EventForm />
     },
     {
         name: 'SetZone',
         form: <EventZone />
     },
     {
-        name: 'Event',
-        form: <EventForm />
+        name: 'CreateEvent',
+        form: <CreateEventSetting />
     },
     {
         name: 'Event Page',
@@ -70,9 +70,9 @@ export default function SettingPage() {
 
     return (
         <div className="container my-5">
-            <div className="w-100 d-flex flex-row gap-2 justify-content-center">
+            <div className="w-100 d-flex flex-row gap-2 text-nowrap flex-wrap justify-content-center">
                 {menuData.map((el, idx) => (
-                    <p key={idx} onClick={() => setMenu(el.name)} className={`setting_menu ${el.name === menu ? 'setting_menu_active pe-none' : 'menu_hover'}`}>{el.name}</p>
+                    <p key={idx} onClick={() => setMenu(el.name)} className={`setting_menu text-nowrap ${el.name === menu ? 'setting_menu_active pe-none' : 'menu_hover'}`}>{el.name}</p>
                 ))}
             </div>
             <div className="align-content-center align-items-center d-flex mb-5 flex-column">

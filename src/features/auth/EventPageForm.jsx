@@ -75,8 +75,8 @@ export default function EventPageForm({ EventId, id, title, detail, name, bigSrc
                                     const updateValues = { ...values, eventId: EventId }
                                     await handleCreateEventDetail(updateValues, bigImage, image, EventId)
                                     toast.success(`CREATE SUCCESS`)
+                                    setToggle(false)
                                 }
-                                setToggle(false)
                                 resetForm()
                                 setBigImage(null)
                                 setImage(null)

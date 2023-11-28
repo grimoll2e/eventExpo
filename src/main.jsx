@@ -8,15 +8,18 @@ import './index.css'
 import AuthContextProvider from './contexts/AuthContext.jsx';
 import LoadingContaxtProvider from './contexts/LoadingContaxt.jsx';
 import EventContextProvider from './contexts/EventContext.jsx';
+import VeanueContextProvideer from './contexts/VeanueContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <LoadingContaxtProvider>
       <AuthContextProvider>
-        <EventContextProvider>
-          <App />
-        </EventContextProvider>
+        <VeanueContextProvideer>
+          <EventContextProvider>
+            <App />
+          </EventContextProvider>
+        </VeanueContextProvideer>
       </AuthContextProvider>
     </LoadingContaxtProvider>
-  </React.StrictMode>,
+  </React.StrictMode>
 )

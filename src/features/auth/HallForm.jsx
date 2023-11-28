@@ -7,8 +7,10 @@ import TextInput from '../../components/TextInput'
 import ImageInput from '../../components/ImageInput'
 import useLoading from '../../hooks/useLoading'
 import veanueEventSchema from '../../validators/hall'
+import useVeanue from '../../hooks/useVeanue'
 
-export default function HallForm({ handleSubmit, handleToggleClick, handleEdit, name, detail, src, hallid }) {
+export default function HallForm({ handleToggleClick, name, detail, src, hallid }) {
+    const { handleSubmit, handleEdit } = useVeanue()
     const [file, setFile] = useState(null)
     const inputEl = useRef()
 

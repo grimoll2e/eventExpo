@@ -16,7 +16,7 @@ export default function EventPageSetting() {
     useEffect(() => {
 
         const fetchData = async () => {
-            if (eventId === '0') {
+            if (eventId === '0' || eventId === null) {
                 await getEventById(null)
                     setEventId(null)
             } else if (eventId) {

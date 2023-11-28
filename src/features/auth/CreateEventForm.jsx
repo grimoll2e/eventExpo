@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { Formik, Form } from 'formik'
+import { Formik, Form, Field } from 'formik'
 import { toast } from 'react-toastify'
 
 import Button from '../../components/Button'
@@ -9,9 +9,11 @@ import ImageInput from '../../components/ImageInput'
 import createEventSchema from '../../validators/eventCreate'
 import useLoading from '../../hooks/useLoading'
 import useEvent from '../../hooks/useEvent'
+import useVeanue from '../../hooks/useVeanue'
 
-export default function CreateEventForm({ name, detail, id, src, hallId, period, handleToggleClick }) {
+export default function CreateEventForm({ name, detail, id, src, hallId, period, handleToggleClick, setToggle }) {
     const { handleCreateEvent, handleEditEvent } = useEvent()
+    const { allVeanue } = useVeanue()
     const { isLoading, isFinish } = useLoading()
 
     const [image, setImage] = useState(null)
@@ -50,6 +52,7 @@ export default function CreateEventForm({ name, detail, id, src, hallId, period,
                                     toast.success(`CREATE SUCCESS`)
                                     resetForm()
                                     setImage(null)
+                                    setToggle(false)
                                 }
                             } catch (error) {
                                 toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
@@ -83,16 +86,28 @@ export default function CreateEventForm({ name, detail, id, src, hallId, period,
                                     handleChange={handleChange}
                                     error={errors.period}
                                     touch={touched.period} />
-                                <TextInput
+                                {/* <TextInput
                                     label={'Hall'}
                                     name={'hallId'}
                                     input={values.hallId}
                                     handleChange={handleChange}
                                     error={errors.hallId}
-                                    touch={touched.hallId} />
+                                    touch={touched.hallId} /> */}
+                                <Field as="select" name="hallId" placeholder='aaaaaaaaaaa'>
+                                    <option key={0} value={0}>pls choose</option>
+                                    {allVeanue && allVeanue.map((el, idx) => (
+                                        <option key={el.id} value={el.id}>{el.hallName}</option>
+                                    ))}
+                                </Field>
                                 <div className="d-flex justify-content-center gap-2">
                                     <Button text={'Save'} type={'submit'} />
-                                    <Button text={'Cancle'} onClick={handleToggleClick} />
+                                    <Button text={'Cancle'} onClick={() => {
+                                        if (id) {
+                                            handleToggleClick()
+                                        } else {
+                                            setToggle(false)
+                                        }
+                                    }} />
                                 </div>
                             </Form>
                         )}

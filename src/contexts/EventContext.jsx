@@ -49,16 +49,12 @@ export default function EventContextProvider({ children }) {
         const formData = new FormData()
         if (file) {
             formData.append('image', file)
-
-            Object.entries(input).forEach(([key, value]) => {
-                formData.append(key, value);
-            });
-            const res = await eventApi.createEvent(formData)
-            setAllEvent((prv) => [res.data.post, ...prv])
-        } else {
-            const res = await eventApi.createEvent(input)
-            setAllEvent((prv) => [res.data.post, ...prv])
         }
+        Object.entries(input).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+        const res = await eventApi.createEvent(formData)
+        setAllEvent((prv) => [res.data.post, ...prv])
     }
 
     const handleDeleteEvent = async (id) => {
@@ -70,16 +66,12 @@ export default function EventContextProvider({ children }) {
         const formData = new FormData()
         if (file) {
             formData.append('image', file)
-
-            Object.entries(input).forEach(([key, value]) => {
-                formData.append(key, value);
-            });
-            const res = await eventApi.updateEvent(formData, id)
-            setAllEvent(prv => prv.map(el => el.id === id ? { ...el, ...res.data.result } : el))
-        } else {
-            const res = await eventApi.updateEvent(input, id)
-            setAllEvent(prv => prv.map(el => el.id === id ? { ...el, ...res.data.result } : el))
         }
+        Object.entries(input).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+        const res = await eventApi.updateEvent(formData, id)
+        setAllEvent(prv => prv.map(el => el.id === id ? { ...el, ...res.data.result } : el))
     }
 
     const handleCreateEventDetail = async (input, bigImage, image, id) => {

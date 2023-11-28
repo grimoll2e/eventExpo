@@ -79,7 +79,6 @@ export default function SettingPage() {
                 <hr className="" style={{ height: '2px', color: 'gray', backgroundColor: 'gray', width: '60%' }} />
                 <h1 className="header_text">{menu || menuData[0].name}</h1>
             </div>
-            {/* form */}
             {selectmenu ? selectmenu.form : <AccountForm />}
         </div>
     )

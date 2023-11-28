@@ -1,11 +1,15 @@
+import { useState } from 'react'
+
 import CreateEventForm from '../features/auth/CreateEventForm'
 import ListItem from '../components/ListItem'
+import Button from '../components/Button'
 
 import useEvent from '../hooks/useEvent'
 
 export default function CreateEventSetting() {
 
     const { allEvent, handleDeleteEvent } = useEvent()
+    const [toggle, setToggle] = useState(false)
 
     const formatISODate = (input) => {
         const date = new Date(input);
@@ -18,7 +22,12 @@ export default function CreateEventSetting() {
 
     return (
         <div>
-            <CreateEventForm />
+            {toggle ?
+                <CreateEventForm setToggle={setToggle} /> :
+                <div className='d-flex justify-content-center'>
+                    <Button text={'Create Event'} onClick={() => setToggle(true)} />
+                </div>
+            }
             {
                 allEvent && allEvent.map((el, idx) => (
                     <ListItem

@@ -86,14 +86,7 @@ export default function CreateEventForm({ name, detail, id, src, hallId, period,
                                     handleChange={handleChange}
                                     error={errors.period}
                                     touch={touched.period} />
-                                {/* <TextInput
-                                    label={'Hall'}
-                                    name={'hallId'}
-                                    input={values.hallId}
-                                    handleChange={handleChange}
-                                    error={errors.hallId}
-                                    touch={touched.hallId} /> */}
-                                <Field as="select" name="hallId" placeholder='aaaaaaaaaaa'>
+                                <Field as="select" name="hallId" className={`py-1 px-3 form-control`}>
                                     <option key={0} value={0}>pls choose</option>
                                     {allVeanue && allVeanue.map((el, idx) => (
                                         <option key={el.id} value={el.id}>{el.hallName}</option>

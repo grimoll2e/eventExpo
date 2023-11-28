@@ -9,7 +9,7 @@ import useLoading from '../../hooks/useLoading'
 import veanueEventSchema from '../../validators/hall'
 import useVeanue from '../../hooks/useVeanue'
 
-export default function HallForm({ handleToggleClick, name, detail, src, hallid }) {
+export default function HallForm({ handleToggleClick, name, detail, src, hallid, id, setToggle }) {
     const { handleSubmit, handleEdit } = useVeanue()
     const [file, setFile] = useState(null)
     const inputEl = useRef()
@@ -51,6 +51,7 @@ export default function HallForm({ handleToggleClick, name, detail, src, hallid 
                                     toast.success(`CREATE SUCCESS`)
                                     resetForm()
                                     setFile(null)
+                                    setToggle(false)
                                 }
                             } catch (error) {
                                 toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
@@ -82,7 +83,13 @@ export default function HallForm({ handleToggleClick, name, detail, src, hallid 
 
                                 <div className="d-flex justify-content-center gap-2">
                                     <Button text={'Save'} type={'submit'} />
-                                    <Button text={'Cancle'} onClick={handleToggleClick} />
+                                    <Button text={'Cancle'} onClick={() => {
+                                        if (id) {
+                                            handleToggleClick()
+                                        } else {
+                                            setToggle(false)
+                                        }
+                                    }} />
                                 </div>
                             </Form>
                         )}

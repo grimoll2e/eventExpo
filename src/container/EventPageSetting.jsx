@@ -24,6 +24,7 @@ export default function EventPageSetting() {
             }
         }
         fetchData()
+        setToggle(false)
 
     }, [eventId])
 

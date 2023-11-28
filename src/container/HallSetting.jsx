@@ -1,14 +1,22 @@
+import { useState } from "react";
 import ListItem from "../components/ListItem";
 import HallForm from "../features/auth/HallForm";
 import useVeanue from "../hooks/useVeanue";
+import Button from "../components/Button";
 
 export default function HallSetting() {
 
     const { allVeanue, handleDelete } = useVeanue()
+    const [toggle, setToggle] = useState(false)
 
     return (
-        <>
-            <HallForm />
+        <>  
+            {toggle ?
+                <HallForm setToggle={setToggle} /> :
+                <div className='d-flex justify-content-center'>
+                    <Button text={'Creat Hall'} onClick={() => setToggle(true)} />
+                </div>
+            }
             {
                 allVeanue && allVeanue.map((el, idx) => (
                     <ListItem
@@ -21,6 +29,7 @@ export default function HallSetting() {
                         handleDelete={handleDelete}
                     >
                         <HallForm
+                            id={el.id}
                             name={el.hallName}
                             detail={el.detail}
                             hallid={el.id}

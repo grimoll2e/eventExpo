@@ -39,49 +39,61 @@ export default function EventZone() {
     const [eventId, setEventId] = useState(null)
     const [testdata, setTestdata] = useState({})
     const [mouseEvent, setMouseEvent] = useState(false)
+    const smallBox = useRef(null)
+    const bigBox = useRef(null)
 
-    const refs = {
-        smallBox: useRef(null),
-        bigBox: useRef(null),
-    };
+    // const refs = {
+    //     smallBox: useRef(null),
+    //     bigBox: useRef(null),
+    // };
 
-    const { bigBox, smallBox } = refs
+    // const { bigBox, smallBox } = refs
 
     useEffect(() => {
-        // if (eventId === '0') {
-        //     setEventId(null);
-        // } else {
-        //     // Assume you have a function getEventById
-        //     getEventById(eventId);
-        // }
-        getEventById(4);
+        if (eventId === '0') {
+            setEventId(null);
+        } else {
+            getEventById(eventId);
+        }
         const calculatePercentages = (e) => {
-            const xPercentage = parseInt((((e.clientX - bigBox.current.offsetLeft) / bigBox.current.clientWidth) * 100) - (testdata.width / 2));
-            const yPercentage = parseInt((((e.clientY - bigBox.current.offsetTop) / bigBox.current.offsetParent.clientHeight) * 100) - (testdata.height / 2));
-            console.log(bigBox)
+            let xPercentage = parseInt((((e.clientX - bigBox.current.offsetLeft) / bigBox.current.clientWidth) * 100) - (testdata.width / 2));
+            let yPercentage = parseInt((((e.clientY - bigBox.current.offsetTop) / bigBox.current.clientHeight) * 100) - (testdata.height / 2));
+            if (xPercentage < 0) {
+                xPercentage = 0
+            }
+            if (xPercentage + testdata.width > 100) {
+                xPercentage = 100 - testdata.width
+            }
+            if (yPercentage < 0) {
+                yPercentage = 0
+            }
+            if (yPercentage + testdata.height > 100) {
+                yPercentage = 100 - testdata.height
+            }
             return { xPercentage, yPercentage };
         };
 
         const onMouseDown = (e) => {
-            e.stopPropagation();
-            setMouseEvent(true)
+            e.preventDefault();
+            setMouseEvent(true);
             const { xPercentage, yPercentage } = calculatePercentages(e);
             setTestdata((prev) => ({ ...prev, xaixs: xPercentage, yaixs: yPercentage }));
         };
 
         const onMouseUp = (e) => {
-            e.stopPropagation();
+            e.preventDefault();
             setMouseEvent(false);
             const { xPercentage, yPercentage } = calculatePercentages(e);
             setTestdata((prev) => ({ ...prev, xaixs: xPercentage, yaixs: yPercentage }));
         };
 
         const onMouseMove = (e) => {
-            e.stopPropagation();
+            e.preventDefault();
             const { xPercentage, yPercentage } = calculatePercentages(e);
             if (!mouseEvent) {
                 return;
             } else {
+                console.log('move')
                 setTestdata((prev) => ({ ...prev, xaixs: xPercentage, yaixs: yPercentage }));
             }
         };
@@ -89,7 +101,6 @@ export default function EventZone() {
         if (smallBox.current) {
             smallBox.current.addEventListener('mousedown', onMouseDown);
             smallBox.current.addEventListener('mouseup', onMouseUp);
-            // smallBox.current.addEventListener('mousemove', onMouseMove);
         }
 
         if (bigBox.current) {
@@ -100,15 +111,13 @@ export default function EventZone() {
             if (smallBox.current) {
                 smallBox.current.removeEventListener('mousedown', onMouseDown);
                 smallBox.current.removeEventListener('mouseup', onMouseUp);
-        // smallBox.current.removeEventListener('mousemove', onMouseMove);
             }
 
             if (bigBox.current) {
                 bigBox.current.removeEventListener('mousemove', onMouseMove);
             }
-            // console.log(testdata)
         };
-    }, [smallBox, bigBox, mouseEvent]);
+    }, [eventId, mouseEvent, smallBox]);
 
     return (
         <>
@@ -125,24 +134,25 @@ export default function EventZone() {
                     size={'100%'}
                 />}
                 {/* <p>{testdata}</p> */}
-                {eventById && testdata ?
-                    <div className='position-absolute d-flex justify-content-center align-items-center rounded'
-                        ref={smallBox}
-                        style={{
-                            top: testdata.yaixs + '%',
-                            left: testdata.xaixs + '%',
-                            width: testdata.width + '%',
-                            height: testdata.height + '%',
-                            backgroundColor: testdata.color,
-                            opacity: valueOpacity
-                        }}>
-                        <h1>
-                            {testdata.title}
-                        </h1>
-                    </div>
-                    : null
-
-                }
+                <div ref={smallBox}>
+                    {eventById && testdata ?
+                        <div className='position-absolute d-flex justify-content-center align-items-center rounded'
+                            style={{
+                                top: `${testdata.yaixs}%`,
+                                left: `${testdata.xaixs}%`,
+                                width: `${testdata.width}%`,
+                                height: `${testdata.height}%`,
+                                backgroundColor: testdata.color,
+                                opacity: valueOpacity,
+                                cursor: 'pointer'
+                            }}>
+                            <h1>
+                                {testdata.title}
+                            </h1>
+                        </div>
+                        : null
+                    }
+                </div>
             </div>
             <EventZoneForm
                 setTestdata={setTestdata}

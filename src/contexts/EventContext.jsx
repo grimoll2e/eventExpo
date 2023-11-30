@@ -8,6 +8,7 @@ export default function EventContextProvider({ children }) {
     const [allEvent, setAllEvent] = useState([])
     const [eventById, setEventById] = useState(null)
     const [eventOtherId, setEventOtherId] = useState(null)
+    const [eventZoneById, setEvetZoneById] = useState([])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -73,7 +74,7 @@ export default function EventContextProvider({ children }) {
         const res = await eventApi.updateEvent(formData, id)
         setAllEvent(prv => prv.map(el => el.id === id ? { ...el, ...res.data.result } : el))
     }
-
+    //eventDetail
     const handleCreateEventDetail = async (input, bigImage, image, id) => {
         let formData = new FormData()
 
@@ -120,8 +121,21 @@ export default function EventContextProvider({ children }) {
         await eventApi.deleteEventDetail(eventDetailId)
         setEventById((prv) => ({ prv, EventDetails: prv.EventDetails.filter(el => el.id !== eventDetailId) }))
     }
+    //eventZone
+    const getAllEventZoneByEventId = async (id) => {
+        try {
+            if (!id) {
+                setEvetZoneById(null)
+            } else {
+                const res = await eventApi.getEventZoneByEventId(id)
+                setEvetZoneById(res.data.result)
+            }
+        } catch (error) {
+
+        }
+    }
     return (
-        <EventContext.Provider value={{ allEvent, eventById, eventOtherId, getEventById, getEventOtherId, handleCreateEvent, handleDeleteEvent, handleEditEvent, handleCreateEventDetail, handleEditEventDetail, handleDeleteEventDetail }}>
+        <EventContext.Provider value={{ allEvent, eventById, eventOtherId, eventZoneById, getEventById, getEventOtherId, handleCreateEvent, handleDeleteEvent, handleEditEvent, handleCreateEventDetail, handleEditEventDetail, handleDeleteEventDetail, getAllEventZoneByEventId }}>
             {children}
         </EventContext.Provider>
     )

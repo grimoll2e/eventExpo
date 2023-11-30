@@ -53,15 +53,15 @@ export default function AccountForm() {
         <div className="container">
             <div className="row justify-content-center rounded-circle">
                 <div className='col-lg-4 col-md-6'>
-                <ImageInput
-                    src={file ? URL.createObjectURL(file) : authenticatedUser.userImage}
-                    addclass={'rounded-circle'}
+                    <ImageInput
+                        src={file ? URL.createObjectURL(file) : authenticatedUser.userImage}
+                        addclass={'rounded-circle'}
                         onClick={() => inputEl.current.click()}
-                    handleSave={handleSave}
-                    handleCancle={handleCancle}
-                    file={file}
-                    setFile={setFile}
-                    inputEl={inputEl}
+                        handleSave={handleSave}
+                        handleCancle={handleCancle}
+                        file={file}
+                        setFile={setFile}
+                        inputEl={inputEl}
                     />
                 </div>
                 <div className="col-lg-6 col-md-6">
@@ -115,7 +115,7 @@ export default function AccountForm() {
                                     error={errors.link}
                                     touch={touched.link} />
                                 <div className="d-flex justify-content-center gap-2">
-                                    <Button text={'Save'} type={'submit'} />
+                                    <Button text={'Save'} type={'submit'} onClick={handleSave} />
                                     <Button text={'Cancle'} onClick={() => setToggle(false)} />
                                 </div>
                             </Form>

@@ -24,13 +24,13 @@ export default function HallForm({ handleToggleClick, name, detail, src, hallid,
         <div className="container">
             <div className="row justify-content-center">
                 <div className='col-lg-4 col-md-6'>
-                <ImageInput
-                    src={file ? URL.createObjectURL(file) : src}
-                    file={file}
-                    setFile={setFile}
-                    inputEl={inputEl}
-                    handleEdit={() => inputEl.current.click()}
-                />
+                    <ImageInput
+                        src={file ? URL.createObjectURL(file) : src}
+                        file={file}
+                        setFile={setFile}
+                        inputEl={inputEl}
+                        onClick={() => inputEl.current.click()}
+                    />
                 </div>
                 <div className="col-lg-5 col-md-6">
                     <Formik

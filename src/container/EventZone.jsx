@@ -4,26 +4,10 @@ import ListItem from '../components/ListItem'
 import useEvent from '../hooks/useEvent'
 import Image from '../components/Image'
 import EventZoneForm from '../features/auth/EventZoneForm'
+import Button from '../components/Button'
+import { createRef } from 'react'
 
 const data = [
-    {
-        title: 'a',
-        xaixs: '0%',
-        yaixs: '0%',
-        width: '10%',
-        height: '50%',
-        color: '#ff0000'
-    },
-    {
-        title: 'b',
-        xaixs: '50%',
-        yaixs: '50%',
-        width: '20%',
-        height: '10%',
-        color: '#ff00ff'
-    },
-]
-const data2 = [
     {
         title: '',
         xaixs: 0,
@@ -32,75 +16,110 @@ const data2 = [
         height: 0,
         color: '#ff0000'
     }]
+
 const valueOpacity = '0.6'
 
 export default function EventZone() {
-    const { allEvent, getEventById, eventById } = useEvent()
+    const { allEvent, getEventById, eventById, getAllEventZoneByEventId, eventZoneById } = useEvent()
     const [eventId, setEventId] = useState(null)
-    const [testdata, setTestdata] = useState({})
-    const [mouseEvent, setMouseEvent] = useState(false)
-    const smallBox = useRef(null)
-    const bigBox = useRef(null)
+    const [previewdata, setPreviewdata] = useState({})
+    const [createToggle, setCreateToggle] = useState(false)
+    const [smallBox, setSmallBox] = useState([])
 
-    // const refs = {
-    //     smallBox: useRef(null),
-    //     bigBox: useRef(null),
-    // };
+    const refs = {
+        // smallBox: useRef(null),
+        bigBox: useRef(null),
+        mouseEvent: useRef(false),
+        // smallBoxRef: useRef(null)
+    };
 
-    // const { bigBox, smallBox } = refs
+    const { bigBox, mouseEvent } = refs
+
+    // const smallBoxRef = useRef();
+
+    const calculatePercentages = (e) => {
+        let xPercentage = parseInt((((e.pageX - bigBox.current.offsetLeft) / bigBox.current.clientWidth) * 100) - (previewdata.width / 2));
+        let yPercentage = parseInt((((e.pageY - bigBox.current.offsetTop) / bigBox.current.clientHeight) * 100) - (previewdata.height / 2));
+        if (xPercentage < 0) {
+            xPercentage = 0
+        }
+        if (xPercentage + previewdata.width > 100) {
+            xPercentage = 100 - previewdata.width
+        }
+        if (yPercentage < 0) {
+            yPercentage = 0
+        }
+        if (yPercentage + previewdata.height > 100) {
+            yPercentage = 100 - previewdata.height
+        }
+        return { xPercentage, yPercentage };
+    };
+
+    const onMouseDown = (e) => {
+        e.preventDefault();
+        mouseEvent.current = true;
+        console.log('first')
+        // const { xPercentage, yPercentage } = calculatePercentages(e);
+        // setPreviewdata((prev) => ({ ...prev, xaixs: xPercentage, yaixs: yPercentage }));
+    };
+
+    const onMouseUp = (e) => {
+        e.preventDefault();
+        mouseEvent.current = false;
+        const { xPercentage, yPercentage } = calculatePercentages(e);
+        setPreviewdata((prev) => ({ ...prev, xaixs: xPercentage, yaixs: yPercentage }));
+    };
+
+    const onMouseMove = (e) => {
+        e.preventDefault();
+        const { xPercentage, yPercentage } = calculatePercentages(e);
+        if (!mouseEvent.current) {
+            return;
+        } else {
+            setPreviewdata((prev) => ({ ...prev, xaixs: xPercentage, yaixs: yPercentage }));
+        }
+    };
 
     useEffect(() => {
-        if (eventId === '0') {
-            setEventId(null);
-        } else {
-            getEventById(eventId);
+        if (eventZoneById) {
+            setSmallBox((prv) => eventZoneById.map((_, idx) => prv[idx] || createRef()))
         }
-        const calculatePercentages = (e) => {
-            let xPercentage = parseInt((((e.clientX - bigBox.current.offsetLeft) / bigBox.current.clientWidth) * 100) - (testdata.width / 2));
-            let yPercentage = parseInt((((e.clientY - bigBox.current.offsetTop) / bigBox.current.clientHeight) * 100) - (testdata.height / 2));
-            if (xPercentage < 0) {
-                xPercentage = 0
-            }
-            if (xPercentage + testdata.width > 100) {
-                xPercentage = 100 - testdata.width
-            }
-            if (yPercentage < 0) {
-                yPercentage = 0
-            }
-            if (yPercentage + testdata.height > 100) {
-                yPercentage = 100 - testdata.height
-            }
-            return { xPercentage, yPercentage };
-        };
 
-        const onMouseDown = (e) => {
-            e.preventDefault();
-            setMouseEvent(true);
-            const { xPercentage, yPercentage } = calculatePercentages(e);
-            setTestdata((prev) => ({ ...prev, xaixs: xPercentage, yaixs: yPercentage }));
-        };
+    }, [eventZoneById,])
 
-        const onMouseUp = (e) => {
-            e.preventDefault();
-            setMouseEvent(false);
-            const { xPercentage, yPercentage } = calculatePercentages(e);
-            setTestdata((prev) => ({ ...prev, xaixs: xPercentage, yaixs: yPercentage }));
-        };
+    useEffect(() => {
+        if (smallBox[0]) {
+            console.log('hi mom !!!')
+            console.log(smallBox)
+        }
+    }, [smallBox])
 
-        const onMouseMove = (e) => {
-            e.preventDefault();
-            const { xPercentage, yPercentage } = calculatePercentages(e);
-            if (!mouseEvent) {
-                return;
+    useEffect(() => {
+        const fetchdata = () => {
+
+            if (eventId === '0') {
+                setEventId(null);
+                getAllEventZoneByEventId(null)
             } else {
-                console.log('move')
-                setTestdata((prev) => ({ ...prev, xaixs: xPercentage, yaixs: yPercentage }));
+                getEventById(eventId);
+                getAllEventZoneByEventId(eventId)
             }
-        };
+        }
+        fetchdata()
+    }, [eventId]);
 
-        if (smallBox.current) {
-            smallBox.current.addEventListener('mousedown', onMouseDown);
-            smallBox.current.addEventListener('mouseup', onMouseUp);
+
+    useEffect(() => {
+
+        if (smallBox[99]) {
+            smallBox[99].current.addEventListener('mousedown', onMouseDown);
+            smallBox[99].current.addEventListener('mouseup', onMouseUp);
+        }
+        if (smallBox) {
+            smallBox.map((el, idx) => {
+                smallBox[idx].current.addEventListener('mousedown', onMouseDown);
+                smallBox[idx].current.addEventListener('mouseup', onMouseUp);
+            })
         }
 
         if (bigBox.current) {
@@ -108,16 +127,27 @@ export default function EventZone() {
         }
 
         return () => {
-            if (smallBox.current) {
-                smallBox.current.removeEventListener('mousedown', onMouseDown);
-                smallBox.current.removeEventListener('mouseup', onMouseUp);
+
+            if (smallBox[99]) {
+                smallBox[99].current.removeEventListener('mousedown', onMouseDown);
+                smallBox[99].current.removeEventListener('mouseup', onMouseUp);
             }
+            if (smallBox) {
+                smallBox.map((el, idx) => {
+                    smallBox[idx].current.removeEventListener('mousedown', onMouseDown);
+                    smallBox[idx].current.removeEventListener('mouseup', onMouseUp);
+                })
+            }
+            // if (smallBox.current) {
+            //     smallBox.current.removeEventListener('mousedown', onMouseDown);
+            //     smallBox.current.removeEventListener('mouseup', onMouseUp);
+            // }
 
             if (bigBox.current) {
                 bigBox.current.removeEventListener('mousemove', onMouseMove);
             }
         };
-    }, [eventId, mouseEvent, smallBox]);
+    }, [mouseEvent.current, smallBox])
 
     return (
         <>
@@ -133,31 +163,56 @@ export default function EventZone() {
                     src={eventById.Hall.image}
                     size={'100%'}
                 />}
-                {/* <p>{testdata}</p> */}
-                <div ref={smallBox}>
-                    {eventById && testdata ?
+                <div>
+                    {eventZoneById && eventZoneById.map((el, idx) => (
                         <div className='position-absolute d-flex justify-content-center align-items-center rounded'
+                            ref={smallBox[idx]}
+                            key={idx}
                             style={{
-                                top: `${testdata.yaixs}%`,
-                                left: `${testdata.xaixs}%`,
-                                width: `${testdata.width}%`,
-                                height: `${testdata.height}%`,
-                                backgroundColor: testdata.color,
+                                top: `${el.yaixs}%`,
+                                left: `${el.xaixs}%`,
+                                width: `${el.width}%`,
+                                height: `${el.height}%`,
+                                backgroundColor: el.color,
                                 opacity: valueOpacity,
                                 cursor: 'pointer'
                             }}>
                             <h1>
-                                {testdata.title}
+                                {el.title}
                             </h1>
                         </div>
-                        : null
+                    ))}
+                    {eventZoneById && previewdata &&
+                        <div className='position-absolute d-flex justify-content-center align-items-center rounded'
+                            ref={smallBox[99]}
+                            style={{
+                                top: `${previewdata.yaixs}%`,
+                                left: `${previewdata.xaixs}%`,
+                                width: `${previewdata.width}%`,
+                                height: `${previewdata.height}%`,
+                                backgroundColor: previewdata.color,
+                                opacity: valueOpacity,
+                                cursor: 'pointer'
+                            }}>
+                            <h1>
+                                {previewdata.title}
+                            </h1>
+                        </div>
                     }
+
                 </div>
             </div>
-            <EventZoneForm
-                setTestdata={setTestdata}
-                testdata={testdata}
-            />
+            <div>
+                {eventZoneById && eventZoneById.map((el, idx) => (<Button text={el.title} key={idx} id={el.id} onClick={() => setPreviewdata(el)}></Button>))}
+            </div>
+            {createToggle ?
+                < EventZoneForm
+                    previewdata={previewdata}
+                    setPreviewdata={setPreviewdata}
+                    onCancel={() => setCreateToggle(false)}
+                /> : <div>
+                    <Button text={'Create'} onClick={() => setCreateToggle(true)} />
+                </div>}
 
 
         </>

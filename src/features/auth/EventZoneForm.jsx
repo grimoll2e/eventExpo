@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 
-export default function EventZoneForm({ setTestdata, testdata }) {
+export default function EventZoneForm({ setPreviewdata, previewdata, onCancel }) {
     const initialInput = {
         title: '',
         xaixs: '0',
@@ -15,6 +15,10 @@ export default function EventZoneForm({ setTestdata, testdata }) {
         color: '#000000'
     }
 
+    const handlePreview = (value) => {
+        setPreviewdata(value)
+    }
+
     return (
         <div>
             <Formik
@@ -22,8 +26,8 @@ export default function EventZoneForm({ setTestdata, testdata }) {
                 // validationSchema={}
                 initialValues={initialInput}
                 onSubmit={async (values, { resetForm }) => {
-                    setTestdata(values)
-                    // console.log(values)
+                    // setPreviewdata(values)
+                    console.log(values)
                 }}
             >
                 {({ values, errors, touched, handleChange }) => (
@@ -40,10 +44,10 @@ export default function EventZoneForm({ setTestdata, testdata }) {
                             label={'Xaixs'}
                             name={'xaixs'}
                             type={'range'}
-                            input={testdata.xaixs || values.xaixs}
+                            input={previewdata.xaixs || values.xaixs}
                             handleChange={(e) => {
                                 handleChange(e)
-                                setTestdata(prv => ({ ...prv, xaixs: e.target.value }))
+                                setPreviewdata(prv => ({ ...prv, xaixs: e.target.value }))
                             }}
                             error={errors.xaixs}
                             touch={touched.xaixs}
@@ -52,10 +56,10 @@ export default function EventZoneForm({ setTestdata, testdata }) {
                             label={'Yaixs'}
                             name={'yaixs'}
                             type={'range'}
-                            input={testdata.yaixs || values.yaixs}
+                            input={previewdata.yaixs || values.yaixs}
                             handleChange={(e) => {
                                 handleChange(e)
-                                setTestdata(prv => ({ ...prv, yaixs: e.target.value }))
+                                setPreviewdata(prv => ({ ...prv, yaixs: e.target.value }))
                             }}
                             error={errors.yaixs}
                             touch={touched.yaixs}
@@ -64,10 +68,10 @@ export default function EventZoneForm({ setTestdata, testdata }) {
                             label={'Width'}
                             name={'width'}
                             type={'range'}
-                            input={testdata.width || values.width}
+                            input={previewdata.width || values.width}
                             handleChange={(e) => {
                                 handleChange(e)
-                                setTestdata(prv => ({ ...prv, width: e.target.value }))
+                                setPreviewdata(prv => ({ ...prv, width: e.target.value }))
                             }}
                             error={errors.width}
                             touch={touched.width}
@@ -76,10 +80,10 @@ export default function EventZoneForm({ setTestdata, testdata }) {
                             label={'Height'}
                             name={'height'}
                             type={'range'}
-                            input={testdata.height || values.height}
+                            input={previewdata.height || values.height}
                             handleChange={(e) => {
                                 handleChange(e)
-                                setTestdata(prv => ({ ...prv, height: e.target.value }))
+                                setPreviewdata(prv => ({ ...prv, height: e.target.value }))
                             }}
                             error={errors.height}
                             touch={touched.height}
@@ -94,7 +98,9 @@ export default function EventZoneForm({ setTestdata, testdata }) {
                             touch={touched.color}
                         />
                         <div>
+                            <Button text={'preview'} onClick={() => handlePreview(values)} />
                             <Button text={'save'} type={'submit'} />
+                            <Button text={'cancel'} onClick={onCancel} />
                         </div>
                     </Form>
                 )}

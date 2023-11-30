@@ -1,8 +1,6 @@
 import { Formik, Form } from "formik";
 import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
-import { useState } from "react";
-import { useEffect } from "react";
 
 
 export default function EventZoneForm({ setPreviewdata, previewdata, onCancel }) {
@@ -15,10 +13,6 @@ export default function EventZoneForm({ setPreviewdata, previewdata, onCancel })
         color: '#000000'
     }
 
-    const handlePreview = (value) => {
-        setPreviewdata(value)
-    }
-
     return (
         <div>
             <Formik
@@ -27,6 +21,7 @@ export default function EventZoneForm({ setPreviewdata, previewdata, onCancel })
                 initialValues={initialInput}
                 onSubmit={async (values, { resetForm }) => {
                     // setPreviewdata(values)
+                    setPreviewdata(values)
                     console.log(values)
                 }}
             >
@@ -35,7 +30,7 @@ export default function EventZoneForm({ setPreviewdata, previewdata, onCancel })
                         <TextInput
                             label={'Title'}
                             name={'title'}
-                            input={values.title}
+                            input={previewdata.title || values.title}
                             handleChange={handleChange}
                             error={errors.title}
                             touch={touched.title}
@@ -92,13 +87,16 @@ export default function EventZoneForm({ setPreviewdata, previewdata, onCancel })
                             label={'color'}
                             name={'color'}
                             type={'color'}
-                            input={values.color}
+                            input={previewdata.color || values.color}
                             handleChange={handleChange}
                             error={errors.color}
                             touch={touched.color}
                         />
                         <div>
-                            <Button text={'preview'} onClick={() => handlePreview(values)} />
+                            {/* <Button text={'preview'} onClick={() => {
+                                handlePreview(values)
+                                console.log(values)
+                            }} /> */}
                             <Button text={'save'} type={'submit'} />
                             <Button text={'cancel'} onClick={onCancel} />
                         </div>

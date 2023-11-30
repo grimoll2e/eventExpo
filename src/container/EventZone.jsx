@@ -5,17 +5,6 @@ import useEvent from '../hooks/useEvent'
 import Image from '../components/Image'
 import EventZoneForm from '../features/auth/EventZoneForm'
 import Button from '../components/Button'
-import { createRef } from 'react'
-
-const data = [
-    {
-        title: '',
-        xaixs: 0,
-        yaixs: 0,
-        width: 0,
-        height: 0,
-        color: '#ff0000'
-    }]
 
 const valueOpacity = '0.6'
 
@@ -24,33 +13,27 @@ export default function EventZone() {
     const [eventId, setEventId] = useState(null)
     const [previewdata, setPreviewdata] = useState({})
     const [createToggle, setCreateToggle] = useState(false)
-    const [smallBox, setSmallBox] = useState([])
+    // const [smallBox, setSmallBox] = useState([])
 
     const refs = {
-        // smallBox: useRef(null),
+        smallBox: useRef(null),
         bigBox: useRef(null),
         mouseEvent: useRef(false),
-        // smallBoxRef: useRef(null)
     };
 
-    const { bigBox, mouseEvent } = refs
+    const { bigBox, mouseEvent, smallBox } = refs
 
-    // const smallBoxRef = useRef();
+    let arrRef = useRef([])
+    arrRef.current = []
 
     const calculatePercentages = (e) => {
         let xPercentage = parseInt((((e.pageX - bigBox.current.offsetLeft) / bigBox.current.clientWidth) * 100) - (previewdata.width / 2));
         let yPercentage = parseInt((((e.pageY - bigBox.current.offsetTop) / bigBox.current.clientHeight) * 100) - (previewdata.height / 2));
-        if (xPercentage < 0) {
-            xPercentage = 0
+        if (xPercentage > 100 - previewdata.width || xPercentage < 0) {
+            xPercentage = Math.max(0, Math.min(xPercentage, 100 - previewdata.width));
         }
-        if (xPercentage + previewdata.width > 100) {
-            xPercentage = 100 - previewdata.width
-        }
-        if (yPercentage < 0) {
-            yPercentage = 0
-        }
-        if (yPercentage + previewdata.height > 100) {
-            yPercentage = 100 - previewdata.height
+        if (yPercentage > 100 - previewdata.height || yPercentage < 0) {
+            yPercentage = Math.max(0, Math.min(yPercentage, 100 - previewdata.height));
         }
         return { xPercentage, yPercentage };
     };
@@ -58,13 +41,13 @@ export default function EventZone() {
     const onMouseDown = (e) => {
         e.preventDefault();
         mouseEvent.current = true;
-        console.log('first')
-        // const { xPercentage, yPercentage } = calculatePercentages(e);
-        // setPreviewdata((prev) => ({ ...prev, xaixs: xPercentage, yaixs: yPercentage }));
+        const { xPercentage, yPercentage } = calculatePercentages(e);
+        setPreviewdata((prev) => ({ ...prev, xaixs: xPercentage, yaixs: yPercentage }));
     };
 
     const onMouseUp = (e) => {
         e.preventDefault();
+        console.log(previewdata)
         mouseEvent.current = false;
         const { xPercentage, yPercentage } = calculatePercentages(e);
         setPreviewdata((prev) => ({ ...prev, xaixs: xPercentage, yaixs: yPercentage }));
@@ -81,22 +64,7 @@ export default function EventZone() {
     };
 
     useEffect(() => {
-        if (eventZoneById) {
-            setSmallBox((prv) => eventZoneById.map((_, idx) => prv[idx] || createRef()))
-        }
-
-    }, [eventZoneById,])
-
-    useEffect(() => {
-        if (smallBox[0]) {
-            console.log('hi mom !!!')
-            console.log(smallBox)
-        }
-    }, [smallBox])
-
-    useEffect(() => {
         const fetchdata = () => {
-
             if (eventId === '0') {
                 setEventId(null);
                 getAllEventZoneByEventId(null)
@@ -108,18 +76,17 @@ export default function EventZone() {
         fetchdata()
     }, [eventId]);
 
+    const addRef = (el) => {
+        if (el && !arrRef.current.includes(el)) {
+            arrRef.current.push(el)
+        }
+    }
 
     useEffect(() => {
 
-        if (smallBox[99]) {
-            smallBox[99].current.addEventListener('mousedown', onMouseDown);
-            smallBox[99].current.addEventListener('mouseup', onMouseUp);
-        }
-        if (smallBox) {
-            smallBox.map((el, idx) => {
-                smallBox[idx].current.addEventListener('mousedown', onMouseDown);
-                smallBox[idx].current.addEventListener('mouseup', onMouseUp);
-            })
+        if (smallBox.current) {
+            smallBox.current.addEventListener('mousedown', onMouseDown);
+            smallBox.current.addEventListener('mouseup', onMouseUp);
         }
 
         if (bigBox.current) {
@@ -127,27 +94,34 @@ export default function EventZone() {
         }
 
         return () => {
-
-            if (smallBox[99]) {
-                smallBox[99].current.removeEventListener('mousedown', onMouseDown);
-                smallBox[99].current.removeEventListener('mouseup', onMouseUp);
+            if (smallBox.current) {
+                smallBox.current.removeEventListener('mousedown', onMouseDown);
+                smallBox.current.removeEventListener('mouseup', onMouseUp);
             }
-            if (smallBox) {
-                smallBox.map((el, idx) => {
-                    smallBox[idx].current.removeEventListener('mousedown', onMouseDown);
-                    smallBox[idx].current.removeEventListener('mouseup', onMouseUp);
-                })
-            }
-            // if (smallBox.current) {
-            //     smallBox.current.removeEventListener('mousedown', onMouseDown);
-            //     smallBox.current.removeEventListener('mouseup', onMouseUp);
-            // }
-
             if (bigBox.current) {
                 bigBox.current.removeEventListener('mousemove', onMouseMove);
             }
         };
-    }, [mouseEvent.current, smallBox])
+    }, [mouseEvent.current])
+
+
+
+    useEffect(() => {
+        if (arrRef.current) {
+            arrRef.current.map((el, idx) => {
+                arrRef.current[idx].addEventListener('mousedown', onMouseDown)
+                arrRef.current[idx].addEventListener('mouseup', onMouseUp)
+            })
+        }
+        return () => {
+            if (arrRef.current) {
+                arrRef.current.map((el, idx) => {
+                    arrRef.current[idx].removeEventListener('mousedown', () => onMouseDown)
+                    arrRef.current[idx].removeEventListener('mouseup', () => onMouseUp)
+                })
+            }
+        }
+    }, [arrRef])
 
     return (
         <>
@@ -166,11 +140,11 @@ export default function EventZone() {
                 <div>
                     {eventZoneById && eventZoneById.map((el, idx) => (
                         <div className='position-absolute d-flex justify-content-center align-items-center rounded'
-                            ref={smallBox[idx]}
+                            ref={addRef}
                             key={idx}
                             style={{
-                                top: `${el.yaixs}%`,
-                                left: `${el.xaixs}%`,
+                                top: `${+el.yaixs}%`,
+                                left: `${+el.xaixs}%`,
                                 width: `${el.width}%`,
                                 height: `${el.height}%`,
                                 backgroundColor: el.color,
@@ -181,11 +155,12 @@ export default function EventZone() {
                                 {el.title}
                             </h1>
                         </div>
-                    ))}
-                    {eventZoneById && previewdata &&
-                        <div className='position-absolute d-flex justify-content-center align-items-center rounded'
-                            ref={smallBox[99]}
-                            style={{
+                    )
+                    )}
+                    <div ref={smallBox}>
+                        {eventZoneById && previewdata &&
+                            <div className='position-absolute d-flex justify-content-center align-items-center rounded'
+                                style={{
                                 top: `${previewdata.yaixs}%`,
                                 left: `${previewdata.xaixs}%`,
                                 width: `${previewdata.width}%`,
@@ -198,12 +173,14 @@ export default function EventZone() {
                                 {previewdata.title}
                             </h1>
                         </div>
-                    }
-
+                        }
+                    </div>
                 </div>
             </div>
             <div>
-                {eventZoneById && eventZoneById.map((el, idx) => (<Button text={el.title} key={idx} id={el.id} onClick={() => setPreviewdata(el)}></Button>))}
+                {eventZoneById && eventZoneById.map((el, idx) => {
+                    return (<Button text={el.title} key={idx} id={el.id} onClick={() => setPreviewdata((prv) => ({ ...prv, ...el }))}></Button>)
+                })}
             </div>
             {createToggle ?
                 < EventZoneForm

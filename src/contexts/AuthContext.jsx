@@ -10,11 +10,13 @@ export const AuthContext = createContext();
 export default function AuthContextProvider({ children }) {
   const [authenticatedUser, setAuthenticatedUser] = useState(getAccessToken() ? true : null)
   //authenticatedUser ไว้ตรวรสอบว่ามีการ login ไหม
+  const [role, setRole] = useState(null)
 
   useEffect(() => {
     const fetchAuthUser = async () => {
       try {
         const res = await authApi.getMe()
+        setRole(res.data.user.status)
         setAuthenticatedUser(res.data.user)
       } catch (error) {
         removeAccessToken()
@@ -27,6 +29,12 @@ export default function AuthContextProvider({ children }) {
     }
   }, [getAccessToken])
 
+  useEffect(() => {
+    if (authenticatedUser) {
+      setRole(authenticatedUser ? authenticatedUser.status : null)
+    }
+  }, [authenticatedUser])
+
 
   const login = async (input) => {
     const res = await authApi.login(input)
@@ -37,6 +45,7 @@ export default function AuthContextProvider({ children }) {
   const logout = () => {
     removeAccessToken()
     setAuthenticatedUser(null)
+    setRole(null)
   }
 
   const updateUserImage = async (data) => {
@@ -45,7 +54,7 @@ export default function AuthContextProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ authenticatedUser, login, logout, updateUserImage }}>
+    <AuthContext.Provider value={{ authenticatedUser, login, logout, updateUserImage, role }}>
       {children}
     </AuthContext.Provider>
   );

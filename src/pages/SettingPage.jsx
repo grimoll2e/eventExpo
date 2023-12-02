@@ -11,43 +11,67 @@ import CreateEventSetting from "../container/CreateEventSetting"
 import EventPageSetting from "../container/EventPageSetting"
 import EventZone from "../container/EventZone"
 import * as authApi from '../apis/auth-api'
-
-// ต้อง checkrole ครอบเฉพาะส่วน
-
-const menuData = [
-    {
-        name: 'Account Setting',
-        form: <AccountForm />
-    },
-    {
-        name: 'Booth',
-        form: <BoothForm />
-    },
-    {
-        name: 'Event',
-        form: <EventForm />
-    },
-    {
-        name: 'SetZone',
-        form: <EventZone />
-    },
-    {
-        name: 'CreateEvent',
-        form: <CreateEventSetting />
-    },
-    {
-        name: 'Event Page',
-        form: <EventPageSetting />
-    },
-    {
-        name: 'Hall Page',
-        form: <HallSetting />
-    },
-]
+import AdminProtectedRouter from "../features/auth/AdminProtectedRouter"
+import useAuth from "../hooks/useAuth"
 
 export default function SettingPage() {
+    const { role } = useAuth()
     const { idName } = useParams();
     const navigate = useNavigate();
+
+    const settingMenu = [
+        {
+            name: 'Account Setting',
+            element: <AccountForm />,
+            forRole: [import.meta.env.VITE_REACT_ROLE_USER, import.meta.env.VITE_REACT_ROLE_ADMIN]
+        },
+        {
+            name: 'Booth',
+            element: <BoothForm />,
+            forRole: [import.meta.env.VITE_REACT_ROLE_USER, import.meta.env.VITE_REACT_ROLE_ADMIN]
+        },
+        {
+            name: 'Event',
+            element: <EventForm />,
+            forRole: [import.meta.env.VITE_REACT_ROLE_USER, import.meta.env.VITE_REACT_ROLE_ADMIN]
+        },
+        {
+            name: 'SetZone',
+            element: (
+                <AdminProtectedRouter>
+                    <EventZone />
+                </AdminProtectedRouter>
+            ),
+            forRole: [import.meta.env.VITE_REACT_ROLE_ADMIN]
+        },
+        {
+            name: 'CreateEvent',
+            element: (
+                <AdminProtectedRouter>
+                    <CreateEventSetting />
+                </AdminProtectedRouter>
+            ),
+            forRole: [import.meta.env.VITE_REACT_ROLE_ADMIN]
+        },
+        {
+            name: 'Event Page',
+            element: (
+                <AdminProtectedRouter>
+                    <EventPageSetting />
+                </AdminProtectedRouter>
+            ),
+            forRole: [import.meta.env.VITE_REACT_ROLE_ADMIN]
+        },
+        {
+            name: 'Hall Page',
+            element: (
+                <AdminProtectedRouter>
+                    <HallSetting />
+                </AdminProtectedRouter>
+            ),
+            forRole: [import.meta.env.VITE_REACT_ROLE_ADMIN]
+        },
+    ]
 
     useEffect(() => {
         const fetchAuthUser = async () => {
@@ -64,22 +88,24 @@ export default function SettingPage() {
     }, [idName])
 
 
-    const [menu, setMenu] = useState(menuData[0].name)
+    const [menu, setMenu] = useState(settingMenu[0].name)
 
-    const selectmenu = menuData.find(el => el.name === menu)
+    const selectmenu = settingMenu.find(el => el.name === menu)
 
     return (
         <div className="container my-5">
             <div className="w-100 d-flex flex-row gap-2 text-nowrap flex-wrap justify-content-center">
-                {menuData.map((el, idx) => (
+                {settingMenu.map((el, idx) => (
+                    (el.forRole && el.forRole.includes(role)) && (
                     <p key={idx} onClick={() => setMenu(el.name)} className={`setting_menu text-nowrap ${el.name === menu ? 'setting_menu_active pe-none' : 'menu_hover'}`}>{el.name}</p>
+                    )
                 ))}
             </div>
             <div className="align-content-center align-items-center d-flex mb-5 flex-column">
                 <hr className="" style={{ height: '2px', color: 'gray', backgroundColor: 'gray', width: '60%' }} />
-                <h1 className="header_text">{menu || menuData[0].name}</h1>
+                <h1 className="header_text">{menu || settingMenu[0].name}</h1>
             </div>
-            {selectmenu ? selectmenu.form : <AccountForm />}
+            {selectmenu ? selectmenu.element : <AccountForm />}
         </div>
     )
 }

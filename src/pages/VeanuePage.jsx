@@ -16,7 +16,7 @@ export default function VeanuePage() {
             </div>
             <div>
                 {allVeanue.slice(0, showlimit).map((el, idx) => (
-                    <CardandDetail title={el.hallName} description={el.detail} src={el.image} idx={idx} key={idx} />
+                    <CardandDetail title={el.hallName} description={el.detail} bigImage={el.image} idx={idx} key={idx} />
                 ))}
             </div>
         </div>

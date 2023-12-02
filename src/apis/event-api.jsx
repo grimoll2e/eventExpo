@@ -13,5 +13,5 @@ export const deleteEventDetail = (eventDetailId) => axios.delete(`/eventsetting/
 
 export const createEventZone = (input, eventId) => axios.post(`/eventsetting/eventzone/create/${eventId}`, input)
 export const editEventZone = (input, eventzoneId) => axios.patch(`/eventsetting/eventzone/editeventzone/${eventzoneId}`, input)
-export const deleteEventZone = (input, eventzoneId) => axios.delete(`/eventsetting/eventzone/deleteeventzone/${eventzoneId}`, input)
+export const deleteEventZone = (eventzoneId) => axios.delete(`/eventsetting/eventzone/deleteeventzone/${eventzoneId}`)
 export const getEventZoneByEventId = (eventId) => axios.get(`/event/eventzone/${eventId}`)

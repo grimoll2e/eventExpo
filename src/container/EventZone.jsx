@@ -8,7 +8,7 @@ import Button from '../components/Button'
 const valueOpacity = '0.6'
 
 export default function EventZone() {
-    const { allEvent, getEventById, eventById, getAllEventZoneByEventId, eventZoneById, setEvetZoneById } = useEvent()
+    const { allEvent, getEventById, eventById, getAllEventZoneByEventId, eventZoneById, setEvetZoneById, handleCreateEventZone, handleEditEventZone, handleDeleteEventZone } = useEvent()
     const [eventId, setEventId] = useState(null)
     const [editId, setEditId] = useState(null)
     const [createToggle, setCreateToggle] = useState(false)
@@ -30,7 +30,6 @@ export default function EventZone() {
     }, [eventId]);
 
     const handleDragStart = (idx) => {
-        console.log('first')
         setEditId(idx)
         const handleDragMove = (e) => {
             if (eventZoneById[idx]) {
@@ -44,7 +43,6 @@ export default function EventZone() {
                 }
                 setEvetZoneById((prev) => prev.map((el, index) => index === idx ? { ...el, yaixs: yPercentage, xaixs: xPercentage } : el))
             } else if (createvalue) {
-                console.log(createvalue)
                 let xPercentage = parseInt((((e.pageX - bigBox.current.offsetLeft) / bigBox.current.clientWidth) * 100) - (createvalue.width / 2));
                 let yPercentage = parseInt((((e.pageY - bigBox.current.offsetTop) / bigBox.current.clientHeight) * 100) - (createvalue.height / 2));
                 if (xPercentage > 100 - createvalue.width || xPercentage < 0) {
@@ -64,6 +62,7 @@ export default function EventZone() {
         bigBox.current.addEventListener('mousemove', handleDragMove);
         bigBox.current.addEventListener('mouseup', handleDragEnd);
     }
+
 
     return (
         <>
@@ -116,6 +115,8 @@ export default function EventZone() {
             </div>
             {createToggle ?
                 < EventZoneForm
+                    handleSubmit={handleCreateEventZone}
+                    eventId={eventId}
                     createToggle={createToggle}
                     setCreateValue={setCreateValue}
                     title={createvalue.title}
@@ -133,6 +134,8 @@ export default function EventZone() {
                 <EventZoneForm
                     key={idx}
                     id={idx}
+                    handleEdit={handleEditEventZone}
+                    handleDelete={handleDeleteEventZone}
                     editId={editId}
                     setEvetZoneById={setEvetZoneById}
                     title={el.title}

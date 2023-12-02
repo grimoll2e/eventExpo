@@ -1,11 +1,14 @@
 import { Formik, Form } from "formik";
 import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
+import { toast } from "react-toastify";
+import useLoading from "../../hooks/useLoading";
 
 
-export default function EventZoneForm({ setEvetZoneById, setCreateValue, onCancel, editId, id, createToggle, title, xaixs, yaixs, width, height, color }) {
-    // console.log('editId' + editId)
-    // console.log('id' + id)
+export default function EventZoneForm({ setEvetZoneById, setCreateValue, onCancel, editId, id, createToggle, title, xaixs, yaixs, width, height, color, handleSubmit, eventId, handleEdit, handleDelete }) {
+
+    const { isLoading, isFinish } = useLoading()
+
     const initialInput = {
         title: title || '',
         xaixs: xaixs || '0',
@@ -23,8 +26,17 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, onCance
                     // validationSchema={}
                     initialValues={initialInput}
                     onSubmit={async (values, { resetForm }) => {
-                        console.log(values)
-                        setCreateValue(values)
+                        try {
+                            isLoading()
+                            values = { ...values, eventId: eventId }
+                            await handleSubmit(values, eventId)
+                            toast.success(`CREATE SUCCESS`)
+                            resetForm()
+                        } catch (error) {
+                            toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
+                        } finally {
+                            isFinish()
+                        }
                     }}
                 >
                     {({ values, errors, touched, handleChange }) => (
@@ -113,7 +125,16 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, onCance
                     // validationSchema={}
                     initialValues={initialInput}
                     onSubmit={async (values, { resetForm }) => {
-                        console.log(values)
+                        try {
+                            isLoading()
+                            await handleEdit(values, id)
+                            toast.success(`CREATE SUCCESS`)
+                            // resetForm()
+                        } catch (error) {
+                            toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
+                        } finally {
+                            isFinish()
+                        }
                     }}
                 >
                     {({ values, errors, touched, handleChange }) => (
@@ -204,6 +225,18 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, onCance
                             <div>
                                 <Button text={'save'} type={'submit'} />
                                 <Button text={'cancel'} onClick={onCancel} />
+                                <Button text={'delete'} onClick={async () => {
+                                    try {
+                                        isLoading()
+                                        await handleDelete(id)
+                                        toast.success('Delete Success')
+                                    } catch (error) {
+                                        toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
+                                    } finally {
+                                        isFinish()
+                                    }
+
+                                }} />
                             </div>
                         </Form>
                     )}

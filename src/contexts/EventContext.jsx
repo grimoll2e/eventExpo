@@ -134,8 +134,32 @@ export default function EventContextProvider({ children }) {
 
         }
     }
+    const handleCreateEventZone = async (input, id) => {
+        const value = {}
+        for (const key in input) {
+            value[key] = typeof input[key] === 'number' ? input[key].toString() : input[key]
+        }
+        const res = await eventApi.createEventZone(value, id)
+        setEvetZoneById(prv => ([...prv, res.data.post]))
+
+    }
+    const handleEditEventZone = async (input, id) => {
+        const value = {}
+        for (const key in input) {
+            value[key] = typeof input[key] === 'number' ? input[key].toString() : input[key]
+        }
+        const res = await eventApi.editEventZone(value, id)
+        setEvetZoneById(prv => prv.map((el, id) => el.id === id ? { ...el, ...res.data.result } : el))
+    }
+    const handleDeleteEventZone = async (id) => {
+        if (!id) {
+            return console.error('need eventZoneId')
+        }
+        await eventApi.deleteEventZone(id)
+        setEvetZoneById(prv => prv.filter((el) => el.id !== id))
+    }
     return (
-        <EventContext.Provider value={{ allEvent, eventById, eventOtherId, eventZoneById, setEvetZoneById, getEventById, getEventOtherId, handleCreateEvent, handleDeleteEvent, handleEditEvent, handleCreateEventDetail, handleEditEventDetail, handleDeleteEventDetail, getAllEventZoneByEventId }}>
+        <EventContext.Provider value={{ allEvent, eventById, eventOtherId, eventZoneById, setEvetZoneById, getEventById, getEventOtherId, handleCreateEvent, handleDeleteEvent, handleEditEvent, handleCreateEventDetail, handleEditEventDetail, handleDeleteEventDetail, getAllEventZoneByEventId, handleCreateEventZone, handleEditEventZone, handleDeleteEventZone }}>
             {children}
         </EventContext.Provider>
     )

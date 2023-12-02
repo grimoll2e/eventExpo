@@ -3,106 +3,211 @@ import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
 
 
-export default function EventZoneForm({ setPreviewdata, previewdata, onCancel }) {
+export default function EventZoneForm({ setEvetZoneById, setCreateValue, onCancel, editId, id, createToggle, title, xaixs, yaixs, width, height, color }) {
+    // console.log('editId' + editId)
+    // console.log('id' + id)
     const initialInput = {
-        title: '',
-        xaixs: '0',
-        yaixs: '0',
-        width: '0',
-        height: '0',
-        color: '#000000'
+        title: title || '',
+        xaixs: xaixs || '0',
+        yaixs: yaixs || '0',
+        width: width || '0',
+        height: height || '0',
+        color: color || '#000000'
     }
 
     return (
-        <div>
-            <Formik
-                enableReinitialize={true}
-                // validationSchema={}
-                initialValues={initialInput}
-                onSubmit={async (values, { resetForm }) => {
-                    // setPreviewdata(values)
-                    setPreviewdata(values)
-                    console.log(values)
-                }}
-            >
-                {({ values, errors, touched, handleChange }) => (
-                    <Form action='' className=''>
-                        <TextInput
-                            label={'Title'}
-                            name={'title'}
-                            input={previewdata.title || values.title}
-                            handleChange={handleChange}
-                            error={errors.title}
-                            touch={touched.title}
-                        />
-                        <TextInput
-                            label={'Xaixs'}
-                            name={'xaixs'}
-                            type={'range'}
-                            input={previewdata.xaixs || values.xaixs}
-                            handleChange={(e) => {
-                                handleChange(e)
-                                setPreviewdata(prv => ({ ...prv, xaixs: e.target.value }))
-                            }}
-                            error={errors.xaixs}
-                            touch={touched.xaixs}
-                        />
-                        <TextInput
-                            label={'Yaixs'}
-                            name={'yaixs'}
-                            type={'range'}
-                            input={previewdata.yaixs || values.yaixs}
-                            handleChange={(e) => {
-                                handleChange(e)
-                                setPreviewdata(prv => ({ ...prv, yaixs: e.target.value }))
-                            }}
-                            error={errors.yaixs}
-                            touch={touched.yaixs}
-                        />
-                        <TextInput
-                            label={'Width'}
-                            name={'width'}
-                            type={'range'}
-                            input={previewdata.width || values.width}
-                            handleChange={(e) => {
-                                handleChange(e)
-                                setPreviewdata(prv => ({ ...prv, width: e.target.value }))
-                            }}
-                            error={errors.width}
-                            touch={touched.width}
-                        />
-                        <TextInput
-                            label={'Height'}
-                            name={'height'}
-                            type={'range'}
-                            input={previewdata.height || values.height}
-                            handleChange={(e) => {
-                                handleChange(e)
-                                setPreviewdata(prv => ({ ...prv, height: e.target.value }))
-                            }}
-                            error={errors.height}
-                            touch={touched.height}
-                        />
-                        <TextInput
-                            label={'color'}
-                            name={'color'}
-                            type={'color'}
-                            input={previewdata.color || values.color}
-                            handleChange={handleChange}
-                            error={errors.color}
-                            touch={touched.color}
-                        />
-                        <div>
-                            {/* <Button text={'preview'} onClick={() => {
-                                handlePreview(values)
-                                console.log(values)
-                            }} /> */}
-                            <Button text={'save'} type={'submit'} />
-                            <Button text={'cancel'} onClick={onCancel} />
-                        </div>
-                    </Form>
-                )}
-            </Formik>
-        </div>
+        <>
+            {createToggle ?
+                <Formik
+                    enableReinitialize={true}
+                    // validationSchema={}
+                    initialValues={initialInput}
+                    onSubmit={async (values, { resetForm }) => {
+                        console.log(values)
+                        setCreateValue(values)
+                    }}
+                >
+                    {({ values, errors, touched, handleChange }) => (
+                        <Form>
+                            <TextInput
+                                label={'Title'}
+                                name={'title'}
+                                input={values.title}
+                                handleChange={handleChange}
+                                error={errors.title}
+                                touch={touched.title}
+                            />
+                            <TextInput
+                                label={'Xaixs'}
+                                name={'xaixs'}
+                                type={'range'}
+                                input={values.xaixs}
+                                handleChange={(e) => {
+                                    if (Number(e.target.value) + Number(values.width) > 100) {
+                                        e.target.value = 100 - values.width
+                                    }
+                                    handleChange(e)
+                                }}
+                                error={errors.xaixs}
+                                touch={touched.xaixs}
+                            />
+                            <TextInput
+                                label={'Yaixs'}
+                                name={'yaixs'}
+                                type={'range'}
+                                input={values.yaixs}
+                                handleChange={(e) => {
+                                    if (Number(e.target.value) + Number(values.height) > 100) {
+                                        e.target.value = 100 - values.height
+                                    }
+                                    handleChange(e)
+                                }}
+                                error={errors.yaixs}
+                                touch={touched.yaixs}
+                            />
+                            <TextInput
+                                label={'Width'}
+                                name={'width'}
+                                type={'range'}
+                                input={values.width}
+                                handleChange={(e) => {
+                                    if (Number(e.target.value) + Number(values.xaixs) > 100) {
+                                        e.target.value = 100 - values.xaixs
+                                    }
+                                    handleChange(e)
+                                }}
+                                error={errors.width}
+                                touch={touched.width}
+                            />
+                            <TextInput
+                                label={'Height'}
+                                name={'height'}
+                                type={'range'}
+                                input={values.height}
+                                handleChange={(e) => {
+                                    if (Number(e.target.value) + Number(values.yaixs) > 100) {
+                                        e.target.value = 100 - values.yaixs
+                                    }
+                                    handleChange(e)
+                                }}
+                                error={errors.height}
+                                touch={touched.height}
+                            />
+                            <TextInput
+                                label={'color'}
+                                name={'color'}
+                                type={'color'}
+                                input={values.color}
+                                handleChange={handleChange}
+                                error={errors.color}
+                                touch={touched.color}
+                            />
+                            <div>
+                                <Button text={'save'} type={'submit'} />
+                                <Button text={'cancel'} onClick={onCancel} />
+                            </div>
+                        </Form>
+                    )}
+                </Formik> : editId === id && <Formik
+                    enableReinitialize={true}
+                    // validationSchema={}
+                    initialValues={initialInput}
+                    onSubmit={async (values, { resetForm }) => {
+                        console.log(values)
+                    }}
+                >
+                    {({ values, errors, touched, handleChange }) => (
+                        <Form>
+                            <TextInput
+                                label={'Title'}
+                                name={'title'}
+                                input={title || values.title}
+                                handleChange={(e) => {
+                                    handleChange(e)
+                                    setEvetZoneById((prev) => prev.map((el, idx) => idx === editId ? { ...el, title: e.target.value } : el))
+                                }}
+                                error={errors.title}
+                                touch={touched.title}
+                            />
+                            <TextInput
+                                label={'Xaixs'}
+                                name={'xaixs'}
+                                type={'range'}
+                                input={xaixs || values.xaixs}
+                                handleChange={(e) => {
+                                    handleChange(e)
+                                    if (Number(e.target.value) + Number(width) > 100) {
+                                        e.target.value = 100 - width
+                                    }
+                                    setEvetZoneById((prev) => prev.map((el, idx) => idx === editId ? { ...el, xaixs: e.target.value } : el))
+                                }}
+                                error={errors.xaixs}
+                                touch={touched.xaixs}
+                            />
+                            <TextInput
+                                label={'Yaixs'}
+                                name={'yaixs'}
+                                type={'range'}
+                                input={yaixs || values.yaixs}
+                                handleChange={(e) => {
+                                    handleChange(e)
+                                    if (Number(e.target.value) + Number(height) > 100) {
+                                        e.target.value = 100 - height
+                                    }
+                                    setEvetZoneById((prev) => prev.map((el, idx) => idx === editId ? { ...el, yaixs: e.target.value } : el))
+                                }}
+                                error={errors.yaixs}
+                                touch={touched.yaixs}
+                            />
+                            <TextInput
+                                label={'Width'}
+                                name={'width'}
+                                type={'range'}
+                                input={width || values.width}
+                                handleChange={(e) => {
+                                    handleChange(e)
+                                    if (Number(e.target.value) + Number(xaixs) > 100) {
+                                        e.target.value = 100 - xaixs
+                                    }
+                                    setEvetZoneById((prev) => prev.map((el, idx) => idx === editId ? { ...el, width: e.target.value } : el))
+                                }}
+                                error={errors.width}
+                                touch={touched.width}
+                            />
+                            <TextInput
+                                label={'Height'}
+                                name={'height'}
+                                type={'range'}
+                                input={height || values.height}
+                                handleChange={(e) => {
+                                    handleChange(e)
+                                    if (Number(e.target.value) + Number(yaixs) > 100) {
+                                        e.target.value = 100 - yaixs
+                                    }
+                                    setEvetZoneById((prev) => prev.map((el, idx) => idx === editId ? { ...el, height: e.target.value } : el))
+                                }}
+                                error={errors.height}
+                                touch={touched.height}
+                            />
+                            <TextInput
+                                label={'color'}
+                                name={'color'}
+                                type={'color'}
+                                input={color || values.color}
+                                handleChange={(e) => {
+                                    handleChange(e)
+                                    setEvetZoneById((prev) => prev.map((el, idx) => idx === editId ? { ...el, color: e.target.value } : el))
+                                }}
+                                error={errors.color}
+                                touch={touched.color}
+                            />
+                            <div>
+                                <Button text={'save'} type={'submit'} />
+                                <Button text={'cancel'} onClick={onCancel} />
+                            </div>
+                        </Form>
+                    )}
+                </Formik>}
+        </>
     )
 }

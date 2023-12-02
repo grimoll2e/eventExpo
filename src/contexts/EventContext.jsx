@@ -135,7 +135,7 @@ export default function EventContextProvider({ children }) {
         }
     }
     return (
-        <EventContext.Provider value={{ allEvent, eventById, eventOtherId, eventZoneById, getEventById, getEventOtherId, handleCreateEvent, handleDeleteEvent, handleEditEvent, handleCreateEventDetail, handleEditEventDetail, handleDeleteEventDetail, getAllEventZoneByEventId }}>
+        <EventContext.Provider value={{ allEvent, eventById, eventOtherId, eventZoneById, setEvetZoneById, getEventById, getEventOtherId, handleCreateEvent, handleDeleteEvent, handleEditEvent, handleCreateEventDetail, handleEditEventDetail, handleDeleteEventDetail, getAllEventZoneByEventId }}>
             {children}
         </EventContext.Provider>
     )

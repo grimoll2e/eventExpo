@@ -125,7 +125,7 @@ export default function EventZone() {
                     width={createvalue.width}
                     height={createvalue.height}
                     color={createvalue.color}
-                    onCancel={() => setCreateToggle(false)}
+                    toggle={() => setCreateToggle(false)}
                 /> :
                 <div>
                     <Button text={'Create'} onClick={() => setCreateToggle(true)} />
@@ -144,7 +144,7 @@ export default function EventZone() {
                     width={el.width}
                     height={el.height}
                     color={el.color}
-                    onCancel={() => setEditId(null)}
+                    toggle={() => setEditId(null)}
                 />
             ))}
         </>

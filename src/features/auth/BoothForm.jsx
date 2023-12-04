@@ -1,41 +1,65 @@
+import { useState, useRef } from 'react'
+import { Formik, Form } from 'formik'
+
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
-import Image from '../../components/Image'
-import { Formik, Form } from 'formik'
-import { object, string } from 'yup'
+import ImageInput from '../../components/ImageInput'
+import useLoading from '../../hooks/useLoading'
+import { toast } from 'react-toastify'
+import boothSchema from '../../validators/booth'
 
-const initialInput = {
-    boothTitle: '',
-    descrition: '',
-    link: '',
-}
 
-const boothSchema = object().shape({
-    boothTitle: string().trim().required('กรุณากรอกชื่อผู้ใช้'),
-    descrition: string().trim(),
-    link: string().trim(),
-});
 
-export default function BoothForm() {
+export default function BoothForm({ handleToggleClick, name, detail, src, link, id, setToggle, handleSubmit, handleEdit }) {
+    const [file, setFile] = useState(null)
+    const inputEl = useRef()
+    const { isLoading, isFinish } = useLoading()
+
+
+
+    const initialInput = {
+        title: name || '',
+        description: detail || '',
+        link: link || '',
+    }
     return (
         <div className="container">
             <div className="row justify-content-center">
-                <div className="d-flex flex-column gap-3 col-lg-5 col-md-6 align-items-center ">
-                    <Image />
-                    <div className="d-flex gap-2">
-                        <Button text={'Save'} />
-                        <Button text={'Cancle'} />
-                        <Button text={'Edit'} />
-                    </div>
+                <div className="col-lg-4 col-md-6">
+                    <ImageInput
+                        src={file ? URL.createObjectURL(file) : src}
+                        file={file}
+                        setFile={setFile}
+                        inputEl={inputEl}
+                        onClick={() => inputEl.current.click()}
+                    />
                 </div>
                 <div className="col-lg-5 col-md-6">
                     <Formik
                         validationSchema={boothSchema}
                         initialValues={initialInput}
-                        onSubmit={(values, { resetForm }) => {
-                            console.log(values)
-                            // console.log(values.boothTitle)
-                            // resetForm()
+                        onSubmit={async (values, { resetForm }) => {
+                            try {
+                                isLoading()
+
+                                if (id) {
+                                    await handleEdit(values, id, file)
+                                    toast.success(`EDIT SUCCESS`)
+                                    setFile(null)
+                                    handleToggleClick()
+                                } else {
+                                    console.log(values)
+                                    await await handleSubmit(values, file)
+                                    toast.success(`CREATE SUCCESS`)
+                                    resetForm()
+                                    setFile(null)
+                                    setToggle(false)
+                                }
+                            } catch (error) {
+                                toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
+                            } finally {
+                                isFinish()
+                            }
                         }}
 
                     >
@@ -43,19 +67,19 @@ export default function BoothForm() {
                             <Form action="" className="d-flex flex-column gap-2">
                                 <TextInput
                                     label={'Booth Title'}
-                                    name={'boothTitle'}
-                                    input={values.boothTitle}
+                                    name={'title'}
+                                    input={values.title}
                                     handleChange={handleChange}
-                                    error={errors.boothTitle}
-                                    touch={touched.boothTitle} />
+                                    error={errors.title}
+                                    touch={touched.title} />
                                 <TextInput
-                                    label={'Descrition'}
-                                    name={'descrition'}
+                                    label={'description'}
+                                    name={'description'}
                                     as={'textarea'}
-                                    input={values.descrition}
+                                    input={values.description}
                                     handleChange={handleChange}
-                                    error={errors.descrition}
-                                    touch={touched.descrition} />
+                                    error={errors.description}
+                                    touch={touched.description} />
                                 <TextInput
                                     label={'Link'}
                                     name={'link'}
@@ -65,7 +89,13 @@ export default function BoothForm() {
                                     touch={touched.link} />
                                 <div className="d-flex justify-content-center gap-2">
                                     <Button text={'Save'} type={'submit'} />
-                                    <Button text={'Cancle'} />
+                                    <Button text={'Cancle'} onClick={() => {
+                                        if (id) {
+                                            handleToggleClick()
+                                        } else {
+                                            setToggle(false)
+                                        }
+                                    }} />
                                 </div>
                             </Form>
                         )}

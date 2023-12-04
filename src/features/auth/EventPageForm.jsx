@@ -8,11 +8,7 @@ import TextInput from '../../components/TextInput'
 import ImageInput from '../../components/ImageInput'
 import useLoading from '../../hooks/useLoading'
 import useEvent from '../../hooks/useEvent'
-
-const createEventSchema = object().shape({
-    title: string().trim(),
-    detail: string().trim(),
-});
+import eventDetailSchema from '../../validators/eventDetail'
 
 
 export default function EventPageForm({ EventId, id, title, detail, name, bigSrc, src, handleToggleClick, setToggle }) {
@@ -61,7 +57,7 @@ export default function EventPageForm({ EventId, id, title, detail, name, bigSrc
                 </div>
                 <div className="col-lg-6 col-md-6">
                     <Formik
-                        validationSchema={createEventSchema}
+                        validationSchema={eventDetailSchema}
                         initialValues={initialInput}
                         onSubmit={async (values, { resetForm }) => {
                             try {

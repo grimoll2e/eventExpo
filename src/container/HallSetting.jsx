@@ -32,6 +32,7 @@ export default function HallSetting() {
                             id={el.id}
                             name={el.hallName}
                             detail={el.detail}
+                            link={el.link}
                             hallid={el.id}
                             src={el.image}
                         />

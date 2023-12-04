@@ -19,7 +19,6 @@ export default function CreateEventForm({ name, detail, id, src, hallId, period,
     const [image, setImage] = useState(null)
     const inputEl = useRef()
 
-
     const initialInput = {
         title: name,
         description: detail,

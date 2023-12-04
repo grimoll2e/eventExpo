@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import useLoading from "../../hooks/useLoading";
 
 
-export default function EventZoneForm({ setEvetZoneById, setCreateValue, onCancel, editId, id, createToggle, title, xaixs, yaixs, width, height, color, handleSubmit, eventId, handleEdit, handleDelete }) {
+export default function EventZoneForm({ setEvetZoneById, setCreateValue, toggle, editId, id, createToggle, title, xaixs, yaixs, width, height, color, handleSubmit, eventId, handleEdit, handleDelete }) {
 
     const { isLoading, isFinish } = useLoading()
 
@@ -32,6 +32,7 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, onCance
                             await handleSubmit(values, eventId)
                             toast.success(`CREATE SUCCESS`)
                             resetForm()
+                            toggle()
                         } catch (error) {
                             toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
                         } finally {
@@ -116,7 +117,7 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, onCance
                             />
                             <div>
                                 <Button text={'save'} type={'submit'} />
-                                <Button text={'cancel'} onClick={onCancel} />
+                                <Button text={'cancel'} onClick={toggle} />
                             </div>
                         </Form>
                     )}
@@ -128,12 +129,14 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, onCance
                         try {
                             isLoading()
                             await handleEdit(values, id)
-                            toast.success(`CREATE SUCCESS`)
-                            // resetForm()
+                            toast.success(`Edit SUCCESS`)
+                            resetForm()
                         } catch (error) {
                             toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
                         } finally {
                             isFinish()
+                            toggle()
+
                         }
                     }}
                 >
@@ -224,7 +227,7 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, onCance
                             />
                             <div>
                                 <Button text={'save'} type={'submit'} />
-                                <Button text={'cancel'} onClick={onCancel} />
+                                <Button text={'cancel'} onClick={toggle} />
                                 <Button text={'delete'} onClick={async () => {
                                     try {
                                         isLoading()

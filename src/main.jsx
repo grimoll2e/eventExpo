@@ -9,6 +9,7 @@ import AuthContextProvider from './contexts/AuthContext.jsx';
 import LoadingContaxtProvider from './contexts/LoadingContaxt.jsx';
 import EventContextProvider from './contexts/EventContext.jsx';
 import VeanueContextProvideer from './contexts/VeanueContext.jsx';
+import BoothContextProvider from './contexts/BoothContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -16,7 +17,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <AuthContextProvider>
         <VeanueContextProvideer>
           <EventContextProvider>
+            <BoothContextProvider>
             <App />
+            </BoothContextProvider>
           </EventContextProvider>
         </VeanueContextProvideer>
       </AuthContextProvider>

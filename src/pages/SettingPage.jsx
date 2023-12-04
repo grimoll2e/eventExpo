@@ -2,76 +2,16 @@ import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
 import AccountForm from "../features/auth/AccountForm"
-import BoothForm from "../features/auth/BoothForm"
-// import EventSetting from "../container/EventSetting"
-// import EventPageForm from "../features/auth/EventPageForm"
-import EventForm from "../features/auth/EventForm"
-import HallSetting from "../container/HallSetting"
-import CreateEventSetting from "../container/CreateEventSetting"
-import EventPageSetting from "../container/EventPageSetting"
-import EventZone from "../container/EventZone"
 import * as authApi from '../apis/auth-api'
-import AdminProtectedRouter from "../features/auth/AdminProtectedRouter"
 import useAuth from "../hooks/useAuth"
+import SettingMenu from '../routes/SettingMenu'
 
 export default function SettingPage() {
     const { role } = useAuth()
     const { idName } = useParams();
     const navigate = useNavigate();
 
-    const settingMenu = [
-        {
-            name: 'Account Setting',
-            element: <AccountForm />,
-            forRole: [import.meta.env.VITE_REACT_ROLE_USER, import.meta.env.VITE_REACT_ROLE_ADMIN]
-        },
-        {
-            name: 'Booth',
-            element: <BoothForm />,
-            forRole: [import.meta.env.VITE_REACT_ROLE_USER, import.meta.env.VITE_REACT_ROLE_ADMIN]
-        },
-        {
-            name: 'Event',
-            element: <EventForm />,
-            forRole: [import.meta.env.VITE_REACT_ROLE_USER, import.meta.env.VITE_REACT_ROLE_ADMIN]
-        },
-        {
-            name: 'SetZone',
-            element: (
-                <AdminProtectedRouter>
-                    <EventZone />
-                </AdminProtectedRouter>
-            ),
-            forRole: [import.meta.env.VITE_REACT_ROLE_ADMIN]
-        },
-        {
-            name: 'CreateEvent',
-            element: (
-                <AdminProtectedRouter>
-                    <CreateEventSetting />
-                </AdminProtectedRouter>
-            ),
-            forRole: [import.meta.env.VITE_REACT_ROLE_ADMIN]
-        },
-        {
-            name: 'Event Page',
-            element: (
-                <AdminProtectedRouter>
-                    <EventPageSetting />
-                </AdminProtectedRouter>
-            ),
-            forRole: [import.meta.env.VITE_REACT_ROLE_ADMIN]
-        },
-        {
-            name: 'Hall Page',
-            element: (
-                <AdminProtectedRouter>
-                    <HallSetting />
-                </AdminProtectedRouter>
-            ),
-            forRole: [import.meta.env.VITE_REACT_ROLE_ADMIN]
-        },
-    ]
+    const settingMenu = SettingMenu()
 
     useEffect(() => {
         const fetchAuthUser = async () => {

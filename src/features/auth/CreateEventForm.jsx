@@ -10,6 +10,7 @@ import createEventSchema from '../../validators/eventCreate'
 import useLoading from '../../hooks/useLoading'
 import useEvent from '../../hooks/useEvent'
 import useVeanue from '../../hooks/useVeanue'
+import SelectInput from '../../components/SelectInput'
 
 export default function CreateEventForm({ name, detail, id, src, hallId, period, handleToggleClick, setToggle }) {
     const { handleCreateEvent, handleEditEvent } = useEvent()
@@ -85,12 +86,17 @@ export default function CreateEventForm({ name, detail, id, src, hallId, period,
                                     handleChange={handleChange}
                                     error={errors.period}
                                     touch={touched.period} />
-                                <Field as="select" name="hallId" className={`py-1 px-3 form-control`}>
-                                    <option key={0} value={0}>pls choose</option>
+                                <SelectInput
+                                    label={'Hall'}
+                                    name={'hallId'}
+                                    onChange={handleChange}
+                                    error={errors.hallId}
+                                    touch={touched.hallId}
+                                >
                                     {allVeanue && allVeanue.map((el, idx) => (
-                                        <option key={el.id} value={el.id}>{el.hallName}</option>
+                                        <option key={idx} value={el.id}>{el.hallName}</option>
                                     ))}
-                                </Field>
+                                </SelectInput>
                                 <div className="d-flex justify-content-center gap-2">
                                     <Button text={'Save'} type={'submit'} />
                                     <Button text={'Cancle'} onClick={() => {

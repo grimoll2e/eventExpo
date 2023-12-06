@@ -1,70 +1,75 @@
-import Button from '../../components/Button'
-import TextInput from '../../components/TextInput'
-import Image from '../../components/Image'
 import { Formik, Form } from 'formik'
-import { object, string } from 'yup'
+import { toast } from 'react-toastify'
 
-const initialInput = {
-    eventTitle: '',
-    zone: '',
-    booth: '',
-}
+import Button from '../../components/Button'
+import SelectInput from '../../components/SelectInput'
 
-const eventSchema = object().shape({
-    eventTitle: string().trim().required('required'),
-    zone: string().trim().required('required'),
-    booth: string().trim().required('required'),
-});
+import useEvent from '../../hooks/useEvent'
+import useBooth from '../../hooks/useBooth'
+import useLoading from '../../hooks/useLoading'
 
-export default function EventForm() {
+export default function EventForm({ setToggle, zoneId, boothId, handleSubmit, handleToggleClick, id }) {
+    const { eventZoneById } = useEvent()
+    const { booth } = useBooth()
+    const { isLoading, isFinish } = useLoading()
+
+    const initialInput = {
+        zoneId: zoneId,
+        boothId: boothId
+    }
+
     return (
         <div className="container">
             <div className="row justify-content-center">
-                <div className="d-flex flex-column gap-3 col-lg-5 col-md-6 align-items-center ">
-                    <Image />
-                    <div className="d-flex gap-2">
-                        <Button text={'Save'} />
-                        <Button text={'Cancle'} />
-                        <Button text={'Edit'} />
-                    </div>
-                </div>
-                <div className="col-lg-5 col-md-6">
+                <div className="col-12">
                     <Formik
-                        validationSchema={eventSchema}
                         initialValues={initialInput}
-                        onSubmit={(values, { resetForm }) => {
-                            console.log(values)
-                            // console.log(values.boothTitle)
-                            // resetForm()
+                        onSubmit={async (values, { resetForm }) => {
+                            try {
+                                isLoading()
+                                await handleSubmit(values)
+                                toast.success(`CREATE SUCCESS`)
+                                handleToggleClick()
+                            } catch (error) {
+                                toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
+                            } finally {
+                                isFinish()
+                            }
                         }}
-
                     >
                         {({ values, errors, touched, handleChange }) => (
                             <Form action="" className="d-flex flex-column gap-2">
-                                <TextInput
-                                    label={'Event Title'}
-                                    name={'eventTitle'}
-                                    input={values.eventTitle}
-                                    handleChange={handleChange}
-                                    error={errors.eventTitle}
-                                    touch={touched.eventTitle} />
-                                <TextInput
+                                <SelectInput
                                     label={'Zone'}
-                                    name={'zone'}
-                                    input={values.zone}
-                                    handleChange={handleChange}
-                                    error={errors.zone}
-                                    touch={touched.zone} />
-                                <TextInput
+                                    name={'zoneId'}
+                                    onChange={handleChange}
+                                    error={errors.zoneId}
+                                    touch={touched.zoneId}
+                                >
+                                    {eventZoneById && eventZoneById.map((el, idx) => (
+                                        <option key={idx} value={el.id}>{el.title}</option>
+                                    ))}
+                                </SelectInput>
+                                <SelectInput
                                     label={'Booth'}
-                                    name={'booth'}
-                                    input={values.booth}
-                                    handleChange={handleChange}
-                                    error={errors.booth}
-                                    touch={touched.booth} />
+                                    name={'boothId'}
+                                    onChange={handleChange}
+                                    error={errors.boothId}
+                                    touch={touched.boothId}
+                                >
+                                    {booth && booth.map((el, idx) => (
+                                        <option key={idx} value={el.id}>{el.title}</option>
+                                    ))}
+                                </SelectInput>
                                 <div className="d-flex justify-content-center gap-2">
                                     <Button text={'Save'} type={'submit'} />
-                                    <Button text={'Cancle'} />
+                                    <Button text={'Cancle'} onClick={() => {
+                                        if (id) {
+                                            handleToggleClick()
+                                        } else {
+                                            setToggle(false)
+                                        }
+                                    }} />
                                 </div>
                             </Form>
                         )}

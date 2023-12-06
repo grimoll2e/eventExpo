@@ -20,10 +20,9 @@ export default function EventContextProvider({ children }) {
 
     const getEventById = async (id) => {
         try {
-            if (!id) {
+            if (!id || id === 0 || id === '0') {
                 setEventById(null)
-                // return { gotopath: '/event' }
-            } else {
+            } else if (id !== 0 && id !== '0') {
                 const res = await eventApi.getById(id)
                 setEventById(res.data.result)
             }
@@ -124,9 +123,9 @@ export default function EventContextProvider({ children }) {
     //eventZone
     const getAllEventZoneByEventId = async (id) => {
         try {
-            if (!id) {
+            if (!id || id === 0 || id === '0') {
                 setEvetZoneById(null)
-            } else {
+            } else if (id !== 0 && id !== '0') {
                 const res = await eventApi.getEventZoneByEventId(id)
                 setEvetZoneById(res.data.result)
             }
@@ -144,12 +143,13 @@ export default function EventContextProvider({ children }) {
 
     }
     const handleEditEventZone = async (input, id) => {
+
         const value = {}
         for (const key in input) {
             value[key] = typeof input[key] === 'number' ? input[key].toString() : input[key]
         }
         const res = await eventApi.editEventZone(value, id)
-        setEvetZoneById(prv => prv.map((el, id) => el.id === id ? { ...el, ...res.data.result } : el))
+        setEvetZoneById(prv => prv.map((el) => el.id == id ? { ...el, ...res.data.result } : el))
     }
     const handleDeleteEventZone = async (id) => {
         if (!id) {

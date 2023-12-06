@@ -1,20 +1,28 @@
 import { useEffect, useState, useRef } from 'react'
 
-import useEvent from '../hooks/useEvent'
 import Image from '../components/Image'
 import EventZoneForm from '../features/auth/EventZoneForm'
 import Button from '../components/Button'
+
+import useEvent from '../hooks/useEvent'
+import useAuth from '../hooks/useAuth'
 
 const valueOpacity = '0.6'
 
 export default function EventZone() {
     const { allEvent, getEventById, eventById, getAllEventZoneByEventId, eventZoneById, setEvetZoneById, handleCreateEventZone, handleEditEventZone, handleDeleteEventZone } = useEvent()
+    const { getAlluser } = useAuth()
+
     const [eventId, setEventId] = useState(null)
     const [editId, setEditId] = useState(null)
     const [createToggle, setCreateToggle] = useState(false)
     const [createvalue, setCreateValue] = useState({})
 
     const bigBox = useRef(null)
+
+    useEffect(() => {
+        getAlluser()
+    }, [])
 
     useEffect(() => {
         const fetchdata = () => {
@@ -29,8 +37,8 @@ export default function EventZone() {
         fetchdata()
     }, [eventId]);
 
-    const handleDragStart = (idx) => {
-        setEditId(idx)
+    const handleDragStart = (idx, id) => {
+        setEditId(id)
         const handleDragMove = (e) => {
             if (eventZoneById[idx]) {
                 let xPercentage = parseInt((((e.pageX - bigBox.current.offsetLeft) / bigBox.current.clientWidth) * 100) - (eventZoneById[idx].width / 2));
@@ -41,7 +49,7 @@ export default function EventZone() {
                 if (yPercentage > 100 - eventZoneById[idx].height || yPercentage < 0) {
                     yPercentage = Math.max(0, Math.min(yPercentage, 100 - eventZoneById[idx].height));
                 }
-                setEvetZoneById((prev) => prev.map((el, index) => index === idx ? { ...el, yaixs: yPercentage, xaixs: xPercentage } : el))
+                setEvetZoneById((prev) => prev.map((el, index) => el.id === id ? { ...el, yaixs: yPercentage, xaixs: xPercentage } : el))
             } else if (createvalue) {
                 let xPercentage = parseInt((((e.pageX - bigBox.current.offsetLeft) / bigBox.current.clientWidth) * 100) - (createvalue.width / 2));
                 let yPercentage = parseInt((((e.pageY - bigBox.current.offsetTop) / bigBox.current.clientHeight) * 100) - (createvalue.height / 2));
@@ -81,7 +89,7 @@ export default function EventZone() {
                 {eventZoneById && eventZoneById.map((el, idx) => (
                     <div className='position-absolute d-flex justify-content-center align-items-center rounded'
                         key={idx}
-                        onMouseDown={() => handleDragStart(idx)}
+                        onMouseDown={() => handleDragStart(idx, el.id)}
                         style={{
                             top: `${el.yaixs}%`,
                             left: `${el.xaixs}%`,
@@ -125,15 +133,16 @@ export default function EventZone() {
                     width={createvalue.width}
                     height={createvalue.height}
                     color={createvalue.color}
+                    userId={createvalue.userId}
                     toggle={() => setCreateToggle(false)}
                 /> :
-                <div>
+                <div className='d-flex justify-content-center'>
                     <Button text={'Create'} onClick={() => setCreateToggle(true)} />
                 </div>}
             {eventZoneById && eventZoneById.map((el, idx) => (
                 <EventZoneForm
                     key={idx}
-                    id={idx}
+                    id={el.id}
                     handleEdit={handleEditEventZone}
                     handleDelete={handleDeleteEventZone}
                     editId={editId}
@@ -144,6 +153,7 @@ export default function EventZone() {
                     width={el.width}
                     height={el.height}
                     color={el.color}
+                    userId={el.userId}
                     toggle={() => setEditId(null)}
                 />
             ))}

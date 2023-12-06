@@ -11,6 +11,7 @@ export default function AuthContextProvider({ children }) {
   const [authenticatedUser, setAuthenticatedUser] = useState(getAccessToken() ? true : null)
   //authenticatedUser ไว้ตรวรสอบว่ามีการ login ไหม
   const [role, setRole] = useState(null)
+  const [allUser, setAllUser] = useState(null)
 
   useEffect(() => {
     const fetchAuthUser = async () => {
@@ -53,8 +54,15 @@ export default function AuthContextProvider({ children }) {
     setAuthenticatedUser({ ...authenticatedUser, ...res.data })
   }
 
+  const getAlluser = async () => {
+    const res = await authApi.getAllUser()
+    setAllUser(res.data.result)
+  }
+
+
+
   return (
-    <AuthContext.Provider value={{ authenticatedUser, login, logout, updateUserImage, role }}>
+    <AuthContext.Provider value={{ authenticatedUser, allUser, login, logout, updateUserImage, role, getAlluser }}>
       {children}
     </AuthContext.Provider>
   );

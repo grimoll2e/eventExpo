@@ -7,7 +7,7 @@ import Image from "./Image";
 import useLoading from "../hooks/useLoading";
 
 
-export default function ListItem({ name, detail, idx, children, src, id, handleDelete }) {
+export default function ListItem({ name, detail, idx, children, src, id, handleDelete, noButton }) {
     const { isLoading, isFinish } = useLoading()
 
     const [toggle, setToggle] = useState(false);
@@ -26,7 +26,7 @@ export default function ListItem({ name, detail, idx, children, src, id, handleD
                             <p>name : {name}</p>
                             <p>detail : {detail}</p>
                         </div>
-                        <div>
+                        {noButton ? <></> : <div>
                             <Button text={'delete'} onClick={async (e) => {
                                 try {
                                     e.stopPropagation();
@@ -40,7 +40,7 @@ export default function ListItem({ name, detail, idx, children, src, id, handleD
                                 }
                             }}
                             />
-                        </div>
+                        </div>}
                     </div >
             }
         </div>

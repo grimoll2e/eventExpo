@@ -25,8 +25,6 @@ export default function EventPage() {
         };
         scrollToTop()
 
-
-
         const fetchData = async () => {
             try {
                 const res = await getEventById(eventId)
@@ -61,7 +59,7 @@ export default function EventPage() {
                 }
             </div>
             <div>
-                <h1 className="header_text">Other's Event</h1>
+                <h1 className="header_text">{eventById ? "Other's Event" : "All Event"}</h1>
                 <Card value={eventById ? eventOtherId : allEvent} />
             </div>
         </div>

@@ -1,13 +1,18 @@
 import { Formik, Form } from "formik";
+import { toast } from "react-toastify";
+
 import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
-import { toast } from "react-toastify";
+
 import useLoading from "../../hooks/useLoading";
+import useAuth from "../../hooks/useAuth";
+import SelectInput from "../../components/SelectInput";
 
 
-export default function EventZoneForm({ setEvetZoneById, setCreateValue, toggle, editId, id, createToggle, title, xaixs, yaixs, width, height, color, handleSubmit, eventId, handleEdit, handleDelete }) {
+export default function EventZoneForm({ setEvetZoneById, toggle, editId, id, createToggle, title, xaixs, yaixs, width, height, color, handleSubmit, eventId, handleEdit, handleDelete, userId }) {
 
     const { isLoading, isFinish } = useLoading()
+    const { allUser } = useAuth()
 
     const initialInput = {
         title: title || '',
@@ -15,7 +20,8 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, toggle,
         yaixs: yaixs || '0',
         width: width || '0',
         height: height || '0',
-        color: color || '#000000'
+        color: color || '#000000',
+        userId: userId || '1'
     }
 
     return (
@@ -115,13 +121,25 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, toggle,
                                 error={errors.color}
                                 touch={touched.color}
                             />
+                            <SelectInput
+                                label={'User Id'}
+                                name={'userId'}
+                                onChange={handleChange}
+                                error={errors.userId}
+                                touch={touched.userId}
+                            >
+                                {allUser && allUser.map((el, idx) => (
+                                    <option key={idx} value={el.id}>{el.userName}</option>
+                                ))}
+                            </SelectInput>
                             <div>
                                 <Button text={'save'} type={'submit'} />
                                 <Button text={'cancel'} onClick={toggle} />
                             </div>
                         </Form>
                     )}
-                </Formik> : editId === id && <Formik
+                </Formik>
+                : editId === id && <Formik
                     enableReinitialize={true}
                     // validationSchema={}
                     initialValues={initialInput}
@@ -148,7 +166,7 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, toggle,
                                 input={title || values.title}
                                 handleChange={(e) => {
                                     handleChange(e)
-                                    setEvetZoneById((prev) => prev.map((el, idx) => idx === editId ? { ...el, title: e.target.value } : el))
+                                    setEvetZoneById((prev) => prev.map((el, idx) => el.id === editId ? { ...el, title: e.target.value } : el))
                                 }}
                                 error={errors.title}
                                 touch={touched.title}
@@ -163,7 +181,7 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, toggle,
                                     if (Number(e.target.value) + Number(width) > 100) {
                                         e.target.value = 100 - width
                                     }
-                                    setEvetZoneById((prev) => prev.map((el, idx) => idx === editId ? { ...el, xaixs: e.target.value } : el))
+                                    setEvetZoneById((prev) => prev.map((el, idx) => el.id === editId ? { ...el, xaixs: e.target.value } : el))
                                 }}
                                 error={errors.xaixs}
                                 touch={touched.xaixs}
@@ -178,7 +196,7 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, toggle,
                                     if (Number(e.target.value) + Number(height) > 100) {
                                         e.target.value = 100 - height
                                     }
-                                    setEvetZoneById((prev) => prev.map((el, idx) => idx === editId ? { ...el, yaixs: e.target.value } : el))
+                                    setEvetZoneById((prev) => prev.map((el, idx) => el.id === editId ? { ...el, yaixs: e.target.value } : el))
                                 }}
                                 error={errors.yaixs}
                                 touch={touched.yaixs}
@@ -193,7 +211,7 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, toggle,
                                     if (Number(e.target.value) + Number(xaixs) > 100) {
                                         e.target.value = 100 - xaixs
                                     }
-                                    setEvetZoneById((prev) => prev.map((el, idx) => idx === editId ? { ...el, width: e.target.value } : el))
+                                    setEvetZoneById((prev) => prev.map((el, idx) => el.id === editId ? { ...el, width: e.target.value } : el))
                                 }}
                                 error={errors.width}
                                 touch={touched.width}
@@ -208,7 +226,7 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, toggle,
                                     if (Number(e.target.value) + Number(yaixs) > 100) {
                                         e.target.value = 100 - yaixs
                                     }
-                                    setEvetZoneById((prev) => prev.map((el, idx) => idx === editId ? { ...el, height: e.target.value } : el))
+                                    setEvetZoneById((prev) => prev.map((el, idx) => el.id === editId ? { ...el, height: e.target.value } : el))
                                 }}
                                 error={errors.height}
                                 touch={touched.height}
@@ -220,11 +238,22 @@ export default function EventZoneForm({ setEvetZoneById, setCreateValue, toggle,
                                 input={color || values.color}
                                 handleChange={(e) => {
                                     handleChange(e)
-                                    setEvetZoneById((prev) => prev.map((el, idx) => idx === editId ? { ...el, color: e.target.value } : el))
+                                    setEvetZoneById((prev) => prev.map((el, idx) => el.id === editId ? { ...el, color: e.target.value } : el))
                                 }}
                                 error={errors.color}
                                 touch={touched.color}
                             />
+                            <SelectInput
+                                label={'User Id'}
+                                name={'userId'}
+                                onChange={handleChange}
+                                error={errors.userId}
+                                touch={touched.userId}
+                            >
+                                {allUser && allUser.map((el, idx) => (
+                                    <option key={idx} value={el.id}>{el.userName}</option>
+                                ))}
+                            </SelectInput>
                             <div>
                                 <Button text={'save'} type={'submit'} />
                                 <Button text={'cancel'} onClick={toggle} />

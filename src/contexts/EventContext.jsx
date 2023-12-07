@@ -63,7 +63,7 @@ export default function EventContextProvider({ children }) {
         setAllEvent((prv) => prv.filter(el => el.id !== id))
     }
 
-    const handleEditEvent = async (input, id, file) => {
+    const handleEditEvent = async (input, file, id) => {
         const formData = new FormData()
         if (file) {
             formData.append('image', file)

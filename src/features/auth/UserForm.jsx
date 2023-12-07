@@ -1,6 +1,6 @@
 import useAuth from "../../hooks/useAuth"
 import CreateForm from "../../layouts/CreateForm"
-import FormInput from "../FormInput"
+import FormInput from "../../layouts/FormInput"
 
 export default function UserForm({ toggleForEdit }) {
     const { authenticatedUser, updateUser } = useAuth()

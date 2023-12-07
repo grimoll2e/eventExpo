@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 
-import ListItem from '../components/ListItem'
-import Image from '../components/Image'
-import EventForm from '../features/auth/EventForm'
+import ListItem from '../../components/ListItem'
+import Image from '../../components/Image'
+import EventForm from './EventForm'
 
-import useEvent from '../hooks/useEvent'
-import useAuth from '../hooks/useAuth'
+import useEvent from '../../hooks/useEvent'
+import useAuth from '../../hooks/useAuth'
 
 const valueOpacity = '0.6'
 
@@ -27,7 +27,7 @@ export default function Event() {
         }
         fetchdata()
     }, [eventId])
-    console.log(eventZoneByuserId)
+    // console.log(eventZoneByuserId)
 
 
     return (

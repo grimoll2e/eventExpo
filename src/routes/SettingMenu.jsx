@@ -1,10 +1,10 @@
-import EventZone from '../container/EventZone'
-import CreateEventSetting from '../container/CreateEventSetting'
-import EventPageSetting from '../container/EventPageSetting'
-import HallSetting from '../container/HallSetting'
-import BoothSetting from '../container/BoothSetting'
-import UserSetting from '../container/UserSetting'
-import Event from '../container/Event'
+import BoothSetting from '../features/booth/BoothSetting'
+import HallSetting from '../features/hall/HallSetting'
+import UserSetting from '../features/auth/UserSetting'
+import Event from '../features/event/Event'
+import EventZone from '../features/event/EventZone'
+import CreateEventSetting from '../features/event/CreateEventSetting'
+import EventPageSetting from '../features/event/EventPageSetting'
 
 import AdminProtectedRouter from '../features/auth/AdminProtectedRouter'
 

@@ -6,7 +6,7 @@ import ImageInput from '../components/ImageInput'
 
 import useLoading from '../hooks/useLoading'
 
-export default function CreateForm({ initialValues, validationSchema, handleSubmit, handleEdit, src, children, id, toggleForEdit, toggleForCreate, addclassImage }) {
+export default function CreateForm({ initialValues, validationSchema, handleSubmit, handleEdit, src, children, id, toggleForEdit, toggleForCreate, addclassImage, testFunc }) {
 
     const { isLoading, isFinish } = useLoading()
     const [image, setImage] = useState(null)
@@ -32,6 +32,7 @@ export default function CreateForm({ initialValues, validationSchema, handleSubm
                             try {
                                 isLoading()
                                 if (id) {
+                                    testFunc(values, image, id)
                                     await handleEdit(values, image, id)
                                     toast.success(`Edit SUCCESS`)
                                     toggleForEdit()

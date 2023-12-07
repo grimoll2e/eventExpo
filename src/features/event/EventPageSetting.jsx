@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
-import ListItem from '../components/ListItem'
-import Button from '../components/Button'
-import EventPageForm from '../features/auth/EventPageForm'
+import ListItem from '../../components/ListItem'
+import Button from '../../components/Button'
+import EventPageForm from './EventPageForm'
 
-import useEvent from '../hooks/useEvent'
+import useEvent from '../../hooks/useEvent'
 
 export default function EventPageSetting() {
 
@@ -18,7 +18,7 @@ export default function EventPageSetting() {
         const fetchData = async () => {
             if (eventId === '0' || eventId === null) {
                 await getEventById(null)
-                    setEventId(null)
+                setEventId(null)
             } else if (eventId) {
                 await getEventById(eventId)
             }

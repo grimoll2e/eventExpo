@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
-import UserSetting from "../container/UserSetting"
+import UserSetting from "../features/auth/UserSetting"
 import * as authApi from '../apis/auth-api'
 import useAuth from "../hooks/useAuth"
 import SettingMenu from '../routes/SettingMenu'

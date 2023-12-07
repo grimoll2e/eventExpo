@@ -1,41 +1,44 @@
 import CreateForm from "../../layouts/CreateForm";
 import FormInput from "../../layouts/FormInput";
+import boothSchema from '../../validators/booth'
+import useBooth from '../../hooks/useBooth'
 
-import veanueEventSchema from '../../validators/hall'
+export default function BoothForm({ toggleForCreate, toggleForEdit, title, description, link, id, src }) {
 
-import useVeanue from '../../hooks/useVeanue'
-
-export default function HallForm({ toggleForCreate, toggleForEdit, id, name, detail, src, testFunc }) {
-
-    const { handleSubmit, handleEdit } = useVeanue()
+    const { handleCreateBooth, handleEditBooth } = useBooth()
 
     const initialValues = {
-        hallName: name,
-        detail: detail,
+        title: title,
+        description: description,
+        link: link,
     }
     const textinput = [
         {
-            label: 'Hall Name',
-            name: 'hallName',
-            value: name
+            label: 'Title',
+            name: 'title',
+            value: title
         },
         {
-            label: 'Detail',
-            name: 'detail',
-            value: detail
+            label: 'Description',
+            name: 'description',
+            value: description
+        },
+        {
+            label: 'Link',
+            name: 'link',
+            value: link
         },
     ]
 
     return (
         <CreateForm
-            testFunc={testFunc}
             id={id}
             src={src}
             toggleForEdit={toggleForEdit}
             toggleForCreate={toggleForCreate}
-            handleEdit={handleEdit}
-            handleSubmit={handleSubmit}
-            validationSchema={veanueEventSchema}
+            handleEdit={handleEditBooth}
+            handleSubmit={handleCreateBooth}
+            validationSchema={boothSchema}
             initialValues={initialValues}
         >
             {({ values, errors, touched, handleChange }) => (

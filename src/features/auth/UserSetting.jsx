@@ -1,12 +1,10 @@
 import { useState } from 'react'
 
-import UserForm from '../features/auth/UserForm'
-import Button from '../components/Button'
-import Image from '../components/Image'
+import UserForm from './UserForm'
+import Button from '../../components/Button'
+import Image from '../../components/Image'
 
-import useAuth from '../hooks/useAuth'
-
-
+import useAuth from '../../hooks/useAuth'
 
 export default function UserSetting() {
     const [toggle, setToggle] = useState(false)

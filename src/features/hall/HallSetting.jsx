@@ -1,18 +1,22 @@
 import { useState } from "react";
 
-import ListItem from "../components/ListItem";
-import Button from "../components/Button";
-import HallForm from "../features/hall/HallForm";
+import ListItem from "../../components/ListItem";
+import Button from "../../components/Button";
+import HallForm from "./HallForm";
 
-import useVeanue from "../hooks/useVeanue";
+import useVeanue from "../../hooks/useVeanue";
 
 export default function HallSetting() {
 
     const { allVeanue, handleDelete } = useVeanue()
     const [toggle, setToggle] = useState(false)
 
+    const testFunc = (values, image, id) => {
+        console.log(values, image, id)
+    }
+
     return (
-        <>  
+        <>
             {toggle ?
                 <HallForm toggleForCreate={() => setToggle(false)} /> :
                 <div className='d-flex justify-content-center'>
@@ -36,6 +40,7 @@ export default function HallSetting() {
                             name={el.hallName}
                             detail={el.detail}
                             src={el.image}
+                            testFunc={testFunc}
                         />
                     </ListItem>))
             }

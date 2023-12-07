@@ -3,9 +3,9 @@ import CreateEventSetting from '../container/CreateEventSetting'
 import EventPageSetting from '../container/EventPageSetting'
 import HallSetting from '../container/HallSetting'
 import BoothSetting from '../container/BoothSetting'
+import UserSetting from '../container/UserSetting'
 import Event from '../container/Event'
 
-import AccountForm from '../features/auth/AccountForm'
 import AdminProtectedRouter from '../features/auth/AdminProtectedRouter'
 
 export default function SettingMenu() {
@@ -13,7 +13,7 @@ export default function SettingMenu() {
     const settingMenu = [
         {
             name: 'Account Setting',
-            element: <AccountForm />,
+            element: <UserSetting />,
             forRole: [import.meta.env.VITE_REACT_ROLE_USER, import.meta.env.VITE_REACT_ROLE_ADMIN]
         },
         {

@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import ListItem from "../components/ListItem";
 import Button from "../components/Button";
-import HallForm from "../features/auth/HallForm";
+import HallForm from "../features/hall/HallForm";
 
 import useVeanue from "../hooks/useVeanue";
 
@@ -19,7 +19,8 @@ export default function HallSetting() {
                     <Button text={'Creat Hall'} onClick={() => setToggle(true)} />
                 </div>
             }
-            {
+
+            {/* {
                 allVeanue && allVeanue.map((el, idx) => (
                     <ListItem
                         name={el.hallName}
@@ -39,7 +40,7 @@ export default function HallSetting() {
                             src={el.image}
                         />
                     </ListItem>))
-            }
+            } */}
 
         </>
     )

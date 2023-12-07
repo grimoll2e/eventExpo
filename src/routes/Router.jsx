@@ -13,6 +13,7 @@ import PageNotFound from "../pages/PageNotFound";
 
 import RedirectIfAuthenticate from "../features/auth/RedirectifAuthenticate";
 import ProtectedRoute from "../features/auth/ProtectedRoute";
+import Testpage from "../pages/Testpage";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "/test",
+        element: <Testpage />,
       },
       {
         path: "/about",

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
-import AccountForm from "../features/auth/AccountForm"
+import UserSetting from "../container/UserSetting"
 import * as authApi from '../apis/auth-api'
 import useAuth from "../hooks/useAuth"
 import SettingMenu from '../routes/SettingMenu'
@@ -45,7 +45,7 @@ export default function SettingPage() {
                 <hr className="" style={{ height: '2px', color: 'gray', backgroundColor: 'gray', width: '60%' }} />
                 <h1 className="header_text">{menu || settingMenu[0].name}</h1>
             </div>
-            {selectmenu ? selectmenu.element : <AccountForm />}
+            {selectmenu ? selectmenu.element : <UserSetting />}
         </div>
     )
 }

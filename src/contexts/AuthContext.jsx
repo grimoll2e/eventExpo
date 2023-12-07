@@ -50,9 +50,16 @@ export default function AuthContextProvider({ children }) {
     setRole(null)
   }
 
-  const updateUserImage = async (data) => {
-    const res = await userApi.updateUser(data)
-    setAuthenticatedUser({ ...authenticatedUser, ...res.data })
+  const updateUser = async (input, file) => {
+    const formData = new FormData()
+    if (file) {
+      formData.append('userImage', file)
+    }
+    Object.entries(input).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    const res = await userApi.updateUser(formData)
+    setAuthenticatedUser({ ...authenticatedUser, ...res.data.result })
   }
 
   const getAlluser = async () => {
@@ -61,7 +68,7 @@ export default function AuthContextProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ authenticatedUser, allUser, login, logout, updateUserImage, role, getAlluser }}>
+    <AuthContext.Provider value={{ authenticatedUser, allUser, login, logout, updateUser, role, getAlluser }}>
       {children}
     </AuthContext.Provider>
   );

@@ -15,7 +15,10 @@ export default function BoothContextProvider({ children }) {
             const res = await boothApi.getByUserId()
             setBooth(res.data.result)
         }
-        fetchData()
+        if (authenticatedUser) {
+
+            fetchData()
+        }
     }, [authenticatedUser])
 
     const handleCreateBooth = async (input, file) => {

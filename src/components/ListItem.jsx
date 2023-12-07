@@ -16,7 +16,7 @@ export default function ListItem({ name, detail, idx, children, src, id, handleD
             {
                 toggle ?
                     <div className="bg-body-secondary py-3 my-3" key={idx}>
-                        {children && React.cloneElement(children, { handleToggleClick: () => setToggle(false) })}
+                        {children && React.cloneElement(children, { toggleForEdit: () => setToggle(false) })}
                     </div> :
                     <div className="d-flex bg-dark-subtle p-2 rounded-2 gap-3 col-12 mt-3" onClick={() => setToggle(true)}>
                         <Image size={100} src={src} />

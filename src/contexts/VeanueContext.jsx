@@ -25,7 +25,7 @@ export default function VeanueContextProvideer({ children }) {
         const res = await hallApi.createHall(formData)
         setAllVeanue((prv) => [...prv, res.data.post])
     }
-    const handleEdit = async (input, hallid, file) => {
+    const handleEdit = async (input, file, hallid) => {
         const formData = new FormData()
         if (file) {
             formData.append('image', file)

@@ -1,13 +1,12 @@
 import { useState, useRef } from 'react'
-import { Formik, Form } from 'formik'
+import { Formik } from 'formik'
 import { toast } from 'react-toastify'
 
 import ImageInput from '../components/ImageInput'
 
 import useLoading from '../hooks/useLoading'
-import Button from '../components/Button'
 
-export default function CreateForm({ initialValues, validationSchema, handleSubmit, handleCancle, src, children }) {
+export default function CreateForm({ initialValues, validationSchema, handleSubmit, handleEdit, src, children, id, toggleForEdit, toggleForCreate, addclassImage }) {
 
     const { isLoading, isFinish } = useLoading()
     const [image, setImage] = useState(null)
@@ -20,6 +19,7 @@ export default function CreateForm({ initialValues, validationSchema, handleSubm
                     <ImageInput
                         src={image ? URL.createObjectURL(image) : src}
                         setFile={setImage}
+                        addclass={addclassImage}
                         inputEl={inputEl}
                         onClick={() => inputEl.current.click()}
                     />
@@ -30,12 +30,18 @@ export default function CreateForm({ initialValues, validationSchema, handleSubm
                         initialValues={initialValues}
                         onSubmit={async (values, { resetForm }) => {
                             try {
-                                console.log(values)
                                 isLoading()
-                                //     await handleSubmit(values)
-                                //     toast.success(`CREATE SUCCESS`)
-                                resetForm()
-                                //     setImage(null)
+                                if (id) {
+                                    await handleEdit(values, image, id)
+                                    toast.success(`Edit SUCCESS`)
+                                    toggleForEdit()
+                                } else {
+                                    await handleSubmit(values, image)
+                                    toast.success(`CREATE SUCCESS`)
+                                    resetForm()
+                                    setImage(null)
+                                    toggleForCreate()
+                                }
                             } catch (error) {
                                 toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
                             } finally {

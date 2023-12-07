@@ -1,5 +1,5 @@
 import useAuth from "../../hooks/useAuth"
-import EditForm from "../../layouts/EditForm"
+import CreateForm from "../../layouts/CreateForm"
 import FormInput from "../FormInput"
 
 export default function UserForm({ toggleForEdit }) {
@@ -36,25 +36,27 @@ export default function UserForm({ toggleForEdit }) {
     }
 
     return (
-        <EditForm
+        <CreateForm
+            id={authenticatedUser.id}
             addclassImage='rounded-circle'
             src={authenticatedUser.userImage}
             handleEdit={updateUser}
             initialValues={initialValues}
-        // validationSchema={validationSchema}
+            toggleForEdit={toggleForEdit}
         >
             {({ values, errors, touched, handleChange }) => (
                 <FormInput
+                    id={authenticatedUser.id}
                     values={values}
                     errors={errors}
                     touched={touched}
                     handleChange={handleChange}
                     textinput={textinput}
-                    handleCancle={toggleForEdit}
+                    toggleForEdit={toggleForEdit}
                 >
                 </FormInput>
             )}
-        </EditForm>
+        </CreateForm>
     )
 }
 

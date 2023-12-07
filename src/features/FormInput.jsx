@@ -4,7 +4,7 @@ import SelectInput from "../components/SelectInput";
 import Button from "../components/Button";
 
 
-export default function FormInput({ values, errors, touched, handleChange, handleCancle, textinput, selectinput }) {
+export default function FormInput({ id, values, errors, touched, handleChange, toggleForEdit, toggleForCreate, textinput, selectinput }) {
     return (
         <Form action="" className="">
             {textinput ? textinput.map((el) => (
@@ -34,7 +34,13 @@ export default function FormInput({ values, errors, touched, handleChange, handl
             )) : null}
             <div className="d-flex justify-content-center gap-2 mt-4">
                 <Button text={'Save'} type={'submit'} />
-                <Button text={'Cancle'} onClick={handleCancle} />
+                <Button text={'Cancle'} onClick={() => {
+                    if (id) {
+                        toggleForEdit()
+                    } else {
+                        toggleForCreate()
+                    }
+                }} />
             </div>
         </Form>
     )

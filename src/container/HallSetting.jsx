@@ -14,13 +14,13 @@ export default function HallSetting() {
     return (
         <>  
             {toggle ?
-                <HallForm setToggle={setToggle} /> :
+                <HallForm toggleForCreate={() => setToggle(false)} /> :
                 <div className='d-flex justify-content-center'>
                     <Button text={'Creat Hall'} onClick={() => setToggle(true)} />
                 </div>
             }
 
-            {/* {
+            {
                 allVeanue && allVeanue.map((el, idx) => (
                     <ListItem
                         name={el.hallName}
@@ -35,12 +35,10 @@ export default function HallSetting() {
                             id={el.id}
                             name={el.hallName}
                             detail={el.detail}
-                            link={el.link}
-                            hallid={el.id}
                             src={el.image}
                         />
                     </ListItem>))
-            } */}
+            }
 
         </>
     )

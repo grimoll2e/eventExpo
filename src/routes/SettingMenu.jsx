@@ -1,12 +1,12 @@
-import React from 'react'
-import AccountForm from '../features/auth/AccountForm'
-import AdminProtectedRouter from '../features/auth/AdminProtectedRouter'
 import EventZone from '../container/EventZone'
 import CreateEventSetting from '../container/CreateEventSetting'
 import EventPageSetting from '../container/EventPageSetting'
 import HallSetting from '../container/HallSetting'
 import BoothSetting from '../container/BoothSetting'
 import Event from '../container/Event'
+
+import AccountForm from '../features/auth/AccountForm'
+import AdminProtectedRouter from '../features/auth/AdminProtectedRouter'
 
 export default function SettingMenu() {
 

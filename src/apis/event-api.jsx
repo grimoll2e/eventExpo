@@ -15,3 +15,4 @@ export const createEventZone = (input, eventId) => axios.post(`/eventsetting/eve
 export const editEventZone = (input, eventzoneId) => axios.patch(`/eventsetting/eventzone/editeventzone/${eventzoneId}`, input)
 export const deleteEventZone = (eventzoneId) => axios.delete(`/eventsetting/eventzone/deleteeventzone/${eventzoneId}`)
 export const getEventZoneByEventId = (eventId) => axios.get(`/event/eventzone/${eventId}`)
+export const getEventZonebyuserId = (eventId, userId) => axios.get(`/event/eventzone/${eventId}/${userId}`)

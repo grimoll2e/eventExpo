@@ -1,11 +1,13 @@
 import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
 import { Form, Formik } from "formik"
 
 import * as authApi from '../../apis/auth-api'
-import registerSchema from "../../validators/register"
+
 import TextInput from "../../components/TextInput"
+import registerSchema from "../../validators/register"
+
 import useLoading from "../../hooks/useLoading"
-import { useNavigate } from "react-router-dom"
 
 export default function SignupForm() {
     const { isLoading, isFinish } = useLoading()

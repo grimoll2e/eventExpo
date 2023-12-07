@@ -1,12 +1,12 @@
 import { useState, useRef } from 'react'
-import { Formik, Form, Field } from 'formik'
+import { Formik, Form } from 'formik'
 import { toast } from 'react-toastify'
 
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 import ImageInput from '../../components/ImageInput'
-
 import createEventSchema from '../../validators/eventCreate'
+
 import useLoading from '../../hooks/useLoading'
 import useEvent from '../../hooks/useEvent'
 import useVeanue from '../../hooks/useVeanue'

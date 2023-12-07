@@ -1,5 +1,4 @@
 import { ErrorMessage, Field } from 'formik'
-import React from 'react'
 
 export default function SelectInput({ name, label, onChange, touch, error, children }) {
     return (

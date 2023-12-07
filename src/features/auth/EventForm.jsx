@@ -8,7 +8,7 @@ import useEvent from '../../hooks/useEvent'
 import useBooth from '../../hooks/useBooth'
 import useLoading from '../../hooks/useLoading'
 
-export default function EventForm({ setToggle, zoneId, boothId, handleSubmit, handleToggleClick, id }) {
+export default function EventForm({ zoneId, boothId, handleSubmit, handleToggleClick }) {
     const { eventZoneById } = useEvent()
     const { booth } = useBooth()
     const { isLoading, isFinish } = useLoading()
@@ -63,13 +63,7 @@ export default function EventForm({ setToggle, zoneId, boothId, handleSubmit, ha
                                 </SelectInput>
                                 <div className="d-flex justify-content-center gap-2">
                                     <Button text={'Save'} type={'submit'} />
-                                    <Button text={'Cancle'} onClick={() => {
-                                        if (id) {
-                                            handleToggleClick()
-                                        } else {
-                                            setToggle(false)
-                                        }
-                                    }} />
+                                    <Button text={'Cancle'} onClick={handleToggleClick} />
                                 </div>
                             </Form>
                         )}

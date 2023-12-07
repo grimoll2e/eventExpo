@@ -3,6 +3,7 @@ import { jwtDecode } from 'jwt-decode'
 
 import * as authApi from '../apis/auth-api'
 import * as userApi from '../apis/user-api'
+
 import { getAccessToken, removeAccessToken, setAccessToken } from "../util/local-storage";
 
 export const AuthContext = createContext();
@@ -58,8 +59,6 @@ export default function AuthContextProvider({ children }) {
     const res = await authApi.getAllUser()
     setAllUser(res.data.result)
   }
-
-
 
   return (
     <AuthContext.Provider value={{ authenticatedUser, allUser, login, logout, updateUserImage, role, getAlluser }}>

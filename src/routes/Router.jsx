@@ -1,4 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
 import LoginPage from "../pages/LoginPage";
 import SignupPage from "../pages/SignupPage";
 import HomePage from "../pages/HomePage";
@@ -8,9 +9,10 @@ import EventPage from "../pages/EventPage";
 import ContactPage from "../pages/ContactPage";
 import SettingPage from "../pages/SettingPage";
 import AuthLayout from "../layouts/AuthLayout";
+import PageNotFound from "../pages/PageNotFound";
+
 import RedirectIfAuthenticate from "../features/auth/RedirectifAuthenticate";
 import ProtectedRoute from "../features/auth/ProtectedRoute";
-import PageNotFound from "../pages/PageNotFound";
 
 const router = createBrowserRouter([
   {

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react"
+
 import CarouselItem from "./CarouselItem"
 import Carouselpointeritem from "./Carouselpointeritem"
-
 
 export default function Carousel({ carousel }) {
     const timerRef = useRef(null)

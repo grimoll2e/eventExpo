@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+
 import MenuItem from "./MenuItem";
 import MenuItemDropdown from "./MenuItemDropdown";
-import useAuth from "../hooks/useAuth";
 import Image from "../components/Image";
+
+import useAuth from "../hooks/useAuth";
 
 const menuItemList = [
     {

@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
-
-export default function CardItem({ el, idx }) {
+export default function CardItem({ el }) {
 
     const formatISODate = (input) => {
         const date = new Date(input);

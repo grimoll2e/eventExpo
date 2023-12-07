@@ -1,4 +1,3 @@
-import React from 'react'
 import CardandDetailLeft from './CardandDetailLeft'
 import CardandEDetailRight from './CardandEDetailRight'
 

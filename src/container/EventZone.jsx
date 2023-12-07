@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from 'react'
 
 import Image from '../components/Image'
-import EventZoneForm from '../features/auth/EventZoneForm'
 import Button from '../components/Button'
+import EventZoneForm from '../features/auth/EventZoneForm'
 
 import useEvent from '../hooks/useEvent'
 import useAuth from '../hooks/useAuth'

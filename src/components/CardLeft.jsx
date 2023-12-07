@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function CardLeft({ bigImage, image }) {
     return (
         <div className='position-relative p-3'>

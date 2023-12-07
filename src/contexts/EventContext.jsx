@@ -9,6 +9,7 @@ export default function EventContextProvider({ children }) {
     const [eventById, setEventById] = useState(null)
     const [eventOtherId, setEventOtherId] = useState(null)
     const [eventZoneById, setEvetZoneById] = useState([])
+    const [eventZoneByuserId, setEvetZoneByuserId] = useState([])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -73,6 +74,7 @@ export default function EventContextProvider({ children }) {
         const res = await eventApi.updateEvent(formData, id)
         setAllEvent(prv => prv.map(el => el.id === id ? { ...el, ...res.data.result } : el))
     }
+
     //eventDetail
     const handleCreateEventDetail = async (input, bigImage, image, id) => {
         let formData = new FormData()
@@ -120,6 +122,7 @@ export default function EventContextProvider({ children }) {
         await eventApi.deleteEventDetail(eventDetailId)
         setEventById((prv) => ({ prv, EventDetails: prv.EventDetails.filter(el => el.id !== eventDetailId) }))
     }
+
     //eventZone
     const getAllEventZoneByEventId = async (id) => {
         try {
@@ -133,6 +136,19 @@ export default function EventContextProvider({ children }) {
 
         }
     }
+    const getEventZonebyuserId = async (eventId, userId) => {
+        try {
+            if ((!eventId || eventId === 0 || eventId === '0') && (!userId || userId === 0 || userId === '0')) {
+                setEvetZoneByuserId(null)
+            } else if ((eventId !== 0 && eventId !== '0') && (userId !== 0 && userId !== '0')) {
+                const res = await eventApi.getEventZonebyuserId(eventId, userId)
+                setEvetZoneByuserId(res.data.result)
+            }
+        } catch (error) {
+
+        }
+    }
+
     const handleCreateEventZone = async (input, id) => {
         const value = {}
         for (const key in input) {
@@ -142,6 +158,7 @@ export default function EventContextProvider({ children }) {
         setEvetZoneById(prv => ([...prv, res.data.post]))
 
     }
+
     const handleEditEventZone = async (input, id) => {
 
         const value = {}
@@ -150,7 +167,9 @@ export default function EventContextProvider({ children }) {
         }
         const res = await eventApi.editEventZone(value, id)
         setEvetZoneById(prv => prv.map((el) => el.id == id ? { ...el, ...res.data.result } : el))
+        setEvetZoneByuserId(prv => prv.map((el) => el.id == id ? { ...el, ...res.data.result } : el))
     }
+
     const handleDeleteEventZone = async (id) => {
         if (!id) {
             return console.error('need eventZoneId')
@@ -158,8 +177,9 @@ export default function EventContextProvider({ children }) {
         await eventApi.deleteEventZone(id)
         setEvetZoneById(prv => prv.filter((el) => el.id !== id))
     }
+
     return (
-        <EventContext.Provider value={{ allEvent, eventById, eventOtherId, eventZoneById, setEvetZoneById, getEventById, getEventOtherId, handleCreateEvent, handleDeleteEvent, handleEditEvent, handleCreateEventDetail, handleEditEventDetail, handleDeleteEventDetail, getAllEventZoneByEventId, handleCreateEventZone, handleEditEventZone, handleDeleteEventZone }}>
+        <EventContext.Provider value={{ allEvent, eventById, eventOtherId, eventZoneById, setEvetZoneById, getEventById, getEventOtherId, handleCreateEvent, handleDeleteEvent, handleEditEvent, handleCreateEventDetail, handleEditEventDetail, handleDeleteEventDetail, getAllEventZoneByEventId, handleCreateEventZone, handleEditEventZone, handleDeleteEventZone, getEventZonebyuserId, eventZoneByuserId }}>
             {children}
         </EventContext.Provider>
     )

@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react'
 
-import EventForm from '../features/auth/EventForm'
-import Button from '../components/Button'
-
-import useEvent from '../hooks/useEvent'
 import ListItem from '../components/ListItem'
 import Image from '../components/Image'
+import EventForm from '../features/auth/EventForm'
+
+import useEvent from '../hooks/useEvent'
+import useAuth from '../hooks/useAuth'
 
 const valueOpacity = '0.6'
 
 export default function Event() {
-    // const handleEditEventZone = async (input, id) => {
-    const { handleEditEventZone, getAllEventZoneByEventId, getEventById, eventZoneById, allEvent, eventById } = useEvent()
-    const [toggle, setToggle] = useState(false)
+
+    const { authenticatedUser } = useAuth()
+    const { handleEditEventZone, getAllEventZoneByEventId, getEventById, eventZoneById, allEvent, eventById, getEventZonebyuserId, eventZoneByuserId } = useEvent()
     const [eventId, setEventId] = useState(null)
 
     const handleSubmit = async (input) => {
@@ -23,10 +23,11 @@ export default function Event() {
         const fetchdata = () => {
             getAllEventZoneByEventId(eventId)
             getEventById(eventId)
+            getEventZonebyuserId(eventId, authenticatedUser.id)
         }
         fetchdata()
     }, [eventId])
-    // console.log(eventZoneById)
+    console.log(eventZoneByuserId)
 
 
     return (
@@ -65,7 +66,7 @@ export default function Event() {
                     )}
                 </div>
                 : null}
-            {eventZoneById ? eventZoneById.map((el, idx) => (
+            {eventZoneByuserId ? eventZoneByuserId.map((el, idx) => (
                 <ListItem
                     noButton={true}
                     key={idx}
@@ -76,11 +77,9 @@ export default function Event() {
                     detail={el.Booth ? el.Booth.description : null}
                 >
                     <EventForm
-                        id={el.id}
                         zoneId={el.id}
                         boothId={el.boothId ? el.boothId : 0}
                         handleSubmit={handleSubmit}
-                        setToggle={setToggle}
                     />
                 </ListItem>
             )) : null

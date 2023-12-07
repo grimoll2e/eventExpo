@@ -1,4 +1,3 @@
-import React from 'react'
 import CardRight from './CardRight'
 
 export default function CardandEDetailRight({ title, description, bigImage, image }) {

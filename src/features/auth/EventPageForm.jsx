@@ -1,14 +1,14 @@
 import { useState, useRef } from 'react'
 import { Formik, Form } from 'formik'
-import { object, string } from 'yup'
 import { toast } from 'react-toastify'
 
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 import ImageInput from '../../components/ImageInput'
+import eventDetailSchema from '../../validators/eventDetail'
+
 import useLoading from '../../hooks/useLoading'
 import useEvent from '../../hooks/useEvent'
-import eventDetailSchema from '../../validators/eventDetail'
 
 
 export default function EventPageForm({ EventId, id, title, detail, name, bigSrc, src, handleToggleClick, setToggle }) {

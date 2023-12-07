@@ -13,10 +13,11 @@ export default function CreateEventSetting() {
 
     const formatISODate = (input) => {
         const date = new Date(input);
-        const day = date.getDate();
-        const month = date.getMonth() + 1; // เดือนเริ่มที่ 0, จึงต้องบวก 1
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');; // เดือนเริ่มที่ 0, จึงต้องบวก 1
         const year = date.getFullYear();
         const formattedDate = `${day}/${month}/${year}`; //(DD/MM/YYYY)
+        // console.log('formattedDate : ' + formattedDate)
         return formattedDate;
     }
 

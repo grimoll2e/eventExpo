@@ -3,11 +3,8 @@ import FormInput from "../../layouts/FormInput";
 
 import veanueEventSchema from '../../validators/hall'
 
-import useVeanue from '../../hooks/useVeanue'
+export default function HallForm({ toggleForCreate, toggleForEdit, id, name, detail, src, onSubmitForm }) {
 
-export default function HallForm({ toggleForCreate, toggleForEdit, id, name, detail, src, testFunc }) {
-
-    const { handleSubmit, handleEdit } = useVeanue()
 
     const initialValues = {
         hallName: name,
@@ -28,13 +25,11 @@ export default function HallForm({ toggleForCreate, toggleForEdit, id, name, det
 
     return (
         <CreateForm
-            testFunc={testFunc}
+            onSubmitForm={onSubmitForm}
             id={id}
             src={src}
             toggleForEdit={toggleForEdit}
             toggleForCreate={toggleForCreate}
-            handleEdit={handleEdit}
-            handleSubmit={handleSubmit}
             validationSchema={veanueEventSchema}
             initialValues={initialValues}
         >

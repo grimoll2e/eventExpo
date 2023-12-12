@@ -8,22 +8,25 @@ import useVeanue from "../../hooks/useVeanue";
 
 export default function HallSetting() {
 
-    const { allVeanue, handleDelete } = useVeanue()
+    const { allVeanue, handleDelete, handleSubmit, handleEdit } = useVeanue()
     const [toggle, setToggle] = useState(false)
 
-    const testFunc = (values, image, id) => {
-        console.log(values, image, id)
+    const onSubmitForm = async (values, image, id) => {
+        if (!id) {
+            await handleSubmit(values, image)
+        } else {
+            await handleEdit(values, image, id)
+        }
     }
 
     return (
         <>
             {toggle ?
-                <HallForm toggleForCreate={() => setToggle(false)} /> :
+                <HallForm toggleForCreate={() => setToggle(false)} onSubmitForm={onSubmitForm} /> :
                 <div className='d-flex justify-content-center'>
                     <Button text={'Creat Hall'} onClick={() => setToggle(true)} />
                 </div>
             }
-
             {
                 allVeanue && allVeanue.map((el, idx) => (
                     <ListItem
@@ -40,11 +43,10 @@ export default function HallSetting() {
                             name={el.hallName}
                             detail={el.detail}
                             src={el.image}
-                            testFunc={testFunc}
+                            onSubmitForm={onSubmitForm}
                         />
                     </ListItem>))
             }
-
         </>
     )
 }

@@ -2,8 +2,8 @@ import useAuth from "../../hooks/useAuth"
 import CreateForm from "../../layouts/CreateForm"
 import FormInput from "../../layouts/FormInput"
 
-export default function UserForm({ toggleForEdit }) {
-    const { authenticatedUser, updateUser } = useAuth()
+export default function UserForm({ toggleForEdit, onSubmitForm }) {
+    const { authenticatedUser } = useAuth()
 
     const textinput = [
         {
@@ -37,10 +37,10 @@ export default function UserForm({ toggleForEdit }) {
 
     return (
         <CreateForm
+            onSubmitForm={onSubmitForm}
             id={authenticatedUser.id}
             addclassImage='rounded-circle'
             src={authenticatedUser.userImage}
-            handleEdit={updateUser}
             initialValues={initialValues}
             toggleForEdit={toggleForEdit}
         >

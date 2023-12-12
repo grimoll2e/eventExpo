@@ -79,7 +79,7 @@ export default function Menu() {
                     </MenuItem>
                 </div>
             ))}
-            <div ref={dropdownEL}>
+            <div ref={dropdownEL} className="ms-3">
                 <Image
                     src={authenticatedUser ? authenticatedUser.userImage : null}
                     addclass={'rounded-circle'}

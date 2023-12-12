@@ -6,15 +6,41 @@ import ImageInput from '../components/ImageInput'
 
 import useLoading from '../hooks/useLoading'
 
-export default function CreateForm({ initialValues, validationSchema, handleSubmit, handleEdit, src, children, id, toggleForEdit, toggleForCreate, addclassImage, testFunc }) {
+export default function CreateForm({ initialValues, validationSchema, imageInput, smallSrc, src, children, id, toggleForEdit, toggleForCreate, addclassImage, onSubmitForm, notImageInput }) {
 
     const { isLoading, isFinish } = useLoading()
     const [image, setImage] = useState(null)
-    const inputEl = useRef()
+    const [bigImage, setBigImage] = useState(null)
+
+
+    const refs = {
+        inputEl: useRef(),
+        inputEl2: useRef(),
+    };
+
+    const { inputEl, inputEl2 } = refs
 
     return (
         <div className="container">
             <div className="row justify-content-center">
+                {imageInput ? <div className="col-lg-4 col-md-6 d-flex gap-3 justify-content-center">
+                    <ImageInput
+                        size={150}
+                        src={bigImage ? URL.createObjectURL(bigImage) : src}
+                        setFile={setBigImage}
+                        inputEl={inputEl}
+                        onClick={() => inputEl.current.click()}
+                        text={'Big Image'}
+                    />
+                    <ImageInput
+                        size={150}
+                        src={image ? URL.createObjectURL(image) : smallSrc}
+                        setFile={setImage}
+                        inputEl={inputEl2}
+                        onClick={() => inputEl2.current.click()}
+                        text={'Image'}
+                    />
+                </div> : notImageInput ? <></> :
                 <div className='col-lg-4 col-md-6'>
                     <ImageInput
                         src={image ? URL.createObjectURL(image) : src}
@@ -23,7 +49,7 @@ export default function CreateForm({ initialValues, validationSchema, handleSubm
                         inputEl={inputEl}
                         onClick={() => inputEl.current.click()}
                     />
-                </div>
+                    </div>}
                 <div className="col-lg-6 col-md-6">
                     <Formik
                         validationSchema={validationSchema}
@@ -31,16 +57,14 @@ export default function CreateForm({ initialValues, validationSchema, handleSubm
                         onSubmit={async (values, { resetForm }) => {
                             try {
                                 isLoading()
-                                if (id) {
-                                    testFunc(values, image, id)
-                                    await handleEdit(values, image, id)
-                                    toast.success(`Edit SUCCESS`)
+                                await onSubmitForm(values, image, id, bigImage)
+                                toast.success(`SUCCESS`)
+                                if (toggleForEdit) {
                                     toggleForEdit()
                                 } else {
-                                    await handleSubmit(values, image)
-                                    toast.success(`CREATE SUCCESS`)
                                     resetForm()
                                     setImage(null)
+                                    setBigImage(null)
                                     toggleForCreate()
                                 }
                             } catch (error) {

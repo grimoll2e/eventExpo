@@ -30,10 +30,10 @@ export default function BoothContextProvider({ children }) {
             formData.append(key, value);
         });
         const res = await boothApi.create(formData)
-        setBooth((prv) => [res.data.post, ...prv])
+        setBooth((prv) => [...prv, res.data.post])
 
     }
-    const handleEditBooth = async (input, id, file) => {
+    const handleEditBooth = async (input, file, id) => {
         const formData = new FormData()
         if (file) {
             formData.append('image', file)

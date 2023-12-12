@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import Image from '../../components/Image'
 import Button from '../../components/Button'
 import EventZoneForm from './EventZoneForm'
+import RangeInput from '../../components/RangeInput'
 
 import useEvent from '../../hooks/useEvent'
 import useAuth from '../../hooks/useAuth'
@@ -74,7 +75,6 @@ export default function EventZone() {
 
     return (
         <>
-            <div>EventZone</div>
             <select className="form-select" aria-label="Default select example" onChange={(e) => setEventId(e.target.value)}>
                 <option value={0}>Open this select Event</option>
                 {allEvent && allEvent.map((el, idx) => (
@@ -136,7 +136,7 @@ export default function EventZone() {
                     userId={createvalue.userId}
                     toggle={() => setCreateToggle(false)}
                 /> :
-                <div className='d-flex justify-content-center'>
+                <div className='d-flex justify-content-center mt-3'>
                     <Button text={'Create'} onClick={() => setCreateToggle(true)} />
                 </div>}
             {eventZoneById && eventZoneById.map((el, idx) => (
@@ -160,3 +160,47 @@ export default function EventZone() {
         </>
     )
 }
+
+{/* <div>EventZone</div>
+<select className="form-select" aria-label="Default select example" onChange={(e) => setEventId(e.target.value)}>
+    <option value={0}>Open this select Event</option>
+    {allEvent && allEvent.map((el, idx) => (
+        <option key={idx} value={el.id}>{el.title}</option>
+    ))}
+</select>
+{createToggle ?
+    < EventZoneForm
+        handleSubmit={handleCreateEventZone}
+        eventId={eventId}
+        createToggle={createToggle}
+        setCreateValue={setCreateValue}
+        title={createvalue.title}
+        xaixs={createvalue.xaixs}
+        yaixs={createvalue.yaixs}
+        width={createvalue.width}
+        height={createvalue.height}
+        color={createvalue.color}
+        userId={createvalue.userId}
+        toggle={() => setCreateToggle(false)}
+    /> :
+    <div className='d-flex justify-content-center'>
+        <Button text={'Create'} onClick={() => setCreateToggle(true)} />
+    </div>}
+{eventZoneById && eventZoneById.map((el, idx) => (
+    <EventZoneForm
+        key={idx}
+        id={el.id}
+        handleEdit={handleEditEventZone}
+        handleDelete={handleDeleteEventZone}
+        editId={editId}
+        setEvetZoneById={setEvetZoneById}
+        title={el.title}
+        xaixs={el.xaixs}
+        yaixs={el.yaixs}
+        width={el.width}
+        height={el.height}
+        color={el.color}
+        userId={el.userId}
+        toggle={() => setEditId(null)}
+    />
+))} */}

@@ -1,11 +1,9 @@
 import CreateForm from "../../layouts/CreateForm";
 import FormInput from "../../layouts/FormInput";
 import boothSchema from '../../validators/booth'
-import useBooth from '../../hooks/useBooth'
 
-export default function BoothForm({ toggleForCreate, toggleForEdit, title, description, link, id, src }) {
+export default function BoothForm({ toggleForCreate, toggleForEdit, title, description, link, id, src, onSubmitForm }) {
 
-    const { handleCreateBooth, handleEditBooth } = useBooth()
 
     const initialValues = {
         title: title,
@@ -36,8 +34,7 @@ export default function BoothForm({ toggleForCreate, toggleForEdit, title, descr
             src={src}
             toggleForEdit={toggleForEdit}
             toggleForCreate={toggleForCreate}
-            handleEdit={handleEditBooth}
-            handleSubmit={handleCreateBooth}
+            onSubmitForm={onSubmitForm}
             validationSchema={boothSchema}
             initialValues={initialValues}
         >

@@ -15,10 +15,6 @@ export default function Event() {
     const { handleEditEventZone, getAllEventZoneByEventId, getEventById, eventZoneById, allEvent, eventById, getEventZonebyuserId, eventZoneByuserId } = useEvent()
     const [eventId, setEventId] = useState(null)
 
-    const handleSubmit = async (input) => {
-        await handleEditEventZone({ boothId: input.boothId }, input.zoneId)
-    }
-
     useEffect(() => {
         const fetchdata = () => {
             getAllEventZoneByEventId(eventId)
@@ -27,11 +23,13 @@ export default function Event() {
         }
         fetchdata()
     }, [eventId])
-    // console.log(eventZoneByuserId)
 
+    const onSubmitForm = async (values) => {
+        await handleEditEventZone({ boothId: values.boothId }, values.zoneId)
+    }
 
     return (
-        <div>
+        <>
             <select className="form-select" aria-label="Default select example" onChange={(e) => setEventId(e.target.value)}>
                 <option value={0}>Open this select Event</option>
                 {allEvent && allEvent.map((el, idx) => (
@@ -56,7 +54,6 @@ export default function Event() {
                                 backgroundSize: el.Booth ? "cover" : null,
                                 backgroundColor: el.color,
                                 opacity: el.Booth ? '1' : valueOpacity,
-                                // cursor: 'move',
                             }}>
                             <h1 className='m-0' style={{ userSelect: 'none' }}>
                                 {el.title}
@@ -66,24 +63,28 @@ export default function Event() {
                     )}
                 </div>
                 : null}
-            {eventZoneByuserId ? eventZoneByuserId.map((el, idx) => (
-                <ListItem
-                    noButton={true}
-                    key={idx}
-                    idx={idx}
-                    id={el.id}
-                    name={el.Booth ? el.Booth.title : el.title}
-                    src={el.Booth ? el.Booth.image : null}
-                    detail={el.Booth ? el.Booth.description : null}
-                >
-                    <EventForm
-                        zoneId={el.id}
-                        boothId={el.boothId ? el.boothId : 0}
-                        handleSubmit={handleSubmit}
-                    />
-                </ListItem>
-            )) : null
+
+            {
+                eventZoneByuserId && eventZoneByuserId.map((el, idx) => (
+                    <ListItem
+                        name={el.Booth ? el.Booth.title : el.title}
+                        detail={el.Booth ? el.Booth.description : null}
+                        src={el.Booth ? el.Booth.image : null}
+                        id={el.id}
+                        idx={idx}
+                        key={idx}
+                        noButton={true}
+                    >
+                        <EventForm
+                            onSubmitForm={onSubmitForm}
+                            id={el.id}
+                            zoneId={el.id}
+                            boothId={el.boothId ? el.boothId : 0}
+                            src={el.image}
+                        />
+                    </ListItem>))
             }
-        </div>
+
+        </>
     )
 }

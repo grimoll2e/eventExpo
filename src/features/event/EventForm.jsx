@@ -1,75 +1,57 @@
-import { Formik, Form } from 'formik'
-import { toast } from 'react-toastify'
-
-import Button from '../../components/Button'
-import SelectInput from '../../components/SelectInput'
+import CreateForm from '../../layouts/CreateForm'
+import FormInput from '../../layouts/FormInput'
 
 import useEvent from '../../hooks/useEvent'
 import useBooth from '../../hooks/useBooth'
-import useLoading from '../../hooks/useLoading'
 
-export default function EventForm({ zoneId, boothId, handleSubmit, handleToggleClick }) {
+
+export default function EventForm({ toggleForEdit, zoneId, boothId, id, onSubmitForm, src }) {
     const { eventZoneById } = useEvent()
     const { booth } = useBooth()
-    const { isLoading, isFinish } = useLoading()
+    const notImageInput = true
 
-    const initialInput = {
+    const initialValues = {
         zoneId: zoneId,
         boothId: boothId
     }
+    const selectinput = [
+        {
+            label: 'Zone Id',
+            name: 'zoneId',
+            value: eventZoneById && eventZoneById.map((el, idx) => (
+                <option key={idx} value={el.id}>{el.title}</option>
+            ))
+        },
+        {
+            label: 'Booth Id',
+            name: 'boothId',
+            value: booth && booth.map((el, idx) => (
+                <option key={idx} value={el.id}>{el.title}</option>
+            ))
+        },
+    ]
 
     return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-12">
-                    <Formik
-                        initialValues={initialInput}
-                        onSubmit={async (values, { resetForm }) => {
-                            try {
-                                isLoading()
-                                await handleSubmit(values)
-                                toast.success(`CREATE SUCCESS`)
-                                handleToggleClick()
-                            } catch (error) {
-                                toast.error(`Error : ${error.response ? error.response.data.message : error.message}`)
-                            } finally {
-                                isFinish()
-                            }
-                        }}
-                    >
-                        {({ values, errors, touched, handleChange }) => (
-                            <Form action="" className="d-flex flex-column gap-2">
-                                <SelectInput
-                                    label={'Zone'}
-                                    name={'zoneId'}
-                                    onChange={handleChange}
-                                    error={errors.zoneId}
-                                    touch={touched.zoneId}
-                                >
-                                    {eventZoneById && eventZoneById.map((el, idx) => (
-                                        <option key={idx} value={el.id}>{el.title}</option>
-                                    ))}
-                                </SelectInput>
-                                <SelectInput
-                                    label={'Booth'}
-                                    name={'boothId'}
-                                    onChange={handleChange}
-                                    error={errors.boothId}
-                                    touch={touched.boothId}
-                                >
-                                    {booth && booth.map((el, idx) => (
-                                        <option key={idx} value={el.id}>{el.title}</option>
-                                    ))}
-                                </SelectInput>
-                                <div className="d-flex justify-content-center gap-2">
-                                    <Button text={'Save'} type={'submit'} />
-                                    <Button text={'Cancle'} onClick={handleToggleClick} />
-                                </div>
-                            </Form>
-                        )}
-                    </Formik>
-                </div>
-            </div>
-        </div>
+        <CreateForm
+            notImageInput={notImageInput}
+            onSubmitForm={onSubmitForm}
+            id={id}
+            src={src}
+            toggleForEdit={toggleForEdit}
+            initialValues={initialValues}
+        >
+            {({ values, errors, touched, handleChange }) => (
+                <FormInput
+                    id={id}
+                    values={values}
+                    errors={errors}
+                    touched={touched}
+                    handleChange={handleChange}
+                    selectinput={selectinput}
+                    toggleForEdit={toggleForEdit}
+                >
+                </FormInput>
+            )}
+        </CreateForm>
     )
 }

@@ -8,12 +8,16 @@ import useAuth from '../../hooks/useAuth'
 
 export default function UserSetting() {
     const [toggle, setToggle] = useState(false)
-    const { authenticatedUser } = useAuth()
+    const { authenticatedUser, updateUser } = useAuth()
+
+    const onSubmitForm = async (values, image) => {
+        await updateUser(values, image)
+    }
 
     return (
         <>
             {toggle ?
-                <UserForm toggleForEdit={() => setToggle(false)} />
+                <UserForm toggleForEdit={() => setToggle(false)} onSubmitForm={onSubmitForm} />
                 :
                 <div className="container">
                     <div className="row justify-content-center">

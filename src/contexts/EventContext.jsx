@@ -76,7 +76,7 @@ export default function EventContextProvider({ children }) {
     }
 
     //eventDetail
-    const handleCreateEventDetail = async (input, bigImage, image, id) => {
+    const handleCreateEventDetail = async (input, image, id, bigImage) => {
         let formData = new FormData()
 
         if (bigImage) {
@@ -92,7 +92,7 @@ export default function EventContextProvider({ children }) {
         setEventById((prv) => ({ ...prv, EventDetails: [...prv.EventDetails, res.data.post] }))
     }
 
-    const handleEditEventDetail = async (input, bigImage, image, eventDetailId) => {
+    const handleEditEventDetail = async (input, image, eventDetailId, bigImage) => {
         try {
             if (!eventDetailId) {
                 return console.error('need eventDetailId')

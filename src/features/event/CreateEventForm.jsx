@@ -1,14 +1,12 @@
 import createEventSchema from '../../validators/eventCreate'
 
-import useEvent from '../../hooks/useEvent'
 import useVeanue from '../../hooks/useVeanue'
 import CreateForm from '../../layouts/CreateForm'
 import FormInput from '../../layouts/FormInput'
 
-export default function CreateEventForm({ toggleForCreate, toggleForEdit, id, title, description, period, hallId, src }) {
-    const { handleCreateEvent, handleEditEvent } = useEvent()
-    const { allVeanue } = useVeanue()
+export default function CreateEventForm({ toggleForCreate, toggleForEdit, id, title, description, period, hallId, src, onSubmitForm }) {
 
+    const { allVeanue } = useVeanue()
 
     const initialValues = {
         title: title,
@@ -45,12 +43,11 @@ export default function CreateEventForm({ toggleForCreate, toggleForEdit, id, ti
 
     return (
         <CreateForm
+            onSubmitForm={onSubmitForm}
             id={id}
             src={src}
             toggleForEdit={toggleForEdit}
             toggleForCreate={toggleForCreate}
-            handleEdit={handleEditEvent}
-            handleSubmit={handleCreateEvent}
             validationSchema={createEventSchema}
             initialValues={initialValues}
         >

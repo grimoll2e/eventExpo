@@ -28,8 +28,6 @@ export default function PageNotFound() {
             <h1>404 PageNotFound</h1>
             <div>
                 <p>{`pls w8 redirecting to`} <Link className="link-underline link-underline-opacity-0" to={'/'}>Home</Link> {`in...${time}s`}</p>
-
-
             </div>
         </div>
     );

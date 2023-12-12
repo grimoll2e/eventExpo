@@ -1,7 +1,10 @@
 import Card from "../components/Card";
 import Carousel from "../components/Carousel";
 
+import useEvent from "../hooks/useEvent";
+
 export default function HomePage() {
+    const { allEvent } = useEvent()
 
     const carousel = [
         {
@@ -33,8 +36,8 @@ export default function HomePage() {
                 <Carousel carousel={carousel} />
             </div>
             <div className="">
-                <h1 className="header_text">WHAT'S ON</h1>
-                <Card />
+                <h1 className="header_text mb-5">WHAT'S ON</h1>
+                <Card value={allEvent && allEvent.slice(0, 6)} />
             </div>
             <div className="services mb-4">
                 <h1 className="header_text">Our services</h1>

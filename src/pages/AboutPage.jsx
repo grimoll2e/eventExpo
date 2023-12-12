@@ -1,6 +1,6 @@
 import CardandDetail from "../components/CardandDetail";
 
-const card_test = [
+const preview_about = [
     {
         img_big: 'https://images.unsplash.com/photo-1559581958-df379578606a?',
         img_sm: 'https://images.unsplash.com/photo-1514302240736-b1fee5985889?',
@@ -26,7 +26,7 @@ export default function AboutPage() {
         <div className="container d-flex flex-column gap-5">
             <div className="my-5">
                 <h1 className="header_text mb-5">About Us</h1>
-            {card_test.map((el, idx) => (
+                {preview_about.map((el, idx) => (
                 <CardandDetail idx={idx} key={idx} bigImage={el.img_big} image={el.img_sm} title={el.title} description={el.description} />
             ))}
             </div>

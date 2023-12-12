@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react"
+import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 
 import CarouselItem from "./CarouselItem"
 import Carouselpointeritem from "./Carouselpointeritem"
@@ -36,8 +37,12 @@ export default function Carousel({ carousel }) {
             ))}
             </div>
             <div className="arrow">
-                <span className="arrow_carousel_left" onClick={previousImg}></span>
-                <span className="arrow_carousel_right" onClick={nextImg}></span>
+                <h1 className="arrow_carousel_left" onClick={previousImg}>
+                    <FaAngleLeft />
+                </h1>
+                <h1 className="arrow_carousel_right" onClick={nextImg}>
+                    <FaAngleRight />
+                </h1>
             </div>
             <div className=" mycarousel_pointer">
                 {carousel.map((el, idx) => (

@@ -69,14 +69,14 @@
 }
 .mycarousel_text{
     position: absolute;
+    width: 80%;
     font-size: 1.15rem;
     margin: 40px 0;
     padding: 0 20px;
-    white-space: normal;
     color: #00000000;
     top: 65%;
-    left: 20%;
-    transform: translate(-50%, -50%);
+    left: 10%;
+    transform: translate(0,-50%);
 }
 .mycarousel_text *{
     transition: 2s;
@@ -90,7 +90,7 @@
 }
 .arrow_carousel_left{
     position: absolute;
-    background-color: red;
+    color: #f2f2f2;
     height: 30px;
     width: 30px;
     left: 10%;
@@ -99,7 +99,7 @@
 }
 .arrow_carousel_right{
     position: absolute;
-    background-color: red;
+    color: #f2f2f2;
     height: 30px;
     width: 30px;
     right: 10%;

@@ -43,7 +43,7 @@ export default function ContactPage() {
                 </div>
                 <div className="col-12 col-lg-6 mb-3">
                     <h1 className="header_text mb-3">Map</h1>
-                    <GoogleMapComponent zoom={17} />
+                    {/* <GoogleMapComponent zoom={17} /> */}
                 </div>
             </div>
         </div>

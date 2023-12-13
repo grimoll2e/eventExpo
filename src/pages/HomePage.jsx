@@ -9,7 +9,7 @@ export default function HomePage() {
     return (
         <div className="container mb-5 d-flex flex-column gap-5">
             <div className="">
-                <Carousel carousel={allEvent} />
+                <Carousel carousel={allEvent.slice(0, 6)} />
             </div>
             <div className="">
                 <h1 className="header_text mb-5">WHAT'S ON</h1>

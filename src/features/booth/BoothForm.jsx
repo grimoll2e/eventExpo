@@ -6,9 +6,9 @@ export default function BoothForm({ toggleForCreate, toggleForEdit, title, descr
 
 
     const initialValues = {
-        title: title,
-        description: description,
-        link: link,
+        title: title || '',
+        description: description || '',
+        link: link || '',
     }
     const textinput = [
         {

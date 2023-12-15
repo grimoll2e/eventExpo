@@ -1,3 +1,4 @@
+import { ErrorMessage, Field } from 'formik'
 import React from 'react'
 
 export default function RangeInput({ label, name, value, handleChange, error, touch }) {
@@ -14,7 +15,6 @@ export default function RangeInput({ label, name, value, handleChange, error, to
                     min={0}
                     max={100}
                     step={0}
-                    style={resize}
                     type='range'
                     placeholder={label || 'label'}
                     value={value || 0}

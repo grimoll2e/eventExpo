@@ -1,6 +1,6 @@
 import { Field, ErrorMessage } from 'formik'
 
-export default function TextInput({ label, name, type, as, rows, input, handleChange, error, touch }) {
+export default function TextInput({ label, name, type, rows, input, handleChange, error, touch }) {
     const resize = {
         resize: 'none'
     }
@@ -14,7 +14,6 @@ export default function TextInput({ label, name, type, as, rows, input, handleCh
             <Field
                 className={`py-1 px-3 form-control ${touch && error ? 'is-invalid' : ''}`}
                 name={name || ''}
-                // as={as ? as : ''}
                 rows={rows ? rows : '5'}
                 style={resize}
                 type={type || "text"}

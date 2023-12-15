@@ -11,8 +11,8 @@ export default function EventForm({ toggleForEdit, zoneId, boothId, id, onSubmit
     const notImageInput = true
 
     const initialValues = {
-        zoneId: zoneId,
-        boothId: boothId
+        zoneId: zoneId || '',
+        boothId: boothId || ''
     }
     const selectinput = [
         {

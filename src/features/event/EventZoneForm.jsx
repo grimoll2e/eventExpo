@@ -7,9 +7,10 @@ import Button from "../../components/Button";
 import useLoading from "../../hooks/useLoading";
 import useAuth from "../../hooks/useAuth";
 import SelectInput from "../../components/SelectInput";
+import RangeInput from "../../components/RangeInput";
 
 
-export default function EventZoneForm({ setEvetZoneById, toggle, editId, id, createToggle, title, xaixs, yaixs, width, height, color, handleSubmit, eventId, handleEdit, handleDelete, userId }) {
+export default function EventZoneForm({ setEvetZoneById, toggle, editId, id, createToggle, title, xaixs, yaixs, width, height, color, handleSubmit, eventId, handleEdit, handleDelete, userId, setCreateValue }) {
 
     const { isLoading, isFinish } = useLoading()
     const { allUser } = useAuth()
@@ -35,6 +36,7 @@ export default function EventZoneForm({ setEvetZoneById, toggle, editId, id, cre
                         try {
                             isLoading()
                             values = { ...values, eventId: eventId }
+                            console.log(values)
                             await handleSubmit(values, eventId)
                             toast.success(`CREATE SUCCESS`)
                             resetForm()
@@ -52,62 +54,69 @@ export default function EventZoneForm({ setEvetZoneById, toggle, editId, id, cre
                                 label={'Title'}
                                 name={'title'}
                                 input={values.title}
-                                handleChange={handleChange}
+                                handleChange={(e) => {
+                                    handleChange(e)
+                                    setCreateValue(prv => ({ ...prv, title: e.target.value }))
+                                }}
                                 error={errors.title}
                                 touch={touched.title}
                             />
-                            <TextInput
+                            <RangeInput
                                 label={'Xaixs'}
                                 name={'xaixs'}
                                 type={'range'}
-                                input={values.xaixs}
+                                value={values.xaixs}
                                 handleChange={(e) => {
                                     if (Number(e.target.value) + Number(values.width) > 100) {
                                         e.target.value = 100 - values.width
                                     }
                                     handleChange(e)
+                                    setCreateValue(prv => ({ ...prv, xaixs: e.target.value }))
                                 }}
                                 error={errors.xaixs}
                                 touch={touched.xaixs}
                             />
-                            <TextInput
+                            <RangeInput
                                 label={'Yaixs'}
                                 name={'yaixs'}
                                 type={'range'}
-                                input={values.yaixs}
+                                value={values.yaixs}
                                 handleChange={(e) => {
                                     if (Number(e.target.value) + Number(values.height) > 100) {
                                         e.target.value = 100 - values.height
                                     }
                                     handleChange(e)
+                                    setCreateValue(prv => ({ ...prv, yaixs: e.target.value }))
                                 }}
                                 error={errors.yaixs}
                                 touch={touched.yaixs}
                             />
-                            <TextInput
+                            <RangeInput
                                 label={'Width'}
                                 name={'width'}
                                 type={'range'}
-                                input={values.width}
+                                value={values.width}
                                 handleChange={(e) => {
                                     if (Number(e.target.value) + Number(values.xaixs) > 100) {
                                         e.target.value = 100 - values.xaixs
                                     }
                                     handleChange(e)
+                                    setCreateValue(prv => ({ ...prv, width: e.target.value }))
                                 }}
                                 error={errors.width}
                                 touch={touched.width}
                             />
-                            <TextInput
+                            <RangeInput
                                 label={'Height'}
                                 name={'height'}
                                 type={'range'}
-                                input={values.height}
+                                value={values.height}
                                 handleChange={(e) => {
                                     if (Number(e.target.value) + Number(values.yaixs) > 100) {
                                         e.target.value = 100 - values.yaixs
                                     }
                                     handleChange(e)
+                                    setCreateValue(prv => ({ ...prv, height: e.target.value }))
                                 }}
                                 error={errors.height}
                                 touch={touched.height}
@@ -117,7 +126,10 @@ export default function EventZoneForm({ setEvetZoneById, toggle, editId, id, cre
                                 name={'color'}
                                 type={'color'}
                                 input={values.color}
-                                handleChange={handleChange}
+                                handleChange={(e) => {
+                                    handleChange(e)
+                                    setCreateValue(prv => ({ ...prv, color: e.target.value }))
+                                }}
                                 error={errors.color}
                                 touch={touched.color}
                             />
@@ -134,7 +146,17 @@ export default function EventZoneForm({ setEvetZoneById, toggle, editId, id, cre
                             </SelectInput>
                             <div>
                                 <Button text={'save'} type={'submit'} />
-                                <Button text={'cancel'} onClick={toggle} />
+                                <Button text={'cancel'} onClick={() => {
+                                    toggle()
+                                    setCreateValue({
+                                        title: '',
+                                        xaixs: '0',
+                                        yaixs: '0',
+                                        width: '0',
+                                        height: '0',
+                                        color: '#000000'
+                                    })
+                                }} />
                             </div>
                         </Form>
                     )}
@@ -171,11 +193,11 @@ export default function EventZoneForm({ setEvetZoneById, toggle, editId, id, cre
                                 error={errors.title}
                                 touch={touched.title}
                             />
-                            <TextInput
+                            <RangeInput
                                 label={'Xaixs'}
                                 name={'xaixs'}
                                 type={'range'}
-                                input={xaixs || values.xaixs}
+                                value={xaixs || values.xaixs}
                                 handleChange={(e) => {
                                     handleChange(e)
                                     if (Number(e.target.value) + Number(width) > 100) {
@@ -186,11 +208,11 @@ export default function EventZoneForm({ setEvetZoneById, toggle, editId, id, cre
                                 error={errors.xaixs}
                                 touch={touched.xaixs}
                             />
-                            <TextInput
+                            <RangeInput
                                 label={'Yaixs'}
                                 name={'yaixs'}
                                 type={'range'}
-                                input={yaixs || values.yaixs}
+                                value={yaixs || values.yaixs}
                                 handleChange={(e) => {
                                     handleChange(e)
                                     if (Number(e.target.value) + Number(height) > 100) {
@@ -201,11 +223,11 @@ export default function EventZoneForm({ setEvetZoneById, toggle, editId, id, cre
                                 error={errors.yaixs}
                                 touch={touched.yaixs}
                             />
-                            <TextInput
+                            <RangeInput
                                 label={'Width'}
                                 name={'width'}
                                 type={'range'}
-                                input={width || values.width}
+                                value={width || values.width}
                                 handleChange={(e) => {
                                     handleChange(e)
                                     if (Number(e.target.value) + Number(xaixs) > 100) {
@@ -216,11 +238,11 @@ export default function EventZoneForm({ setEvetZoneById, toggle, editId, id, cre
                                 error={errors.width}
                                 touch={touched.width}
                             />
-                            <TextInput
+                            <RangeInput
                                 label={'Height'}
                                 name={'height'}
                                 type={'range'}
-                                input={height || values.height}
+                                value={height || values.height}
                                 handleChange={(e) => {
                                     handleChange(e)
                                     if (Number(e.target.value) + Number(yaixs) > 100) {
@@ -254,7 +276,7 @@ export default function EventZoneForm({ setEvetZoneById, toggle, editId, id, cre
                                     <option key={idx} value={el.id}>{el.userName}</option>
                                 ))}
                             </SelectInput>
-                            <div>
+                            <div className="mt-3">
                                 <Button text={'save'} type={'submit'} />
                                 <Button text={'cancel'} onClick={toggle} />
                                 <Button text={'delete'} onClick={async () => {

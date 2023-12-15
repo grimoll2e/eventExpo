@@ -13,12 +13,12 @@ export default function FormInput({ id, values, errors, touched, handleChange, t
                     label={el.label}
                     name={el.name}
                     handleChange={handleChange}
-                    input={values[el.name] || el.value}
+                    // input={values[el.name] || el.value}
+                    input={values[el.name] || ''}
                     error={errors[el.name]}
                     touch={touched[el.name]}
                 />
-            )
-            ) : null}
+            )) : null}
 
             {selectinput ? selectinput.map((el) => (
                 <SelectInput

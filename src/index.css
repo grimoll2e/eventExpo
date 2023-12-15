@@ -278,11 +278,6 @@
 /* ###################################################################### */
 /* eventpage */
 /* ###################################################################### */
-.hover_eventzone{
-    display: none;
-    position: absolute;
-    background-color: #f2f2f2;
-}
-.eventzone:hover  .hover_eventzone{
-    display: flex;
+.eventzone_booth_detail{
+    height: 200px;
 }

@@ -9,10 +9,10 @@ export default function CreateEventForm({ toggleForCreate, toggleForEdit, id, ti
     const { allVeanue } = useVeanue()
 
     const initialValues = {
-        title: title,
-        description: description,
-        period: period,
-        hallId: hallId
+        title: title || '',
+        description: description || '',
+        period: period || '',
+        hallId: hallId || ''
     }
     const textinput = [
         {

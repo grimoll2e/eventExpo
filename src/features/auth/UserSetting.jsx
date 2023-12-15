@@ -5,13 +5,31 @@ import Button from '../../components/Button'
 import Image from '../../components/Image'
 
 import useAuth from '../../hooks/useAuth'
+import { useNavigate, useLocation } from 'react-router-dom';
+
 
 export default function UserSetting() {
     const [toggle, setToggle] = useState(false)
     const { authenticatedUser, updateUser } = useAuth()
+    const navigate = useNavigate();
+    const location = useLocation();
+
+
+
 
     const onSubmitForm = async (values, image) => {
-        await updateUser(values, image)
+        try {
+            await updateUser(values, image)
+            if (values.userName) {
+                const pathParth = location.pathname.split('/')
+                pathParth[pathParth.length - 1] = values.userName
+                const newpath = pathParth.join('/')
+                navigate(`${newpath}`)
+            }
+        } catch (error) {
+
+        }
+
     }
 
     return (
@@ -37,7 +55,7 @@ export default function UserSetting() {
                                 <input
                                     className={`py-1 px-3 form-control  `}
                                     type={"text"}
-                                    placeholder={'label'}
+                                    placeholder={'User Name'}
                                     defaultValue={authenticatedUser.userName}
                                     readOnly
                                 />
@@ -49,7 +67,7 @@ export default function UserSetting() {
                                 <input
                                     className={`py-1 px-3 form-control  `}
                                     type={"text"}
-                                    placeholder={'label'}
+                                    placeholder={'Mobile'}
                                     defaultValue={authenticatedUser.mobile}
                                     readOnly
                                 />
@@ -61,7 +79,7 @@ export default function UserSetting() {
                                 <input
                                     className={`py-1 px-3 form-control  `}
                                     type={"text"}
-                                    placeholder={'label'}
+                                    placeholder={'Description'}
                                     defaultValue={authenticatedUser.description}
                                     readOnly
                                 />
@@ -73,7 +91,7 @@ export default function UserSetting() {
                                 <input
                                     className={`py-1 px-3 form-control  `}
                                     type={"text"}
-                                    placeholder={'label'}
+                                    placeholder={'Link'}
                                     defaultValue={authenticatedUser.link}
                                     readOnly
                                 />

@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+import { Link } from "react-router-dom";
+import { useState } from "react";
+
 import CardandDetail from "../components/CardandDetail";
 import Card from '../components/Card'
-import Button from "../components/Button";
+import Image from "../components/Image";
 
 import useEvent from "../hooks/useEvent";
-import Image from "../components/Image";
-import { Link } from "react-router-dom";
 
 const showlimit = 3
 const valueOpacity = '0.6'
@@ -15,6 +16,7 @@ const valueOpacity = '0.6'
 export default function EventPage() {
     const { allEvent, getEventById, eventById, getEventOtherId, eventOtherId, eventZoneById, getAllEventZoneByEventId } = useEvent();
     const { eventId } = useParams();
+    const [value, setValue] = useState(null)
     const navigate = useNavigate() 
 
     useEffect(() => {
@@ -43,9 +45,14 @@ export default function EventPage() {
         fetchData()
 
     }, [eventId])
-    // console.log(eventZoneById)
+
+    const handleClickEventZone = (e, el) => {
+        e.stopPropagation()
+        setValue(el)
+    }
+
     return (
-        <div className="container mb-5 d-flex flex-column gap-5">
+        <div className="container mb-5 d-flex flex-column gap-5" onClick={() => setValue(null)}>
             <div>
                 <img className="map_img rounded" src={eventById ? eventById.image : "https://images.unsplash.com/photo-1545987796-200677ee1011?"} alt="" />
             </div>
@@ -61,8 +68,9 @@ export default function EventPage() {
                     size={'100%'}
                 />
                 {eventZoneById && eventZoneById.map((el, idx) => (
-                    <div className="eventzone" key={idx}>
+                    <div className="eventzone" key={idx} >
                         <div className='position-absolute d-flex justify-content-center align-items-center rounded'
+                            onClick={(e) => handleClickEventZone(e, el)}
                             style={{
                                 top: `${el.yaixs}%`,
                                 left: `${el.xaixs}%`,
@@ -75,24 +83,20 @@ export default function EventPage() {
                                 {el.title}
                             </h1>
                         </div>
-                        {/* ต้องแก้จาก hover ไป onclick for responsive */}
-                        {/* <div className="h-50 w-50  z-3 gap-3 rounded p-3 d-none d-xl-block hover_eventzone" style={{
-                            top: Number(el.yaixs) + Number(el.height) > 80 ? '50%' : `${el.yaixs}%`,
-                            left: Number(el.xaixs) + Number(el.width) > 80 ? '50%' : `${el.xaixs}%`,
-                        }}>
-                            <Image src={el.Booth.image} size={230} />
-                            <div className="d-flex flex-column overflow-hidden ">
-                                <h4>
-                                    {el.Booth.title}
-                                </h4>
-                                <span className="overflow-hidden mb-0" >{el.Booth.description}</span>
-                                <Link to={el.Booth.link} className="text-decoration-none">
-                                    read more
-                                </Link>
-                            </div>
-                        </div> */}
                     </div>
                 ))}
+            </div>}
+            {value?.Booth && <div className="col-12 z-3 gap-3 rounded p-3 bg-body-secondary d-flex" onClick={(e) => e.stopPropagation()}>
+                <Image src={value.Booth.image} size={270} />
+                <div className="d-flex flex-column overflow-hidden ">
+                    <h4>
+                        {value.Booth.title}
+                    </h4>
+                    <span className="overflow-hidden mb-0 eventzone_booth_detail" >{value.Booth.description}</span>
+                    {value.Booth.link && <Link to={value.Booth.link} className="text-decoration-none">
+                        read more
+                    </Link>}
+                </div>
             </div>}
             <div>
                 {eventById ? eventById.EventDetails.map((el, idx) => (
@@ -109,9 +113,4 @@ export default function EventPage() {
             </div>
         </div>
     )
-} <>
-    <div>
-        <div>
-        </div>
-    </div>
-</>
+}

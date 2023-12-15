@@ -8,8 +8,8 @@ export default function EventPageForm({ toggleForCreate, toggleForEdit, id, titl
     const imageInput = true
 
     const initialValues = {
-        title: title,
-        detail: detail,
+        title: title || '',
+        detail: detail || '',
     }
     const textinput = [
         {
